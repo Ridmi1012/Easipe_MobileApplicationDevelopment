@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
+
+
+
 public class SplashScreenActivity extends AppCompatActivity {
 
     @Override
@@ -15,15 +18,16 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash_screen);
 
-        new Handler().postDelayed(this::run, 2000);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Start the main activity
+                Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
 
-    }
-
-    private void run() {
-        // Start the main activity
-        Intent intent = new Intent(SplashScreenActivity.this, GetStartedActivity.class);
-        startActivity(intent);
-        finish();
+            }
+        }, 2000);
 
     }
 }
