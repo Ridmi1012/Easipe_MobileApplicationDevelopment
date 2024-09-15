@@ -25,9 +25,6 @@
             android:name=".AddRecipeActivity"
             android:exported="false" />
         <activity
-            android:name=".GetStartedActivity"
-            android:exported="false" />
-        <activity
             android:name=".SplashScreenActivity"
             android:exported="true">
             <intent-filter>

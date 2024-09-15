@@ -1,4 +1,5 @@
 //Started - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
+
 package com.example.easipe_mobileapplicationdevelopment;
 
 import android.os.Bundle;
@@ -38,4 +39,5 @@ public class LoginActivity extends AppCompatActivity {
 //        startActivity(intent);
 //    }
 }
+
 //Finished - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
