@@ -1,9 +1,7 @@
 //Started - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
 package com.example.easipe_mobileapplicationdevelopment;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
