@@ -1,5 +1,4 @@
 //Started - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
-
 package com.example.easipe_mobileapplicationdevelopment;
 
 import android.content.Intent;
@@ -12,13 +11,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class LoginActivity extends AppCompatActivity {
+import com.example.easipe_mobileapplicationdevelopment.LoginActivity;
+import com.example.easipe_mobileapplicationdevelopment.R;
+
+public class RegistrationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_registration);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -26,23 +28,16 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-//    redirect to registration page
-    public void redirectToRegister(View view) {
-        Intent intent = new Intent(this, RegistrationActivity.class);
-        startActivity(intent); // Redirect to NextActivity
+//    redirect to the login page
+    public void redirectToLogin(View view) {
+        Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 
-//    redirect to forgot password page
-//    public void redirectToForgotPassword(View view) {
-//        Intent intent = new Intent(this, ForgotPasswordActivity.class);
-//        startActivity(intent);
-//    }
-//
-//    redirect to my account page
-//    public void redirectToMyAccount(View view) {
-//        Intent intent = new Intent(this, MyAccountActivity.class);
-//        startActivity(intent);
-//    }
+//    redirect to the login page
+    public void onBackClick(View view) {
+        Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
 }
-
-//Finished - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
+//Started - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
