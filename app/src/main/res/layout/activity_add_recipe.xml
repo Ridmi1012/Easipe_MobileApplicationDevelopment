@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+    <!-- 2024-09-15  Author - Ridmi Silva StudentID - IM/2021/052-->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -16,7 +17,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="63dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="288dp"
@@ -24,7 +25,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="1dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="50dp"
+
                 android:layout_marginEnd="61dp"
                 android:layout_toEndOf="@id/imageView"
                 android:text="Add Recipe"
@@ -35,8 +37,10 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="68dp"
-                android:layout_height="match_parent"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="34dp"
                 app:srcCompat="@drawable/arrow_back" />
 
         </RelativeLayout>
@@ -252,3 +256,5 @@
 
     </LinearLayout>
 </ScrollView>
+
+    <!-- Finished - 2024-09-15  Author - Ridmi Silva StudentID - IM/2021/052-->
