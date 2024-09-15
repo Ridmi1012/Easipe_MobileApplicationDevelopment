@@ -1,7 +1,9 @@
 //Started - 2024-09-14  Author - Mishel Fernando StudentID - IM/2021/115
 package com.example.easipe_mobileapplicationdevelopment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,10 +25,10 @@ public class GetStartedActivity extends AppCompatActivity {
         });
     }
 
-//    public void redirectToLogin(View view) {
-//        Intent intent = new Intent(GetStartedActivity.this, MainActivity.class);
-//        startActivity(intent);
-//        finish();
-//    }
+    public void redirectToLogin(View view) {
+        Intent intent = new Intent(GetStartedActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
 //Finished - 2024-09-14  Author - Mishel Fernando StudentID - IM/2021/115
