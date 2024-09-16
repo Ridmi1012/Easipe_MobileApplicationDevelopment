@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Easipe_MobileApplicationDevelopment"
         tools:targetApi="31">
         <activity
+            android:name=".EditAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyAccountActivity"
+            android:exported="false" />
+        <activity
             android:name=".SavedRecipeActivity"
             android:exported="false" />
         <activity
