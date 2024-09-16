@@ -16,6 +16,9 @@
             android:name=".SavedRecipeActivity"
             android:exported="false" />
         <activity
+            android:name=".MyRecipesActivity"
+            android:exported="false" />
+        <activity
             android:name=".ForgotPasswordActivity"
             android:exported="false" />
         <activity
