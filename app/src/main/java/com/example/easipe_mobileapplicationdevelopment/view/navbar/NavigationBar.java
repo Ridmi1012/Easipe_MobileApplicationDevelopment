@@ -1,15 +1,11 @@
 package com.example.easipe_mobileapplicationdevelopment.view.navbar;
 
 import android.os.Bundle;
-import android.view.MenuItem;
-
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.easipe_mobileapplicationdevelopment.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
+
 
 public class NavigationBar extends AppCompatActivity {
 
