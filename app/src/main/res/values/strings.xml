@@ -12,6 +12,30 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <string name="login_to_your_account">Login to your account</string>
+    <string name="please_sign_in_to_your_account">Please sign in to your account</string>
+    <string name="email">Email</string>
+    <string name="enter_your_email_address">Enter your email address</string>
+    <string name="password">Password</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="sign_in">Sign in</string>
+    <string name="or_sign_in_with">or sign in with</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="register">Register</string>
+    <string name="clickable_image">Clickable image</string>
+    <string name="create_account">Create Account</string>
+    <string name="first_name">First Name</string>
+    <string name="enter_your_first_name">Enter your first name</string>
+    <string name="last_name">Last Name</string>
+    <string name="enter_your_last_name">Enter your last name</string>
+    <string name="re_enter_password">Re-enter Password</string>
+    <string name="re_enter_your_password">Re-enter your password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="login">Login</string>
+    <string name="reset_password_hint">Enter your email and we will send you reset instructions</string>
+    <string name="reset_password">Reset Password</string>
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus

@@ -24,8 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Login to your
-            account"
+            android:text="@string/login_to_your_account"
             android:textSize="32sp"
             android:textStyle="bold" />
 
@@ -34,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Please sign in to your account" />
+            android:text="@string/please_sign_in_to_your_account" />
 
         <TextView
             android:id="@+id/textView3"
@@ -42,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="15dp"
-            android:text="Email"
+            android:text="@string/email"
             android:textSize="14sp" />
 
         <EditText
@@ -51,7 +50,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_background"
             android:ems="10"
-            android:hint="Enter your email address"
+            android:hint="@string/enter_your_email_address"
             android:inputType="textEmailAddress"
             android:textSize="16sp" />
 
@@ -60,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:text="Password"
+            android:text="@string/password"
             android:layout_marginTop="30dp"/>
 
         <EditText
@@ -69,7 +68,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_background"
             android:ems="10"
-            android:hint="Enter your password"
+            android:hint="@string/enter_your_password"
             android:inputType="textPassword"
             android:textSize="16sp" />
 
@@ -78,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="Forgot Password?"
+            android:text="@string/forgot_password"
             android:textAlignment="center"
             android:onClick="redirectToForgotPassword"
             android:textColor="#FE8C00" />
@@ -89,8 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:backgroundTint="#FE8C00"
-            android:text="Sign in"
-            android:onClick="redirectToMyAccount"
+            android:text="@string/sign_in"
             android:textColor="#FFFFFF" />
 
         <LinearLayout
@@ -113,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:text="or sign in with"
+                android:text="@string/or_sign_in_with"
                 android:textAlignment="center"
                 android:textColor="#878787" />
 
@@ -138,20 +136,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="30dp"
-            android:layout_marginLeft="78dp">
+            android:layout_marginStart="78dp">
 
             <TextView
                 android:id="@+id/registerTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Don't have an account? "
+                android:text="@string/don_t_have_an_account"
                 android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/registerlink"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Register"
+                android:text="@string/register"
                 android:textAlignment="center"
                 android:textColor="#FE8C00"
                 android:onClick="redirectToRegister"/>

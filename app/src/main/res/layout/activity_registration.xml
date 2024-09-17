@@ -28,17 +28,17 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 app:srcCompat="@drawable/arrow_back"
-                android:contentDescription="Clickable image"
+                android:contentDescription="@string/clickable_image"
                 android:onClick="onBackClick"
                 android:layout_gravity="center"/>
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:layout_marginStart="50dp"
                 android:layout_weight="1"
-                android:text="Create Account"
+                android:text="@string/create_account"
                 android:textSize="32sp"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
@@ -48,7 +48,7 @@
             android:id="@+id/firstNameTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="First Name"
+            android:text="@string/first_name"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="5dp"/>
 
@@ -59,7 +59,7 @@
             android:background="@drawable/rounded_background"
             android:layout_marginTop="2dp"
             android:ems="10"
-            android:hint="Enter your first name"
+            android:hint="@string/enter_your_first_name"
             android:inputType="text"
             android:textSize="16sp" />
 
@@ -67,7 +67,7 @@
             android:id="@+id/lastNameTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Last Name"
+            android:text="@string/last_name"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="5dp"/>
 
@@ -78,7 +78,7 @@
             android:background="@drawable/rounded_background"
             android:layout_marginTop="2dp"
             android:ems="10"
-            android:hint="Enter your last name"
+            android:hint="@string/enter_your_last_name"
             android:inputType="text"
             android:textSize="16sp" />
 
@@ -86,7 +86,7 @@
             android:id="@+id/emailTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Email"
+            android:text="@string/email"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="5dp"/>
 
@@ -97,7 +97,7 @@
             android:background="@drawable/rounded_background"
             android:layout_marginTop="2dp"
             android:ems="10"
-            android:hint="Enter your email address"
+            android:hint="@string/enter_your_email_address"
             android:inputType="textEmailAddress"
             android:textSize="16sp" />
 
@@ -105,7 +105,7 @@
             android:id="@+id/passwordTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Password"
+            android:text="@string/password"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="5dp"/>
 
@@ -116,7 +116,7 @@
             android:background="@drawable/rounded_background"
             android:layout_marginTop="2dp"
             android:ems="10"
-            android:hint="Enter your password"
+            android:hint="@string/enter_your_password"
             android:inputType="textPassword"
             android:textSize="16sp" />
 
@@ -124,7 +124,7 @@
             android:id="@+id/passwordTxt2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Re-enter Password"
+            android:text="@string/re_enter_password"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="5dp"/>
 
@@ -134,7 +134,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_background"
             android:ems="10"
-            android:hint="Re-enter your password"
+            android:hint="@string/re_enter_your_password"
             android:inputType="textPassword"
             android:textSize="16sp" />
 
@@ -144,7 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:backgroundTint="#FE8C00"
-            android:text="Sign up"
+            android:text="@string/sign_up"
             android:textColor="#FFFFFF" />
 
         <LinearLayout
@@ -152,20 +152,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="30dp"
-            android:layout_marginLeft="78dp">
+            android:layout_marginStart="78dp">
 
             <TextView
                 android:id="@+id/registerTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Already have an account? "
+                android:text="@string/already_have_an_account"
                 android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/registerlink"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:text="@string/login"
                 android:textAlignment="center"
                 android:textColor="#FE8C00"
                 android:onClick="redirectToLogin"/>

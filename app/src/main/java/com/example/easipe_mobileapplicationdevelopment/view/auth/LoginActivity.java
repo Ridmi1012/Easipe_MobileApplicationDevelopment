@@ -39,12 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ForgotPasswordActivity.class);
         startActivity(intent);
     }
-
-//    redirect to my account page
-//    public void redirectToMyAccount(View view) {
-//        Intent intent = new Intent(this, MyAccountActivity.class);
-//        startActivity(intent);
-//    }
 }
 
 //Finished - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
