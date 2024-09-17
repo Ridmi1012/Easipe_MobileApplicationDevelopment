@@ -1,5 +1,4 @@
-//Started - 2024-09-14  Author - Mishel Fernando StudentID - IM/2021/115
-package com.example.easipe_mobileapplicationdevelopment;
+package com.example.easipe_mobileapplicationdevelopment.view.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,13 +10,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class GetStartedActivity extends AppCompatActivity {
+import com.example.easipe_mobileapplicationdevelopment.R;
+
+public class MyAccountActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_get_started);
+        setContentView(R.layout.activity_my_account);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -25,10 +26,7 @@ public class GetStartedActivity extends AppCompatActivity {
         });
     }
 
-    public void redirectToLogin(View view) {
-        Intent intent = new Intent(GetStartedActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+    public void update(View view) {
+        startActivity(new Intent(this, EditAccountActivity.class));
     }
 }
-//Finished - 2024-09-14  Author - Mishel Fernando StudentID - IM/2021/115

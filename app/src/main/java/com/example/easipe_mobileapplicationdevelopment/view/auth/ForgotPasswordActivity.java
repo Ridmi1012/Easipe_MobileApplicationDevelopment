@@ -1,5 +1,4 @@
-//Started - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
-package com.example.easipe_mobileapplicationdevelopment;
+package com.example.easipe_mobileapplicationdevelopment.view.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,16 +10,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.easipe_mobileapplicationdevelopment.LoginActivity;
 import com.example.easipe_mobileapplicationdevelopment.R;
 
-public class RegistrationActivity extends AppCompatActivity {
+public class ForgotPasswordActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.activity_forgot_password);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -28,16 +26,9 @@ public class RegistrationActivity extends AppCompatActivity {
         });
     }
 
-//    redirect to the login page
-    public void redirectToLogin(View view) {
-        Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
-        startActivity(intent);
-    }
-
-//    redirect to the login page
+//    redirect to login page
     public void onBackClick(View view) {
-        Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+        Intent intent = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 }
-//Started - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115

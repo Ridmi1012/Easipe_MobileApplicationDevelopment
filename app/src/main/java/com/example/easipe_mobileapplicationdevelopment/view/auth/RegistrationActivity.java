@@ -1,8 +1,9 @@
-package com.example.easipe_mobileapplicationdevelopment;
+//Started - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
+package com.example.easipe_mobileapplicationdevelopment.view.auth;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,30 +13,30 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
 
-public class EditAccountActivity extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_edit_account);
+        setContentView(R.layout.activity_registration);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-
-//        to go back to my account
-        ImageView backArrow = findViewById(R.id.back_arrow);
-        backArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
+//    redirect to the login page
+    public void redirectToLogin(View view) {
+        Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
 
-
+//    redirect to the login page
+    public void onBackClick(View view) {
+        Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
 }
+//Started - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
