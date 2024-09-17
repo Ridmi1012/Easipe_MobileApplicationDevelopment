@@ -1,4 +1,6 @@
-package com.example.easipe_mobileapplicationdevelopment;
+package com.example.easipe_mobileapplicationdevelopment.view.features;
+
+import com.example.easipe_mobileapplicationdevelopment.R;
 
 import java.util.ArrayList;
 import java.util.List;

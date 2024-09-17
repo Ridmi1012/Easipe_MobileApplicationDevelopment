@@ -13,37 +13,37 @@
         android:theme="@style/Theme.Easipe_MobileApplicationDevelopment"
         tools:targetApi="31">
         <activity
-            android:name=".EditAccountActivity"
+            android:name=".view.profile.EditAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".MyAccountActivity"
+            android:name=".view.profile.MyAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".SavedRecipeActivity"
+            android:name=".view.features.SavedRecipeActivity"
             android:exported="false" />
         <activity
-            android:name=".MyRecipesActivity"
+            android:name=".view.features.MyRecipesActivity"
             android:exported="false" />
         <activity
-            android:name=".ForgotPasswordActivity"
+            android:name=".view.auth.ForgotPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".RegistrationActivity"
+            android:name=".view.auth.RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".view.auth.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".GetStartedActivity"
+            android:name=".view.GetStartedActivity"
             android:exported="false" />
         <activity
-            android:name=".UpdateRecipeActivity"
+            android:name=".view.features.UpdateRecipeActivity"
             android:exported="false" />
         <activity
-            android:name=".AddRecipeActivity"
+            android:name=".view.features.AddRecipeActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".view.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

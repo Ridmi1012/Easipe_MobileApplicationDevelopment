@@ -6,7 +6,7 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddRecipeActivity">
+    tools:context=".view.features.AddRecipeActivity">
 
     <LinearLayout
         android:id="@+id/main"
