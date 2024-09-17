@@ -13,8 +13,35 @@
         android:theme="@style/Theme.Easipe_MobileApplicationDevelopment"
         tools:targetApi="31">
         <activity
-            android:name=".nav"
-            android:exported="true" />
+            android:name=".EditAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SavedRecipeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyRecipesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegistrationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GetStartedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UpdateRecipeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddRecipeActivity"
+            android:exported="false" />
         <activity
             android:name=".SplashScreenActivity"
             android:exported="true">

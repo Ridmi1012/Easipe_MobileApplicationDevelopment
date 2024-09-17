@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Started-2024-09-16  Author - Hirun Senarathna StudentID - IM/2021/004-->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:elevation="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/receipe_image"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/burger"/>
+
+        <TextView
+            android:id="@+id/receipe_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/receipe_image"
+            android:text="Burger"
+            android:layout_marginLeft="10dp"
+            android:textSize="16dp"
+            android:maxLines="1"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/delete_icon"
+            android:layout_below="@+id/receipe_image"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="350dp"/>
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/receipe_title"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:numStars="5"
+            android:rating="4.0"
+            android:stepSize="0.5"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/receipe_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rating_bar"
+            android:layout_marginLeft="10dp"
+            android:text="30 min"/>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
+
+    <!-- Finished-2024-09-16  Author - Hirun Senarathna StudentID - IM/2021/004-->
