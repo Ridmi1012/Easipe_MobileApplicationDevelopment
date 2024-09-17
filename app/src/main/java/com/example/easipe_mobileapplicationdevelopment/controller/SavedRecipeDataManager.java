@@ -1,8 +1,9 @@
-package com.example.easipe_mobileapplicationdevelopment.view.features;
+package com.example.easipe_mobileapplicationdevelopment.controller;
 
 //Started-2024-09-16  Author - Hirun Senarathna StudentID - IM/2021/004
 
 import com.example.easipe_mobileapplicationdevelopment.R;
+import com.example.easipe_mobileapplicationdevelopment.view.features.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,6 +5,7 @@ package com.example.easipe_mobileapplicationdevelopment.view.features;
 public class Recipe {
 
     private String recipeTitle;
+    private String recipeDiscription;
     private float  recipeRating;
     private String recipeTime;
     private  int recipeImage;
@@ -16,7 +17,16 @@ public class Recipe {
         this.recipeImage = recipeImage;
     }
 
+    public Recipe(String recipeTitle, String recipeDiscription, float recipeRating, String recipeTime, int recipeImage) {
+        this.recipeTitle = recipeTitle;
+        this.recipeDiscription = recipeDiscription;
+        this.recipeRating = recipeRating;
+        this.recipeTime = recipeTime;
+        this.recipeImage = recipeImage;
+    }
+
     public String getRecipeTitle() {
+
         return recipeTitle;
     }
 
@@ -30,6 +40,10 @@ public class Recipe {
 
     public int getRecipeImage() {
         return recipeImage;
+    }
+
+    public String getRecipeDiscription() {
+        return recipeDiscription;
     }
 }
 

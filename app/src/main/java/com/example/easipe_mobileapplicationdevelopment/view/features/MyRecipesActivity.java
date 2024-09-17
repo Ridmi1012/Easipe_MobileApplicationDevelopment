@@ -1,5 +1,7 @@
 package com.example.easipe_mobileapplicationdevelopment.view.features;
 
+////Started-2024-09-16  Author - Hirun Senarathna StudentID - IM/2021/004
+
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -8,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
+import com.example.easipe_mobileapplicationdevelopment.controller.MyRecipesDataManager;
 
 import java.util.List;
 
@@ -37,3 +40,5 @@ public class MyRecipesActivity extends AppCompatActivity {
 
     }
 }
+
+//Finished-2024-09-16  Author - Hirun Senarathna StudentID - IM/2021/004
