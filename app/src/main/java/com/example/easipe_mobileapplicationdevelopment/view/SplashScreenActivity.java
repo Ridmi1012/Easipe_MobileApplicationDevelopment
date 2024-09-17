@@ -1,4 +1,4 @@
-package com.example.easipe_mobileapplicationdevelopment;
+package com.example.easipe_mobileapplicationdevelopment.view;
 
 
 
@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
-
+import com.example.easipe_mobileapplicationdevelopment.R;
 
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -25,7 +25,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 Intent intent = new Intent(SplashScreenActivity.this, GetStartedActivity.class);
                 startActivity(intent);
                 finish();
-
             }
         }, 2000);
 

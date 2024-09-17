@@ -1,4 +1,4 @@
-package com.example.easipe_mobileapplicationdevelopment;
+package com.example.easipe_mobileapplicationdevelopment.view.features;
 
 //Started-2024-09-16  Author - Hirun Senarathna StudentID - IM/2021/004
 

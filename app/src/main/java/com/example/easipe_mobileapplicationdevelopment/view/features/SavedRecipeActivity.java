@@ -1,4 +1,4 @@
-package com.example.easipe_mobileapplicationdevelopment;
+package com.example.easipe_mobileapplicationdevelopment.view.features;
 
 //Started-2024-09-16  Author - Hirun Senarathna StudentID - IM/2021/004
 
@@ -6,11 +6,10 @@ import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.easipe_mobileapplicationdevelopment.R;
 
 import java.util.List;
 
