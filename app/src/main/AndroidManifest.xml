@@ -13,6 +13,10 @@
         android:theme="@style/Theme.Easipe_MobileApplicationDevelopment"
         tools:targetApi="31">
         <activity
+            android:name=".view.navbar.NavigationBar"
+            android:exported="false"
+            android:theme="@style/Theme.Easipe_MobileApplicationDevelopment" />
+        <activity
             android:name=".view.profile.EditAccountActivity"
             android:exported="false" />
         <activity

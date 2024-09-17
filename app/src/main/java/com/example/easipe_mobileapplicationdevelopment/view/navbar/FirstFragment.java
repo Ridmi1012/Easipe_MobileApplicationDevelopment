@@ -1,4 +1,4 @@
-package com.example.easipe_mobileapplicationdevelopment.view.navbar;
+package com.example.easipe_mobileapplicationdevelopment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.easipe_mobileapplicationdevelopment.R;
 import com.example.easipe_mobileapplicationdevelopment.databinding.FragmentFirstBinding;
 
 public class FirstFragment extends Fragment {
