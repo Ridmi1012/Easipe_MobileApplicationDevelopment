@@ -31,25 +31,22 @@ public class NavigationBar extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, homeFragment).commit();
 
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        bottomNavigationView.setOnItemSelectedListener(item -> {
 
-                int itemId = item.getItemId();
-                if (itemId == R.id.navigation_home) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, homeFragment).commit();
-                } else if (itemId == R.id.navigation_saved) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, SavedFragment).commit();
-                } else if (itemId == R.id.navigation_add) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, AddFragment).commit();
-                } else if (itemId == R.id.navigation_search) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, SearchFragment).commit();
+            int itemId = item.getItemId();
+            if (itemId == R.id.navigation_home) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, homeFragment).commit();
+            } else if (itemId == R.id.navigation_saved) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, SavedFragment).commit();
+            } else if (itemId == R.id.navigation_add) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, AddFragment).commit();
+            } else if (itemId == R.id.navigation_search) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, SearchFragment).commit();
 
-                } else if (itemId == R.id.navigation_profile) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, ProfileFragment).commit();
-                }
-                return true;
+            } else if (itemId == R.id.navigation_profile) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, ProfileFragment).commit();
             }
+            return true;
         });
     }
 }
