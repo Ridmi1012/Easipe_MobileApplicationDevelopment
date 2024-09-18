@@ -1,8 +1,11 @@
 package com.example.easipe_mobileapplicationdevelopment.view.navbar;
+//Started - 2024-09-15  Author - Shenal Fonseka StudentID - IM/2021/039
 
 import android.os.Bundle;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.easipe_mobileapplicationdevelopment.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -30,6 +33,7 @@ public class NavigationBar extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
             int itemId = item.getItemId();
+
             if (itemId == R.id.navigation_home) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, homeFragment).commit();
             } else if (itemId == R.id.navigation_saved) {
@@ -38,7 +42,6 @@ public class NavigationBar extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, AddFragment).commit();
             } else if (itemId == R.id.navigation_search) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, SearchFragment).commit();
-
             } else if (itemId == R.id.navigation_profile) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, ProfileFragment).commit();
             }
