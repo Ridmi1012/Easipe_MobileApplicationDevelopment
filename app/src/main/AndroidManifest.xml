@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Easipe_MobileApplicationDevelopment"
         tools:targetApi="31">
         <activity
+            android:name=".view.features.RecipeContentActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.navbar.NavigationBar"
             android:exported="true"
             android:theme="@style/Theme.Easipe_MobileApplicationDevelopment" />
