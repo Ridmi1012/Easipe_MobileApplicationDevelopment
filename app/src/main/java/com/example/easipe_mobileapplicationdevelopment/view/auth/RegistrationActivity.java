@@ -4,6 +4,7 @@ package com.example.easipe_mobileapplicationdevelopment.view.auth;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -18,13 +19,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    EditText editTextfirstname, editTextlastname, editTextemail, editTextusername,
+    private EditText editTextfirstname, editTextlastname, editTextemail, editTextusername,
             editTextpassword, editTextpassword2;
+    private static final String TAG = "RegistrationActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +100,6 @@ public class RegistrationActivity extends AppCompatActivity {
                     editTextpassword2.setError("Password is too weak");
                     editTextpassword2.requestFocus();
                 } else {
-                    Toast.makeText(RegistrationActivity.this, "this is good", Toast.LENGTH_SHORT).show();
                     registerUser(firstname, lastname, email, username, password);
                 }
             }
@@ -124,6 +128,22 @@ public class RegistrationActivity extends AppCompatActivity {
                                     | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
+                        } else {
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthWeakPasswordException e){
+                                editTextpassword.setError("Your password is too weak. Kindly use a mix of alphabet, numbers and special characters");
+                                editTextpassword.requestFocus();
+                            } catch (FirebaseAuthInvalidCredentialsException e){
+                                editTextpassword.setError("Your email is invalid or already in use. Kindly re-enter ");
+                                editTextpassword.requestFocus();
+                            } catch (FirebaseAuthUserCollisionException e){
+                                editTextpassword.setError("User already with this email");
+                                editTextpassword.requestFocus();
+                            } catch (Exception e){
+                                Log.e(TAG, e.getMessage());
+                                Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
