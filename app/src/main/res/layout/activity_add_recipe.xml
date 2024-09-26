@@ -26,12 +26,11 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="1dp"
                 android:layout_marginTop="50dp"
-
                 android:layout_marginEnd="61dp"
                 android:layout_toEndOf="@id/imageView"
                 android:text="Add Recipe"
                 android:textAlignment="center"
-                android:textColor="#000000"
+                android:textColor="@color/material_on_background_emphasis_high_type"
                 android:textSize="30dp"
                 android:textStyle="bold" />
 
@@ -41,6 +40,7 @@
                 android:layout_height="25dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="34dp"
+                android:onClick="redirectToLogin"
                 app:srcCompat="@drawable/arrow_back" />
 
         </RelativeLayout>
@@ -50,7 +50,6 @@
             android:id="@+id/textView_Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
             android:layout_gravity="left"
             android:text="Title"
@@ -142,7 +141,7 @@
             android:layout_width="325dp"
             android:layout_height="3dp"
             android:layout_marginTop="20dp"
-            android:background="#000000" />
+            android:background="@color/material_on_background_emphasis_high_type" />
 
         <TextView
             android:id="@+id/textView_Ingredients"
@@ -180,7 +179,7 @@
             android:layout_width="325dp"
             android:layout_height="3dp"
             android:layout_marginTop="20dp"
-            android:background="#000000" />
+            android:background="@color/material_on_background_emphasis_high_type" />
 
         <TextView
             android:id="@+id/textView_Method"
@@ -218,7 +217,7 @@
             android:layout_width="325dp"
             android:layout_height="3dp"
             android:layout_marginTop="20dp"
-            android:background="#000000" />
+            android:background="@color/material_on_background_emphasis_high_type" />
 
         <TextView
             android:id="@+id/textView_Addition"

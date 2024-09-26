@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
+import com.example.easipe_mobileapplicationdevelopment.view.features.AddRecipeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -76,6 +77,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     Toast.makeText(LoginActivity.this, "User has logged in now", Toast.LENGTH_SHORT).show();
+
+                    //open add recipe page after successful registration
+                    Intent intent = new Intent(LoginActivity.this, AddRecipeActivity.class);
+                    //to prevent from returning back to login activity on pressing the back button
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
                 } else {
                     try {
                         throw task.getException();
