@@ -1,4 +1,4 @@
-package com.example.easipe_mobileapplicationdevelopment.controller;
+package com.example.easipe_mobileapplicationdevelopment.Repository;
 
 ////Started-2024-09-17  Author - Hirun Senarathna StudentID - IM/2021/004
 

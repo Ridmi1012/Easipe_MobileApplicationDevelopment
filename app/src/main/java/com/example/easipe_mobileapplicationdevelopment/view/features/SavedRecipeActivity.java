@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
-import com.example.easipe_mobileapplicationdevelopment.controller.SavedRecipeDataManager;
+import com.example.easipe_mobileapplicationdevelopment.Repository.SavedRecipeDataManager;
 
 import java.util.List;
 

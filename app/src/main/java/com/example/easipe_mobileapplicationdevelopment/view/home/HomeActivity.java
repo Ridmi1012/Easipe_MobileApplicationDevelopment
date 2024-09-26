@@ -6,17 +6,12 @@ import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
-import com.example.easipe_mobileapplicationdevelopment.controller.HomeRecipeDataManager;
-import com.example.easipe_mobileapplicationdevelopment.controller.MyRecipesDataManager;
+import com.example.easipe_mobileapplicationdevelopment.Repository.HomeRecipeDataManager;
 import com.example.easipe_mobileapplicationdevelopment.view.features.Recipe;
-import com.example.easipe_mobileapplicationdevelopment.view.features.RecipeAdapter;
 
 import java.util.List;
 
