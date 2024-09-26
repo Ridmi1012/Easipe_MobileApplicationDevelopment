@@ -6,6 +6,7 @@ package com.example.easipe_mobileapplicationdevelopment.view.auth;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -20,10 +21,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText editTextEmail, editTextPassword;
     private FirebaseAuth authProfile;
+    private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +77,17 @@ public class LoginActivity extends AppCompatActivity {
                 if (task.isSuccessful()){
                     Toast.makeText(LoginActivity.this, "User has logged in now", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                    try {
+                        throw task.getException();
+                    } catch (FirebaseAuthInvalidUserException e){
+                        editTextEmail.setError("User does not exists or is no longer valid. Please register again");
+                        editTextEmail.requestFocus();
+                    } catch (FirebaseAuthInvalidCredentialsException e){
+                        editTextEmail.setError("Invalid credentials. Kindly check and re-enter");
+                        editTextEmail.requestFocus();
+                    } catch (Exception e){
+                        Log.e(TAG, e.getMessage());
+                    }
                 }
             }
         });
