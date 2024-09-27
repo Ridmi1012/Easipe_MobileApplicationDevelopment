@@ -1,4 +1,6 @@
-// Started - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
+// Created - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
+// Started - 2024-09-24  Author - Mishel Fernando StudentID - IM/2021/115
+
 package com.example.easipe_mobileapplicationdevelopment.view.auth;
 
 import android.content.Intent;
@@ -161,7 +163,4 @@ public class RegistrationActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
-
-
-
-// Started - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
+// Finished - 2024-09-24  Author - Mishel Fernando StudentID - IM/2021/115

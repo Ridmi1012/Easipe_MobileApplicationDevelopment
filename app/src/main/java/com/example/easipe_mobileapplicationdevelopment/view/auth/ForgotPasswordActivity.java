@@ -1,8 +1,11 @@
+//Created - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
+//Backend updated - 2024-09-25  Author - Mishel Fernando StudentID - IM/2021/115
 package com.example.easipe_mobileapplicationdevelopment.view.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -18,11 +21,13 @@ import com.example.easipe_mobileapplicationdevelopment.view.features.AddRecipeAc
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
     private Button resetPasswordBtn;
     private EditText editTextemail;
     private FirebaseAuth authProfile;
+    private static final String TAG = "ForgotPasswordActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +68,21 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
 
                     //open add recipe page after successful reset password
-                    Intent intent = new Intent(ForgotPasswordActivity.this, AddRecipeActivity.class);
+                    Intent intent = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
                     //to prevent from returning back to forgot password activity on pressing the back button
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
                             | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(ForgotPasswordActivity.this, "Something went wrong",
-                            Toast.LENGTH_SHORT).show();
+                    try {
+                        throw task.getException();
+                    } catch (FirebaseAuthInvalidUserException e){
+                        editTextemail.setError("User does not exist or is no longer valid. Please register again");
+                    } catch (Exception e){
+                        Log.e(TAG, e.getMessage());
+                        Toast.makeText(ForgotPasswordActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -83,3 +94,4 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
+//Finished - 2024-09-25  Author - Mishel Fernando StudentID - IM/2021/115

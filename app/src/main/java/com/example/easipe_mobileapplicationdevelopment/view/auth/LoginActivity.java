@@ -1,5 +1,5 @@
 //Created - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
-//Backend updated - 2024-09-26  Author - Mishel Fernando StudentID - IM/2021/115
+//Backend updated - 2024-09-23  Author - Mishel Fernando StudentID - IM/2021/115
 
 package com.example.easipe_mobileapplicationdevelopment.view.auth;
 
@@ -115,4 +115,4 @@ public class LoginActivity extends AppCompatActivity {
     }
 }
 
-//Finished - 2024-09-26  Author - Mishel Fernando StudentID - IM/2021/115
+//Finished - 2024-09-23  Author - Mishel Fernando StudentID - IM/2021/115
