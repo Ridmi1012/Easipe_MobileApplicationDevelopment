@@ -1,6 +1,4 @@
-// Created - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
-// Started - 2024-09-24  Author - Mishel Fernando StudentID - IM/2021/115
-
+// Started - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
 package com.example.easipe_mobileapplicationdevelopment.view.auth;
 
 import android.content.Intent;
@@ -25,7 +23,10 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -36,6 +37,7 @@ public class RegistrationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_registration);
 
         Toast.makeText(this, "You can register now", Toast.LENGTH_SHORT).show();
@@ -58,6 +60,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 String username = editTextusername.getText().toString();
                 String password = editTextpassword.getText().toString();
                 String confirmedPassword = editTextpassword2.getText().toString();
+                String location = "";
+                String description = "";
 
                 if (TextUtils.isEmpty(firstname)) {
                     Toast.makeText(RegistrationActivity.this, "Please enter the first name", Toast.LENGTH_SHORT).show();
@@ -93,46 +97,71 @@ public class RegistrationActivity extends AppCompatActivity {
                     editTextpassword2.requestFocus();
                     editTextpassword.clearComposingText();
                     editTextpassword2.clearComposingText();
-                } else if (password.length() < 6) {
+                } else if (password.length() < 5) {
                     Toast.makeText(RegistrationActivity.this, "Password should be at least 6 digits", Toast.LENGTH_SHORT).show();
                     editTextpassword.setError("Password is too weak");
                     editTextpassword.requestFocus();
-                } else if (confirmedPassword.length() < 6) {
+                } else if (confirmedPassword.length() < 5) {
                     Toast.makeText(RegistrationActivity.this, "Password should be at least 6 digits", Toast.LENGTH_SHORT).show();
                     editTextpassword2.setError("Password is too weak");
                     editTextpassword2.requestFocus();
                 } else {
-                    registerUser(firstname, lastname, email, username, password);
+                    Toast.makeText(RegistrationActivity.this, "this is good", Toast.LENGTH_SHORT).show();
+                    registerUser(firstname, lastname, email, username, password, location, description);
                 }
             }
         });
     }
 
 
-    private void registerUser(String firstname, String lastname, String email, String username, String password) {
+    private void registerUser(String firstname, String lastname, String email, String username, String password, String location, String description) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        //create user profile
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegistrationActivity.this,
                 new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(RegistrationActivity.this, "User registered successfully", Toast.LENGTH_SHORT).show();
-
                             FirebaseUser firebaseUser = auth.getCurrentUser();
 
-                            //send the verification email
-                            firebaseUser.sendEmailVerification();
+                            //Enter user data into the firebase realtime database
+                            ReadWriteUserDetails writeUserDetails = new ReadWriteUserDetails(firstname, lastname, email, username, password, location, description);
 
-                            //open login page after successful registration
-                            Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
-                            //to prevent from returning back to register activity on pressing the back button
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                    | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                            finish();
+                            //Extracting User reference from database for "Registered users"
+                            DatabaseReference referenceProfile;
+                            referenceProfile = FirebaseDatabase.getInstance().getReference("Registered User");
+
+                            if (firebaseUser != null) {
+                                referenceProfile.child(firebaseUser.getUid()).setValue(writeUserDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                        if (task.isSuccessful()){
+                                            //send the verification email
+                                            firebaseUser.sendEmailVerification();
+
+                                            Toast.makeText(RegistrationActivity.this, "User registered successfully. Please verify your email",
+                                                    Toast.LENGTH_SHORT).show();
+
+                                            //open login page after successful registration
+                                            Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                                            //to prevent from returning back to register activity on pressing the back button
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                    | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+                                            finish();
+                                        } else {
+                                            Toast.makeText(RegistrationActivity.this, "User registration failed. Please try again",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+
+                                    }
+                                });
+                            }
                         } else {
                             try {
-                                throw task.getException();
+                                throw Objects.requireNonNull(task.getException());
                             } catch (FirebaseAuthWeakPasswordException e){
                                 editTextpassword.setError("Your password is too weak. Kindly use a mix of alphabet, numbers and special characters");
                                 editTextpassword.requestFocus();
@@ -143,7 +172,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 editTextpassword.setError("User already with this email");
                                 editTextpassword.requestFocus();
                             } catch (Exception e){
-                                Log.e(TAG, e.getMessage());
+                                Log.e(TAG, Objects.requireNonNull(e.getMessage()));
                                 Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -163,4 +192,4 @@ public class RegistrationActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
-// Finished - 2024-09-24  Author - Mishel Fernando StudentID - IM/2021/115
+// Finished - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
