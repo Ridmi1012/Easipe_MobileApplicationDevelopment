@@ -10,24 +10,15 @@
     android:layout_height="match_parent"
     tools:context=".view.home.HomeActivity">
 
-
-    <RelativeLayout
-        android:id="@+id/home_tool_bar"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/home_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:background="#FF8A08"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/easipeforegroundimg2"
-            android:layout_centerHorizontal="true"/>
-
-    </RelativeLayout>
 
 
 
@@ -36,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/home_tool_bar">
+        android:layout_below="@+id/home_toolbar">
 
     </androidx.recyclerview.widget.RecyclerView>
 

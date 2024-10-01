@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/my_profile"
+        android:orderInCategory="1"
+        android:id="@+id/myProfile"
+        android:textColor="@color/white"/>
+<!--        android:textColor="@color/material_on_background_emphasis_high_type"-->
+
+    <item android:title="@string/edit_profile"
+        android:orderInCategory="2"
+        android:id="@+id/editProfile"
+        android:textColor="@color/material_on_background_emphasis_high_type"/>
+
+    <item android:title="@string/logout"
+        android:orderInCategory="3"
+        android:id="@+id/logout"
+        android:textColor="@color/material_on_background_emphasis_high_type"/>
+</menu>
