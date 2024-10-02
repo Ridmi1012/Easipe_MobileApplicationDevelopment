@@ -15,6 +15,9 @@
         <activity
             android:name=".view.features.RecipeContentActivity"
             android:exported="false" />
+       <activity
+            android:name=".view.home.HomeActivity"
+            android:exported="false" />
         <activity
             android:name=".view.navbar.NavigationBar"
             android:exported="true"

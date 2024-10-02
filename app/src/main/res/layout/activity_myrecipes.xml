@@ -62,6 +62,19 @@
         android:layout_marginTop="10dp"
         android:layout_below="@+id/serch_recipe_myR">
 
+
+
     </androidx.recyclerview.widget.RecyclerView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemActiveIndicatorStyle="@color/material_on_background_disabled"
+        app:itemIconTint="@color/iconcolor"
+        app:itemRippleColor="@color/orange"
+        app:itemTextColor="@color/orange"
+        app:menu="@menu/bottom_navigationbar" />
 
 </RelativeLayout>
