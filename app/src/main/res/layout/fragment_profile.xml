@@ -23,11 +23,11 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="1dp"
             android:layout_marginEnd="61dp"
-            android:text="My Recipies"
+            android:text="@string/my_recipies"
             android:textAlignment="center"
             android:gravity="center_horizontal"
             android:textColor="@color/material_on_background_emphasis_high_type"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
@@ -44,10 +44,10 @@
         android:layout_below="@id/tool_bar_myR"
         android:layout_marginHorizontal="@android:dimen/app_icon_size"
         android:ems="20"
-        android:hint="serch recipes"
+        android:hint="@string/search_recipes"
         android:backgroundTint="#FE8C00"
         android:inputType="text"
-        android:textSize="15dp" />
+        android:textSize="15sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_recipes_list"
