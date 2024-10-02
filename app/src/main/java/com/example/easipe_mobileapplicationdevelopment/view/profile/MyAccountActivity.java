@@ -11,8 +11,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
-import com.example.easipe_mobileapplicationdevelopment.view.home.HomeActivity;
-import com.example.easipe_mobileapplicationdevelopment.view.navbar.HomeFragment;
 import com.example.easipe_mobileapplicationdevelopment.view.navbar.NavigationBar;
 
 public class MyAccountActivity extends AppCompatActivity {

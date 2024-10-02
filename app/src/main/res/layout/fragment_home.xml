@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--    Started-2024-09-17  Author - Hirun Senarathna StudentID - IM/2021/004-->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.navbar.HomeFragment">
+    tools:context=".view.home.HomeActivity">
 
-    <TextView
-
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/home_recipes_list"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/title_home"
-        android:textSize="30sp" />
+        android:layout_marginTop="80dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>
+
+    <!--Finished-2024-09-17  Author - Hirun Senarathna StudentID - IM/2021/004-->
