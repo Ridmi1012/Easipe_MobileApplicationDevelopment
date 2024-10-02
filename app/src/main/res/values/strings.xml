@@ -79,4 +79,6 @@
     <string name="my_profile">My Profile</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="logout">Logout</string>
+    <string name="search_recipes">search recipes</string>
+    <string name="my_recipies">My Recipies</string>
 </resources>
