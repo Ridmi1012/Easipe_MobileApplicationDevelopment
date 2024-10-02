@@ -163,6 +163,7 @@
             android:layout_marginTop="20dp"
             android:background="@color/material_on_background_emphasis_high_type" />
 
+
         <TextView
             android:id="@+id/textView_Ingredients"
             android:layout_width="wrap_content"
@@ -174,18 +175,27 @@
             android:textSize="18dp"
             android:textStyle="bold"/>
 
+        <LinearLayout
+            android:id="@+id/ingredientsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
         <EditText
             android:id="@+id/editTextIngredient"
             android:layout_width="325dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15sp"
+            android:layout_marginTop="8sp"
+            android:layout_marginRight="15sp"
             android:background="@drawable/rounded_background"
             android:ems="20"
             android:hint="Type ingredient"
             android:inputType="text"
             android:textSize="15dp" />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/addIngredientBtn"
@@ -199,7 +209,7 @@
             android:layout_width="325dp"
             android:layout_height="3dp"
             android:layout_marginTop="20dp"
-            android:background="@color/material_on_background_emphasis_high_type" />
+            android:background="#00040000" />
 
         <TextView
             android:id="@+id/textView_Method"
@@ -212,6 +222,12 @@
             android:textSize="18dp"
             android:textStyle="bold"/>
 
+    <LinearLayout
+        android:id="@+id/methodsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
         <EditText
             android:id="@+id/editTextMethod"
             android:layout_width="325dp"
@@ -224,6 +240,8 @@
             android:hint="Type method step by step.."
             android:inputType="text"
             android:textSize="15dp" />
+
+    </LinearLayout>
 
         <Button
             android:id="@+id/AddMethodBtn"
