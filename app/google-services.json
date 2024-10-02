@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "121253700409",
+    "firebase_url": "https://myfirebaseapp-5dc4c-default-rtdb.firebaseio.com",
+    "project_id": "myfirebaseapp-5dc4c",
+    "storage_bucket": "myfirebaseapp-5dc4c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121253700409:android:2d326c9eef1dc6db42bee8",
+        "android_client_info": {
+          "package_name": "com.assignment1.testfirebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6SNzlRHlmj1uigAL3awjtsv0skB1-YPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121253700409:android:de9562fdbddf35f342bee8",
+        "android_client_info": {
+          "package_name": "com.example.easipe_mobileapplicationdevelopment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6SNzlRHlmj1uigAL3awjtsv0skB1-YPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

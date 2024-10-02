@@ -42,7 +42,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         holder.Rtitle.setText(recipe.getRecipeTitle() != null ? recipe.getRecipeTitle() : "Untitled");
         holder.ratingBar.setRating(recipe.getRecipeRating());
         holder.Rtime.setText(recipe.getRecipeTime() != null ? recipe.getRecipeTime() : "Unknown time");
-        holder.Rimage.setImageResource(recipe.getRecipeImage() != 0 ? recipe.getRecipeImage() : R.drawable.burger);
 
 
     }

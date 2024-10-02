@@ -45,7 +45,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeRecipeView
         holder.Hdiscription.setText(hrecipe.getRecipeDiscription());
         holder.HratingBar.setRating(hrecipe.getRecipeRating());
         holder.Htime.setText(hrecipe.getRecipeTime() != null ? hrecipe.getRecipeTime() : "Unknown time");
-        holder.Himage.setImageResource(hrecipe.getRecipeImage() != 0 ? hrecipe.getRecipeImage() : R.drawable.burger);
+//        holder.Himage.setImageResource(hrecipe.getRecipeImage() != 0 ? hrecipe.getRecipeImage() : R.drawable.burger);
 
     }
 
