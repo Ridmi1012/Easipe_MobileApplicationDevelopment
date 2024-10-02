@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
-import com.example.easipe_mobileapplicationdevelopment.view.home.HomeActivity;
+import com.example.easipe_mobileapplicationdevelopment.view.navbar.NavigationBar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "User has logged in now", Toast.LENGTH_SHORT).show();
 
                     //open add recipe page after successful registration
-                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, NavigationBar.class);
                     //to prevent from returning back to login activity on pressing the back button
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
                             | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "You are laready logged in!", Toast.LENGTH_SHORT).show();
 
             //start the Home activity
-            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            startActivity(new Intent(LoginActivity.this, NavigationBar.class));
             finish();
         } else {
             Toast.makeText(this, "You can log in now!", Toast.LENGTH_SHORT).show();

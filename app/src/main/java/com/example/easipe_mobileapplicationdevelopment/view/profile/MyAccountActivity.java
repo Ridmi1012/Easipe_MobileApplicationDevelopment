@@ -11,6 +11,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
+import com.example.easipe_mobileapplicationdevelopment.view.home.HomeActivity;
+import com.example.easipe_mobileapplicationdevelopment.view.navbar.HomeFragment;
+import com.example.easipe_mobileapplicationdevelopment.view.navbar.NavigationBar;
 
 public class MyAccountActivity extends AppCompatActivity {
 
@@ -24,6 +27,11 @@ public class MyAccountActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    public void redirectToHomePage(View view) {
+        startActivity(new Intent(this, NavigationBar.class));
+        finish();
     }
 
     public void update(View view) {
