@@ -30,7 +30,7 @@ public class SavedRecipeActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.saved_recipes_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        savedReceipes = SavedRecipeDataManager.getRecipes();
+//        savedReceipes = SavedRecipeDataManager.getRecipes();
 
 
         recipeAdapter = new RecipeAdapter(savedReceipes,this);
