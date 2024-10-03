@@ -31,7 +31,7 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
         this.context = context;
         // Get the current user's ID
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        savedRecipesRef = FirebaseDatabase.getInstance().getReference("Recipes").child(userId); // User-specific path
+        savedRecipesRef = FirebaseDatabase.getInstance().getReference("user_saved_recipes").child(userId); // User-specific path
     }
 
     @Override
