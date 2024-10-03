@@ -52,7 +52,7 @@ public class SavedFragment extends Fragment {
         if (auth.getCurrentUser() != null) {
             userId = auth.getCurrentUser().getUid();
             Log.d("UserID", "Current User ID: " + userId); // Log the user ID
-            savedRecipesRef = FirebaseDatabase.getInstance().getReference("Recipes").child(userId); // User-specific path
+            savedRecipesRef = FirebaseDatabase.getInstance().getReference("user_saved_recipes").child(userId); // User-specific path
         } else {
             Log.e("Firebase", "User is not authenticated");
             return;
