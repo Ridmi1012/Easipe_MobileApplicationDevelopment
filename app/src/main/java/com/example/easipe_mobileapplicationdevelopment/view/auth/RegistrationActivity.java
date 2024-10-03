@@ -29,6 +29,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class RegistrationActivity extends AppCompatActivity {
 
     private EditText editTextfirstname, editTextlastname, editTextemail, editTextusername,
@@ -159,6 +161,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             // Extracting User reference from the database for "Registered Users"
                             DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Registered User");
 
+                            assert firebaseUser != null;
                             referenceProfile.child(firebaseUser.getUid()).setValue(writeUserDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -181,7 +184,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             });
                         } else {
                             try {
-                                throw task.getException();
+                                throw Objects.requireNonNull(task.getException());
                             } catch (FirebaseAuthWeakPasswordException e) {
                                 editTextpassword.setError("Your password is too weak. Kindly use a mix of alphabet, numbers and special characters");
                                 editTextpassword.requestFocus();
@@ -192,7 +195,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 editTextpassword.setError("User already with this email");
                                 editTextpassword.requestFocus();
                             } catch (Exception e) {
-                                Log.e(TAG, e.getMessage());
+                                Log.e(TAG, Objects.requireNonNull(e.getMessage()));
                                 Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
