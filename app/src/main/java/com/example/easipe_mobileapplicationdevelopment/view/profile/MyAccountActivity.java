@@ -26,7 +26,7 @@ public class MyAccountActivity extends AppCompatActivity {
     private TextView userNameTextView, userEmailTextView, userLocationTextView, userAboutTextView;
     private DatabaseReference databaseReference;
     private String userId;
-    private String firstName, lastName, email, location, aboutMe; // Declare user data variables
+    private String email, location, aboutMe; // Declare user data variables
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
