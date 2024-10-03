@@ -13,18 +13,32 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.easipe_mobileapplicationdevelopment.R;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 import java.util.List;
 
-public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
+public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter.RecipeViewHolder> {
 
-    private List<Recipe> recipeList;
     private Context context;
 
-    public RecipeAdapter(List<Recipe> recipeList, Context context) {
-        this.recipeList = recipeList;
+    public RecipeAdapter(@NonNull FirebaseRecyclerOptions<Recipe> options, Context context) {
+        super(options);
         this.context = context;
+    }
+
+    @Override
+    protected void onBindViewHolder(@NonNull RecipeAdapter.RecipeViewHolder holder, int position, @NonNull Recipe model) {
+
+        holder.profileRecipeTitle.setText(model.getRecipeTitle() != null ? model.getRecipeTitle() : "Untitled");
+        holder.profileRecipeRatingBar.setRating(model.getRecipeRating());
+        holder.profileRecipeTime.setText(model.getRecipeTime() != null ? model.getRecipeTime() : "Unknown time");
+
+        // Using Glide to load the image from URL into ImageView
+        Glide.with(context).load(model.getRecipeImageurl()).into(holder.profileRecipeImage);
+
     }
 
     @NonNull
@@ -34,36 +48,19 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return new RecipeViewHolder(view);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecipeAdapter.RecipeViewHolder holder, int position) {
+    public class RecipeViewHolder extends RecyclerView.ViewHolder {
 
-        Recipe recipe = recipeList.get(position);
-
-        holder.Rtitle.setText(recipe.getRecipeTitle() != null ? recipe.getRecipeTitle() : "Untitled");
-        holder.ratingBar.setRating(recipe.getRecipeRating());
-        holder.Rtime.setText(recipe.getRecipeTime() != null ? recipe.getRecipeTime() : "Unknown time");
-
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return recipeList.size();
-    }
-
-    public class RecipeViewHolder extends RecyclerView.ViewHolder{
-
-        ImageView Rimage;
-        TextView Rtitle,Rtime;
-        RatingBar ratingBar;
+        ImageView profileRecipeImage, profileDelete;
+        TextView profileRecipeTitle, profileRecipeTime, profileRecipeDiscription;
+        RatingBar profileRecipeRatingBar;
 
         public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            Rimage = itemView.findViewById(R.id.receipe_image);
-            Rtitle = itemView.findViewById(R.id.receipe_title);
-            Rtime = itemView.findViewById(R.id.receipe_time);
-            ratingBar = itemView.findViewById(R.id.rating_bar);
+            profileRecipeImage = itemView.findViewById(R.id.receipe_image);
+            profileRecipeTitle = itemView.findViewById(R.id.receipe_title);
+            profileRecipeTime = itemView.findViewById(R.id.receipe_time);
+            profileRecipeRatingBar = itemView.findViewById(R.id.receipe_rating_bar);
         }
     }
 }

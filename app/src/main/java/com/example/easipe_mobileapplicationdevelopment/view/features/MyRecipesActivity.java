@@ -27,14 +27,14 @@ public class MyRecipesActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_myrecipes);
 
-        recyclerView = findViewById(R.id.my_recipes_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        myReceipes = MyRecipesDataManager.getRecipes();
-
-
-        recipeAdapter = new RecipeAdapter(myReceipes,this);
-        recyclerView.setAdapter(recipeAdapter);
+//        recyclerView = findViewById(R.id.my_recipes_list);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//
+//        myReceipes = MyRecipesDataManager.getRecipes();
+//
+//
+//        recipeAdapter = new RecipeAdapter(myReceipes,this);
+//        recyclerView.setAdapter(recipeAdapter);
 
 
 

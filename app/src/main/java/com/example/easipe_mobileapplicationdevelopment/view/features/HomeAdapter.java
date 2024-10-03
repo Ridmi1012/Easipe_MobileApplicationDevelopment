@@ -19,6 +19,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe,HomeAdapter.HomeRecipeViewHolder> {
 
     private Context context;
+
     public HomeAdapter(@NonNull FirebaseRecyclerOptions<Recipe> options, Context context) {
         super(options);
         this.context = context;

@@ -16,7 +16,6 @@ public class Recipe {
 
     //Add Recipe
 
-
     public Recipe(String recipeTitle, String recipeDiscription, float recipeRating, String recipeTime, String ingredient, String method, String additionalmethod, String recipeImageurl) {
         this.recipeTitle = recipeTitle;
         this.recipeDiscription = recipeDiscription;
@@ -28,7 +27,18 @@ public class Recipe {
         this.recipeImageurl = recipeImageurl;
     }
 
+    //empty construter for firebase
+
     public Recipe() {
+    }
+
+    //my profile
+
+
+    public Recipe(String recipeTitle, float recipeRating, String recipeTime) {
+        this.recipeTitle = recipeTitle;
+        this.recipeRating = recipeRating;
+        this.recipeTime = recipeTime;
     }
 
     public String getRecipeTitle() {
