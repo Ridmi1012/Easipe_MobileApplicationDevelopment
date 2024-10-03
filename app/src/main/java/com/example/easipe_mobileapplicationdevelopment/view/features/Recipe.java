@@ -14,9 +14,7 @@ public class Recipe {
     private String additionalmethod;
     private String recipeImageurl;
 
-    //Add Recipe
-
-
+    // Constructor for Recipe
     public Recipe(String recipeTitle, String recipeDiscription, float recipeRating, String recipeTime, String ingredient, String method, String additionalmethod, String recipeImageurl) {
         this.recipeTitle = recipeTitle;
         this.recipeDiscription = recipeDiscription;
@@ -28,6 +26,7 @@ public class Recipe {
         this.recipeImageurl = recipeImageurl;
     }
 
+    // Default constructor required for calls to DataSnapshot.getValue(Recipe.class)
     public Recipe() {
     }
 
@@ -62,9 +61,5 @@ public class Recipe {
     public String getRecipeImageurl() {
         return recipeImageurl;
     }
-//updated 2024-10-02 Author - Ridmi Silva Student ID- IM/2021/052
-
+    //updated 2024-10-02 Author - Ridmi Silva Student ID- IM/2021/052
 }
-
-
-//Finished-2024-09-16  Author - Hirun Senarathna StudentID - IM/2021/004
