@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="10 mintues"
-            android:textAlignment="center"
+            android:textAlignment="center"/>
 
         <View
             android:layout_width="325dp"
@@ -122,7 +122,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="Software system design is the process of planning and creating a blueprint for a software application. It involves breaking down a complex problem into smaller, more manageable components. Let's break down the process into simple steps:"
+            android:text="Software system design is the process of planning and creating a blueprint for a software application. It involves breaking down a complex problem into smaller, more manageable components. Let's break down the process into simple steps:"/>
 
 
         <View
@@ -146,7 +146,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="Software system design is the process of planning and creating a blueprint for a software application. It involves breaking down a complex problem into smaller, more manageable components. Let's break down the process into simple steps:"
+            android:text="Software system design is the process of planning and creating a blueprint for a software application. It involves breaking down a complex problem into smaller, more manageable components. Let's break down the process into simple steps:"/>
 
         <Button
             android:id="@+id/PublishBtn"
