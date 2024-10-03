@@ -14,7 +14,8 @@ public class Recipe {
     private String additionalmethod;
     private String recipeImageurl;
 
-    // Constructor for Recipe
+
+    //Add Recipe
     public Recipe(String recipeTitle, String recipeDiscription, float recipeRating, String recipeTime, String ingredient, String method, String additionalmethod, String recipeImageurl) {
         this.recipeTitle = recipeTitle;
         this.recipeDiscription = recipeDiscription;
@@ -26,8 +27,16 @@ public class Recipe {
         this.recipeImageurl = recipeImageurl;
     }
 
-    // Default constructor required for calls to DataSnapshot.getValue(Recipe.class)
+
+    //empty construter for firebase
     public Recipe() {
+    }
+
+    //my profile
+    public Recipe(String recipeTitle, float recipeRating, String recipeTime) {
+        this.recipeTitle = recipeTitle;
+        this.recipeRating = recipeRating;
+        this.recipeTime = recipeTime;
     }
 
     public String getRecipeTitle() {

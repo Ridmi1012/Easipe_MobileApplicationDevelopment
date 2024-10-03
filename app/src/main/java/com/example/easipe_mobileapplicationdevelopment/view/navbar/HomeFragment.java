@@ -24,7 +24,7 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReferenceHome;
 
     @Nullable
     @Override
@@ -41,11 +41,11 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.home_recipes_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         // Initialize Firebase Database Reference
-        databaseReference = FirebaseDatabase.getInstance().getReference("recipes");
+        databaseReferenceHome = FirebaseDatabase.getInstance().getReference("recipes");
 
         // Configure FirebaseRecyclerOptions
         FirebaseRecyclerOptions<Recipe> options = new FirebaseRecyclerOptions.Builder<Recipe>()
-                .setQuery(databaseReference, Recipe.class)
+                .setQuery(databaseReferenceHome, Recipe.class)
                 .build();
 
         // Set up the FirebaseRecyclerAdapter
@@ -53,11 +53,11 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(homeAdapter);
     }
 
-    // This is the correct lifecycle method for fragments
+
     @Override
     public void onStart() {
         super.onStart();
-        homeAdapter.startListening();  // Use homeAdapter here, not adapter
+        homeAdapter.startListening();
     }
 
     // Correct lifecycle method for fragments
@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment {
     public void onStop() {
         super.onStop();
         if (homeAdapter != null) {
-            homeAdapter.stopListening();  // Use homeAdapter here, not adapter
+            homeAdapter.stopListening();
         }
     }
 }

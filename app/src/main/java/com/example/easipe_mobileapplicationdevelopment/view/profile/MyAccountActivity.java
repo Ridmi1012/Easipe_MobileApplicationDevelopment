@@ -42,6 +42,7 @@ public class MyAccountActivity extends AppCompatActivity {
 
         // Fetch user ID from Firebase Auth
         FirebaseAuth auth = FirebaseAuth.getInstance();
+
         if (auth.getCurrentUser() != null) {
             userId = auth.getCurrentUser().getUid();
             Log.d("UserID", "Current User ID: " + userId); // Log the user ID

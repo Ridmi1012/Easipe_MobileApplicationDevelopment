@@ -57,14 +57,14 @@
         android:inputType="text"
         android:textSize="15dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_recipes_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/serch_recipe_myR">
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/my_recipes_list"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_below="@+id/serch_recipe_myR">-->
 
-    </androidx.recyclerview.widget.RecyclerView>
+<!--    </androidx.recyclerview.widget.RecyclerView>-->
 
 </RelativeLayout>
 
