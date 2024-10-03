@@ -12,17 +12,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
-import com.example.easipe_mobileapplicationdevelopment.Repository.HomeRecipeDataManager;
+import com.example.easipe_mobileapplicationdevelopment.view.features.HomeAdapter;
 import com.example.easipe_mobileapplicationdevelopment.view.features.Recipe;
-import com.example.easipe_mobileapplicationdevelopment.view.home.HomeAdapter;
 
-import java.util.List;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
-    private List<Recipe> homeRecipes;
+    private DatabaseReference databaseReference;
 
     @Nullable
     @Override
@@ -38,12 +40,32 @@ public class HomeFragment extends Fragment {
         // Initialize RecyclerView and other views
         recyclerView = view.findViewById(R.id.home_recipes_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        // Initialize Firebase Database Reference
+        databaseReference = FirebaseDatabase.getInstance().getReference("recipes");
 
-        // Fetch the recipe data
-        homeRecipes = HomeRecipeDataManager.getRecipes();
+        // Configure FirebaseRecyclerOptions
+        FirebaseRecyclerOptions<Recipe> options = new FirebaseRecyclerOptions.Builder<Recipe>()
+                .setQuery(databaseReference, Recipe.class)
+                .build();
 
-        // Set up the adapter
-        homeAdapter = new HomeAdapter(homeRecipes, getContext());
+        // Set up the FirebaseRecyclerAdapter
+        homeAdapter = new HomeAdapter(options, getContext());
         recyclerView.setAdapter(homeAdapter);
+    }
+
+    // This is the correct lifecycle method for fragments
+    @Override
+    public void onStart() {
+        super.onStart();
+        homeAdapter.startListening();  // Use homeAdapter here, not adapter
+    }
+
+    // Correct lifecycle method for fragments
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (homeAdapter != null) {
+            homeAdapter.stopListening();  // Use homeAdapter here, not adapter
+        }
     }
 }

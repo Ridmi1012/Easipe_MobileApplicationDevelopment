@@ -28,6 +28,9 @@ public class Recipe {
         this.recipeImageurl = recipeImageurl;
     }
 
+    public Recipe() {
+    }
+
     public String getRecipeTitle() {
         return recipeTitle;
     }
