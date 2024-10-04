@@ -22,10 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SearchFragment extends Fragment {
 
-    private RecyclerView recyclerView1;
-    private RecyclerView recyclerView2;
-    private HomeAdapter homeAdapter1;
-    private HomeAdapter homeAdapter2;
+    private RecyclerView recyclerView;
+    private HomeAdapter homeAdapter;
     private DatabaseReference databaseReferenceHome;
 
     @Nullable
@@ -40,12 +38,11 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Initialize both RecyclerViews
-        recyclerView1 = view.findViewById(R.id.home_recipes_list_1);
-        recyclerView2 = view.findViewById(R.id.home_recipes_list_2);
+        recyclerView = view.findViewById(R.id.home_recipes_list);
+
 
         // Set layout managers for both RecyclerViews
-        recyclerView1.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView2.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Initialize Firebase Database Reference
         databaseReferenceHome = FirebaseDatabase.getInstance().getReference("recipes");
@@ -55,34 +52,31 @@ public class SearchFragment extends Fragment {
                 .setQuery(databaseReferenceHome.limitToFirst(5), Recipe.class) // Change the query as needed
                 .build();
 
-        // Configure FirebaseRecyclerOptions for the second RecyclerView
-        FirebaseRecyclerOptions<Recipe> options2 = new FirebaseRecyclerOptions.Builder<Recipe>()
-                .setQuery(databaseReferenceHome.limitToLast(5), Recipe.class) // Change the query as needed
-                .build();
+
 
         // Set up the FirebaseRecyclerAdapter for both RecyclerViews
-        homeAdapter1 = new HomeAdapter(options1, getContext());
-        homeAdapter2 = new HomeAdapter(options2, getContext());
+        homeAdapter = new HomeAdapter(options1, getContext());
 
-        recyclerView1.setAdapter(homeAdapter1);
-        recyclerView2.setAdapter(homeAdapter2);
+
+        recyclerView.setAdapter(homeAdapter);
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        homeAdapter1.startListening();
-        homeAdapter2.startListening();
+        homeAdapter.startListening();
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (homeAdapter1 != null) {
-            homeAdapter1.stopListening();
+        if (homeAdapter != null) {
+            homeAdapter.stopListening();
         }
-        if (homeAdapter2 != null) {
-            homeAdapter2.stopListening();
+        if (homeAdapter != null) {
+            homeAdapter.stopListening();
         }
     }
 }
