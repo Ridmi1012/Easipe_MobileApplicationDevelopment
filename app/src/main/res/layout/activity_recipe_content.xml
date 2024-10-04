@@ -53,12 +53,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.exoplayer2.ui.PlayerView
-                android:id="@+id/exo_player_view"
+            <androidx.media3.ui.PlayerView
+                android:id="@+id/player_view"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_centerInParent="true"
-                android:background="@android:color/black" />
+                android:background="#000000"/>
 
         </RelativeLayout>
 
@@ -68,8 +68,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Recipe Name"
-            android:textAlignment="center"
-            android:textSize="20dp"
+            android:textAlignment="textStart"
+            android:padding="16dp"
+            android:textSize="24dp"
             android:textStyle="bold" />
 
         <RelativeLayout
@@ -161,4 +162,3 @@
     </LinearLayout>
 </ScrollView>
 
-    <!-- Finished - 2024-09-15  Author - Ridmi Silva StudentID - IM/2021/052-->

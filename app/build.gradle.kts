@@ -48,6 +48,8 @@ dependencies {
     implementation(libs.legacy.support.v4)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
+    implementation(libs.media3.ui)
+    implementation(libs.media3.exoplayer)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
