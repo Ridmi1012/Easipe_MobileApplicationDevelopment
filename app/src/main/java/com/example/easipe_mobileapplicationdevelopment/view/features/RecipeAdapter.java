@@ -1,8 +1,7 @@
 package com.example.easipe_mobileapplicationdevelopment.view.features;
 
-//Started-2024-09-16  Author - Hirun Senarathna StudentID - IM/2021/004
-
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +16,9 @@ import com.bumptech.glide.Glide;
 import com.example.easipe_mobileapplicationdevelopment.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-
-import java.util.List;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter.RecipeViewHolder> {
 
@@ -31,7 +31,6 @@ public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter
 
     @Override
     protected void onBindViewHolder(@NonNull RecipeAdapter.RecipeViewHolder holder, int position, @NonNull Recipe model) {
-
         holder.profileRecipeTitle.setText(model.getRecipeTitle() != null ? model.getRecipeTitle() : "Untitled");
         holder.profileRecipeRatingBar.setRating(model.getRecipeRating());
         holder.profileRecipeTime.setText(model.getRecipeTime() != null ? model.getRecipeTime() : "Unknown time");
@@ -39,12 +38,39 @@ public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter
         // Using Glide to load the image from URL into ImageView
         Glide.with(context).load(model.getRecipeImageurl()).into(holder.profileRecipeImage);
 
+        // Add delete functionality
+        holder.profileDelete.setOnClickListener(v -> {
+            String recipeId = getRef(position).getKey(); // Get the unique ID of the recipe
+            if (recipeId != null) {
+                deleteRecipe(recipeId);
+            }
+        });
+    }
+
+    // Method to delete the recipe from both home and saved recipes
+    private void deleteRecipe(String recipeId) {
+        DatabaseReference recipeRef = FirebaseDatabase.getInstance().getReference("recipes").child(recipeId);
+        DatabaseReference savedRecipeRef = FirebaseDatabase.getInstance().getReference("user_saved_recipes");
+
+        // Remove recipe from "recipes"
+        recipeRef.removeValue().addOnSuccessListener(aVoid -> {
+            Log.d("RecipeAdapter", "Recipe deleted from 'recipes' successfully");
+
+            // Get the current user's ID
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            if (userId != null) {
+                // Remove recipe from user's saved recipes
+                savedRecipeRef.child(userId).child(recipeId).removeValue()
+                        .addOnSuccessListener(aVoid1 -> Log.d("RecipeAdapter", "Recipe deleted from 'saved recipes' successfully"))
+                        .addOnFailureListener(e -> Log.e("RecipeAdapter", "Failed to delete recipe from 'saved recipes'", e));
+            }
+        }).addOnFailureListener(e -> Log.e("RecipeAdapter", "Failed to delete recipe from 'recipes'", e));
     }
 
     @NonNull
     @Override
     public RecipeAdapter.RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_items,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_items, parent, false);
         return new RecipeViewHolder(view);
     }
 
@@ -56,14 +82,11 @@ public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter
 
         public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
-
             profileRecipeImage = itemView.findViewById(R.id.receipe_image);
             profileRecipeTitle = itemView.findViewById(R.id.receipe_title);
             profileRecipeTime = itemView.findViewById(R.id.receipe_time);
             profileRecipeRatingBar = itemView.findViewById(R.id.receipe_rating_bar);
-            profileDelete = itemView.findViewWithTag(R.id.recipe_delete);
+            profileDelete = itemView.findViewById(R.id.recipe_delete);
         }
     }
 }
-
-//Finished-2024-09-16  Author - Hirun Senarathna StudentID - IM/2021/004
