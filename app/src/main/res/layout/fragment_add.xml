@@ -143,6 +143,7 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="Selected Image"
                 android:scaleType="centerCrop"
+
                 android:src="@drawable/ic_launcher_background" />
 
             <Button
@@ -153,6 +154,30 @@
                 android:layout_gravity="center"
                 android:backgroundTint="#FF9800"
                 android:text="Select Image" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <VideoView
+                android:id="@+id/recipeVideoView"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                /> <!-- Initially hidden until a video is selected -->
+
+            <Button
+                android:id="@+id/SelectVideoBtn"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:backgroundTint="#FF9800"
+                android:text="Select Video" />
 
         </LinearLayout>
 
