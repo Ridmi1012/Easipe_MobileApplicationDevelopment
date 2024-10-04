@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
 import com.example.easipe_mobileapplicationdevelopment.view.features.Recipe;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -177,6 +179,7 @@ public class AddFragment extends Fragment {
     }
 
     private void addRecipe(String imageUrl) {
+        String userId;
         String title = editTextTitle.getText().toString();
         String description = editTextDescription.getText().toString();
         float rate = Float.parseFloat(editTextServings.getText().toString());
@@ -184,6 +187,15 @@ public class AddFragment extends Fragment {
         String ingredient = editTextIngredient.getText().toString();
         String Methods = editTextMethod.getText().toString();
         String additionalMethod = editTextAddition.getText().toString();
+        boolean Status = false;
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            userId = auth.getCurrentUser().getUid();
+        } else {
+            Log.e("Firebase", "User is not authenticated");
+            return;
+        }
 
 
         // Collect all dynamically added ingredients
@@ -204,7 +216,7 @@ public class AddFragment extends Fragment {
             }
         }
 
-        Recipe recipe = new Recipe(title, description, rate, duration, ingredientsList.toString(), methodList.toString(), additionalMethod, imageUrl);
+        Recipe recipe = new Recipe(userId ,title, description, rate, duration, ingredientsList.toString(), methodList.toString(), additionalMethod, imageUrl, Status);
 
         databaseReference.push().setValue(recipe);
         Toast.makeText(getContext(), "Recipe added", Toast.LENGTH_SHORT).show();
