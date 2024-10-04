@@ -188,6 +188,7 @@ public class AddFragment extends Fragment {
         String Methods = editTextMethod.getText().toString();
         String additionalMethod = editTextAddition.getText().toString();
         boolean Status = false;
+        String recipeId = UUID.randomUUID().toString();  ;
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
@@ -216,7 +217,7 @@ public class AddFragment extends Fragment {
             }
         }
 
-        Recipe recipe = new Recipe(userId ,title, description, rate, duration, ingredientsList.toString(), methodList.toString(), additionalMethod, imageUrl, Status);
+        Recipe recipe = new Recipe(userId ,title, description, rate, duration, ingredientsList.toString(), methodList.toString(), additionalMethod, imageUrl, Status, recipeId);
 
         databaseReference.push().setValue(recipe);
         Toast.makeText(getContext(), "Recipe added", Toast.LENGTH_SHORT).show();
