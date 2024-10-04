@@ -48,20 +48,14 @@
 
         </RelativeLayout>
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_recipes_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/serch_recipe_myR">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/home_recipes_list"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clipToPadding="false"
-                android:layout_marginTop="16dp" />
-
-        </LinearLayout>
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 </RelativeLayout>

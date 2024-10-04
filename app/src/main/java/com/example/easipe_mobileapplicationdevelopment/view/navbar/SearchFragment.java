@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import com.example.easipe_mobileapplicationdevelopment.R;
 import com.example.easipe_mobileapplicationdevelopment.view.features.HomeAdapter;
 import com.example.easipe_mobileapplicationdevelopment.view.features.Recipe;
+import com.example.easipe_mobileapplicationdevelopment.view.features.SearchAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -23,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SearchFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private HomeAdapter homeAdapter;
+    private SearchAdapter searchAdapter;
     private DatabaseReference databaseReferenceHome;
 
     @Nullable
@@ -37,46 +39,42 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize both RecyclerViews
-        recyclerView = view.findViewById(R.id.home_recipes_list);
 
+        recyclerView = view.findViewById(R.id.search_recipes_list);
 
-        // Set layout managers for both RecyclerViews
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2); // 2 columns
+        recyclerView.setLayoutManager(gridLayoutManager);
         // Initialize Firebase Database Reference
         databaseReferenceHome = FirebaseDatabase.getInstance().getReference("recipes");
 
         // Configure FirebaseRecyclerOptions for the first RecyclerView
-        FirebaseRecyclerOptions<Recipe> options1 = new FirebaseRecyclerOptions.Builder<Recipe>()
+        FirebaseRecyclerOptions<Recipe> options = new FirebaseRecyclerOptions.Builder<Recipe>()
                 .setQuery(databaseReferenceHome.limitToFirst(5), Recipe.class) // Change the query as needed
                 .build();
 
-
-
         // Set up the FirebaseRecyclerAdapter for both RecyclerViews
-        homeAdapter = new HomeAdapter(options1, getContext());
+        searchAdapter = new SearchAdapter(options, getContext());
 
 
-        recyclerView.setAdapter(homeAdapter);
+        recyclerView.setAdapter(searchAdapter);
 
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        homeAdapter.startListening();
+        searchAdapter.startListening();
 
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (homeAdapter != null) {
-            homeAdapter.stopListening();
+        if (searchAdapter != null) {
+            searchAdapter.stopListening();
         }
-        if (homeAdapter != null) {
-            homeAdapter.stopListening();
+        if (searchAdapter != null) {
+            searchAdapter.stopListening();
         }
     }
 }
