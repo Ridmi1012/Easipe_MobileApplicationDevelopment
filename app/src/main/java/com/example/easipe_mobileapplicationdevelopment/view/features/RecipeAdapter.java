@@ -51,7 +51,7 @@ public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter
     public class RecipeViewHolder extends RecyclerView.ViewHolder {
 
         ImageView profileRecipeImage, profileDelete;
-        TextView profileRecipeTitle, profileRecipeTime, profileRecipeDiscription;
+        TextView profileRecipeTitle, profileRecipeTime;
         RatingBar profileRecipeRatingBar;
 
         public RecipeViewHolder(@NonNull View itemView) {
@@ -61,6 +61,7 @@ public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter
             profileRecipeTitle = itemView.findViewById(R.id.receipe_title);
             profileRecipeTime = itemView.findViewById(R.id.receipe_time);
             profileRecipeRatingBar = itemView.findViewById(R.id.receipe_rating_bar);
+            profileDelete = itemView.findViewWithTag(R.id.recipe_delete);
         }
     }
 }
