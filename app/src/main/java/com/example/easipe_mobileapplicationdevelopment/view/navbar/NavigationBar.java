@@ -14,6 +14,9 @@ import com.example.easipe_mobileapplicationdevelopment.R;
 import com.example.easipe_mobileapplicationdevelopment.view.auth.LoginActivity;
 import com.example.easipe_mobileapplicationdevelopment.view.profile.EditAccountActivity;
 import com.example.easipe_mobileapplicationdevelopment.view.profile.MyAccountActivity;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -87,17 +90,28 @@ public class NavigationBar extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else if (id == R.id.logout){
+            // Sign out from Firebase
             authProfile.signOut();
-            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(NavigationBar.this, LoginActivity.class);
+            // Sign out from Google
+            GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this,
+                    new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestIdToken(getString(R.string.client_id))
+                            .requestEmail()
+                            .build());
 
-            //Clear the stack to prevent user coming back to the HomeAcitivity
-            //on pressing back button after logging out
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish(); //close homeActivity
+            googleSignInClient.signOut().addOnCompleteListener(this, task -> {
+                Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+
+                // Redirect to LoginActivity after logout
+                Intent intent = new Intent(NavigationBar.this, LoginActivity.class);
+
+                // Clear the back stack to prevent the user from returning to the home screen after logging out
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish(); // Close the current activity
+            });
         } else {
             Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show();
         }
