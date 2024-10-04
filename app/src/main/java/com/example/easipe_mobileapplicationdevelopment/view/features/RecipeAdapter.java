@@ -42,28 +42,26 @@ public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter
         holder.profileDelete.setOnClickListener(v -> {
             String recipeId = getRef(position).getKey(); // Get the unique ID of the recipe
             if (recipeId != null) {
-                deleteRecipe(recipeId);
+                deleteRecipe(model.getUserId(), recipeId);
             }
         });
     }
 
     // Method to delete the recipe from both home and saved recipes
-    private void deleteRecipe(String recipeId) {
+    private void deleteRecipe(String userId, String recipeId) {
+        // Reference to the recipe in the "recipes" table
         DatabaseReference recipeRef = FirebaseDatabase.getInstance().getReference("recipes").child(recipeId);
-        DatabaseReference savedRecipeRef = FirebaseDatabase.getInstance().getReference("user_saved_recipes");
+        // Reference to the user's saved recipes
+        DatabaseReference savedRecipeRef = FirebaseDatabase.getInstance().getReference("user_saved_recipes").child(userId).child(recipeId);
 
         // Remove recipe from "recipes"
         recipeRef.removeValue().addOnSuccessListener(aVoid -> {
             Log.d("RecipeAdapter", "Recipe deleted from 'recipes' successfully");
 
-            // Get the current user's ID
-            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            if (userId != null) {
-                // Remove recipe from user's saved recipes
-                savedRecipeRef.child(userId).child(recipeId).removeValue()
-                        .addOnSuccessListener(aVoid1 -> Log.d("RecipeAdapter", "Recipe deleted from 'saved recipes' successfully"))
-                        .addOnFailureListener(e -> Log.e("RecipeAdapter", "Failed to delete recipe from 'saved recipes'", e));
-            }
+            // Remove recipe from user's saved recipes
+            savedRecipeRef.removeValue()
+                    .addOnSuccessListener(aVoid1 -> Log.d("RecipeAdapter", "Recipe deleted from 'saved recipes' successfully"))
+                    .addOnFailureListener(e -> Log.e("RecipeAdapter", "Failed to delete recipe from 'saved recipes'", e));
         }).addOnFailureListener(e -> Log.e("RecipeAdapter", "Failed to delete recipe from 'recipes'", e));
     }
 
