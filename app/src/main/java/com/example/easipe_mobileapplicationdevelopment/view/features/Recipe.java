@@ -16,10 +16,11 @@ public class Recipe {
     private String recipeImageurl;
     private String recipeVideourl;
     private boolean issaved;
+    private String recipeId;
 
 
     //Add Recipe
-    public Recipe(String userId, String recipeTitle, String recipeDiscription, float recipeRating, String recipeTime, String ingredient, String method, String additionalmethod, String recipeImageurl,String recipeVideourl, boolean issaved) {
+    public Recipe(String userId, String recipeTitle, String recipeDiscription, float recipeRating, String recipeTime, String ingredient, String method, String additionalmethod, String recipeImageurl,String recipeVideourl, boolean issaved,String recipeId) {
         this.userId = userId;
         this.recipeTitle = recipeTitle;
         this.recipeDiscription = recipeDiscription;
@@ -31,6 +32,7 @@ public class Recipe {
         this.recipeImageurl = recipeImageurl;
         this.recipeVideourl = recipeVideourl;
         this.issaved = issaved;
+        this.recipeId = recipeId;
     }
 
 
@@ -93,5 +95,10 @@ public class Recipe {
         this.issaved = issaved;
     }
 
-    //updated 2024-10-02 Author - Ridmi Silva Student ID- IM/2021/052
+    public String getRecipeId() {
+        return recipeId;
+    }
+
+
+//updated 2024-10-02 Author - Ridmi Silva Student ID- IM/2021/052
 }
