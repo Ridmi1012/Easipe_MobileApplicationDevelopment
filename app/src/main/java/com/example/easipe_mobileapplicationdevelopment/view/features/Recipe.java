@@ -5,6 +5,7 @@ package com.example.easipe_mobileapplicationdevelopment.view.features;
 //updated 2024-10-02 Author - Ridmi Silva Student ID- IM/2021/052
 public class Recipe {
 
+    private String userId;
     private String recipeTitle;
     private String recipeDiscription;
     private float recipeRating;
@@ -13,10 +14,12 @@ public class Recipe {
     private String method;
     private String additionalmethod;
     private String recipeImageurl;
+    private boolean issaved;
 
 
     //Add Recipe
-    public Recipe(String recipeTitle, String recipeDiscription, float recipeRating, String recipeTime, String ingredient, String method, String additionalmethod, String recipeImageurl) {
+    public Recipe(String userId, String recipeTitle, String recipeDiscription, float recipeRating, String recipeTime, String ingredient, String method, String additionalmethod, String recipeImageurl, boolean issaved) {
+        this.userId = userId;
         this.recipeTitle = recipeTitle;
         this.recipeDiscription = recipeDiscription;
         this.recipeRating = recipeRating;
@@ -25,6 +28,7 @@ public class Recipe {
         this.method = method;
         this.additionalmethod = additionalmethod;
         this.recipeImageurl = recipeImageurl;
+        this.issaved = issaved;
     }
 
 
@@ -70,5 +74,18 @@ public class Recipe {
     public String getRecipeImageurl() {
         return recipeImageurl;
     }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public boolean isIssaved() {
+        return issaved;
+    }
+
+    public void setIssaved(boolean issaved) {
+        this.issaved = issaved;
+    }
+
     //updated 2024-10-02 Author - Ridmi Silva Student ID- IM/2021/052
 }

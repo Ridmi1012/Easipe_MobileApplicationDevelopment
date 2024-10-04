@@ -44,10 +44,13 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
 
         // Handle bookmark click
         holder.Hbookmark.setOnClickListener(v -> {
+            // Toggle the saved status
+            model.setIssaved(!model.isIssaved());
+
             // Save the recipe to the database
             savedRecipesRef.child(model.getRecipeTitle()).setValue(model).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, model.isIssaved() ? "Recipe saved!" : "Recipe removed from saved!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, "Failed to save recipe.", Toast.LENGTH_SHORT).show();
                 }
