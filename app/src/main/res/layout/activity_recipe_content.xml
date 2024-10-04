@@ -14,11 +14,10 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="16dp">
-
 
             <ImageView
                 android:id="@+id/imageView"
@@ -33,21 +32,22 @@
                 android:id="@+id/shareImageView"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="320dp"
+                android:layout_marginStart="260dp"
                 android:layout_marginTop="34dp"
-                android:onClick="redirectToLogin"
+                android:onClick="sendRecipe"
                 app:srcCompat="@drawable/share_svgrepo_com" />
 
             <ImageView
                 android:id="@+id/savedImageView"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="360dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="34dp"
+                android:layout_marginEnd="20dp"
                 android:onClick="redirectToLogin"
                 app:srcCompat="@drawable/bookmark_svgrepo_com" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -76,17 +76,20 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
             android:background="@drawable/rounded_rectangle"
             android:gravity="center"
-            android:padding="16dp">
+            android:padding="10dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp">
 
             <TextView
+                android:id="@+id/textView_Description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hello World sdf askfjh sdkfhkjh kitchilan naughty gaming horror movies superextracailfrigilentexpiliodoious"
                 android:textColor="#FFFFFF"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
         </RelativeLayout>
 
         <View
@@ -96,40 +99,42 @@
             android:background="@color/material_on_background_emphasis_high_type" />
 
         <TextView
+            android:id="@+id/textView_Time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="10 mintues"
+            android:padding="10dp"
+            android:textSize="16sp"
             android:textAlignment="center"/>
 
         <View
             android:layout_width="325dp"
             android:layout_height="3dp"
-            android:layout_marginTop="20dp"
             android:background="@color/material_on_background_emphasis_high_type" />
 
         <TextView
-            android:id="@+id/textView_Method"
+            android:id="@+id/txtIngredients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:text="Ingredients"
-            android:textSize="18dp"
+            android:textSize="20dp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/textView_Ingredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="Software system design is the process of planning and creating a blueprint for a software application. It involves breaking down a complex problem into smaller, more manageable components. Let's break down the process into simple steps:"/>
+            android:padding="10dp"
+            android:textSize="15sp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="20dp"/>
 
 
         <View
             android:layout_width="325dp"
             android:layout_height="3dp"
-            android:layout_marginTop="20dp"
             android:background="@color/material_on_background_emphasis_high_type" />
 
         <TextView
@@ -140,25 +145,45 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:text="Method"
-            android:textSize="18dp"
+            android:textSize="20dp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/textView_Method"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="Software system design is the process of planning and creating a blueprint for a software application. It involves breaking down a complex problem into smaller, more manageable components. Let's break down the process into simple steps:"/>
+            android:padding="10dp"
+            android:textSize="15sp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="20dp"/>
+
+        <TextView
+            android:id="@+id/textViewAdditionalNotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Additional Notes"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView_AdditionalNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textSize="15sp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="20dp"/>
 
         <Button
             android:id="@+id/PublishBtn"
             android:layout_width="325dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:backgroundTint="#FF9800"
-            android:text="Done" />
-
-
+            android:text="Update" />
     </LinearLayout>
 </ScrollView>
 

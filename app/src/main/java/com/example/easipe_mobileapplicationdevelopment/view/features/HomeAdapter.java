@@ -1,6 +1,7 @@
 package com.example.easipe_mobileapplicationdevelopment.view.features;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +67,13 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
                     }
                 });
             }
+        });
+
+        // Handle card click to navigate to RecipeContentActivity with recipeId
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, RecipeContent.class);
+            intent.putExtra("recipeId", getRef(holder.getBindingAdapterPosition()).getKey()); // Pass the recipeId
+            context.startActivity(intent); // Start the RecipeContentActivity
         });
     }
 
