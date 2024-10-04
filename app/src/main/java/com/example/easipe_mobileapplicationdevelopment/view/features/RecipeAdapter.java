@@ -17,8 +17,11 @@ import com.example.easipe_mobileapplicationdevelopment.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter.RecipeViewHolder> {
 
@@ -31,6 +34,9 @@ public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter
 
     @Override
     protected void onBindViewHolder(@NonNull RecipeAdapter.RecipeViewHolder holder, int position, @NonNull Recipe model) {
+
+
+
         holder.profileRecipeTitle.setText(model.getRecipeTitle() != null ? model.getRecipeTitle() : "Untitled");
         holder.profileRecipeRatingBar.setRating(model.getRecipeRating());
         holder.profileRecipeTime.setText(model.getRecipeTime() != null ? model.getRecipeTime() : "Unknown time");
@@ -47,21 +53,33 @@ public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter
         });
     }
 
-    // Method to delete the recipe from both home and saved recipes
+    // Method to delete the recipe from both "recipes" and all users' saved recipes
     private void deleteRecipe(String userId, String recipeId) {
         // Reference to the recipe in the "recipes" table
         DatabaseReference recipeRef = FirebaseDatabase.getInstance().getReference("recipes").child(recipeId);
-        // Reference to the user's saved recipes
-        DatabaseReference savedRecipeRef = FirebaseDatabase.getInstance().getReference("user_saved_recipes").child(userId).child(recipeId);
+        // Reference to the saved recipes (for all users)
+        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("user_saved_recipes");
 
-        // Remove recipe from "recipes"
+        // Remove recipe from the "recipes" node
         recipeRef.removeValue().addOnSuccessListener(aVoid -> {
             Log.d("RecipeAdapter", "Recipe deleted from 'recipes' successfully");
 
-            // Remove recipe from user's saved recipes
-            savedRecipeRef.removeValue()
-                    .addOnSuccessListener(aVoid1 -> Log.d("RecipeAdapter", "Recipe deleted from 'saved recipes' successfully"))
-                    .addOnFailureListener(e -> Log.e("RecipeAdapter", "Failed to delete recipe from 'saved recipes'", e));
+            // Now remove the recipe from ALL users' saved recipes, not just the current user
+            savedRecipesRef.orderByChild(recipeId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                        userSnapshot.getRef().child(recipeId).removeValue()
+                                .addOnSuccessListener(aVoid1 -> Log.d("RecipeAdapter", "Recipe deleted from 'user_saved_recipes' successfully"))
+                                .addOnFailureListener(e -> Log.e("RecipeAdapter", "Failed to delete recipe from 'user_saved_recipes'", e));
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("RecipeAdapter", "Error accessing saved recipes", databaseError.toException());
+                }
+            });
         }).addOnFailureListener(e -> Log.e("RecipeAdapter", "Failed to delete recipe from 'recipes'", e));
     }
 
