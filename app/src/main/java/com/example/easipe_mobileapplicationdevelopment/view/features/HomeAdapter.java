@@ -1,6 +1,7 @@
 package com.example.easipe_mobileapplicationdevelopment.view.features;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,19 +43,35 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
         holder.Htime.setText(model.getRecipeTime() != null ? model.getRecipeTime() : "Unknown time");
         Glide.with(context).load(model.getRecipeImageurl()).into(holder.Himage);
 
+        // Set bookmark icon color based on saved status
+        holder.Hbookmark.setBackgroundColor(model.isIssaved() ? Color.GRAY : Color.TRANSPARENT);
+
         // Handle bookmark click
         holder.Hbookmark.setOnClickListener(v -> {
             // Toggle the saved status
             model.setIssaved(!model.isIssaved());
 
-            // Save the recipe to the database
-            savedRecipesRef.child(model.getRecipeTitle()).setValue(model).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Toast.makeText(context, model.isIssaved() ? "Recipe saved!" : "Recipe removed from saved!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "Failed to save recipe.", Toast.LENGTH_SHORT).show();
-                }
-            });
+            if (model.isIssaved()) {
+                // Save the recipe to the database
+                savedRecipesRef.child(model.getRecipeTitle()).setValue(model).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        holder.Hbookmark.setBackgroundColor(Color.GRAY); // Change to saved color
+                        Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Failed to save recipe.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                // Remove the recipe from the saved recipes
+                savedRecipesRef.child(model.getRecipeTitle()).removeValue().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        holder.Hbookmark.setBackgroundColor(Color.GRAY); // Change to default color
+                        Toast.makeText(context, "Recipe removed from saved!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Failed to remove recipe.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         });
     }
 
