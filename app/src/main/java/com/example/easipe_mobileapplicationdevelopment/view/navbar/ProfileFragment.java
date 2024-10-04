@@ -12,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,7 +45,8 @@ public class ProfileFragment extends Fragment {
 
         // Initialize RecyclerView and set layout manager
         recyclerView = view.findViewById(R.id.my_recipes_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2); // 2 columns
+        recyclerView.setLayoutManager(gridLayoutManager);
 
         // Fetch user ID from Firebase Auth
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -54,11 +56,11 @@ public class ProfileFragment extends Fragment {
             userId = currentUser.getUid();
             Log.d("UserID", "Current User ID: " + userId); // Log the user ID
 
-            databaseReferenceProfile = FirebaseDatabase.getInstance().getReference().child("recipes").child(userId);
+            databaseReferenceProfile = FirebaseDatabase.getInstance().getReference().child("recipes");
 
             // Configure the FirebaseRecyclerOptions
             FirebaseRecyclerOptions<Recipe> options = new FirebaseRecyclerOptions.Builder<Recipe>()
-                    .setQuery(databaseReferenceProfile, Recipe.class)
+                    .setQuery(databaseReferenceProfile.orderByChild("userId").equalTo(userId), Recipe.class)
                     .build();
 
             // Initialize the adapter with Firebase options
