@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_background"
             android:ems="10"
-            android:hint="@string/enter_your_email_address"
+            android:hint="example@domain.com"
             android:inputType="textEmailAddress"
             android:textSize="16sp" />
 
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_background"
             android:ems="10"
-            android:hint="@string/enter_your_password"
+            android:hint="example@123"
             android:inputType="textPassword"
             android:textSize="16sp" />
 
@@ -124,12 +124,15 @@
                 android:layout_marginTop="30dp"/>
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            app:srcCompat="@drawable/google"
+        <Button
+            android:id="@+id/googleSignInBtn"
+            android:layout_width="50dp"
+            android:layout_height="35dp"
             android:layout_marginTop="25dp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:background="@drawable/google"
+            android:backgroundTint="@color/common_google_signin_btn_tint">
+        </Button>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -156,4 +159,4 @@
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
-<!--Finished - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115-->
+    <!--Finished - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115-->
