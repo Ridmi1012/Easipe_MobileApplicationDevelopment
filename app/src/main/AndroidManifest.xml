@@ -17,20 +17,17 @@
         android:theme="@style/Theme.Easipe_MobileApplicationDevelopment"
         tools:targetApi="31">
         <activity
-            android:name=".view.home.HomeActivity"
-            android:exported="false" />
+            android:name=".view.features.RecipeContent"
+            android:exported="true" />
         <activity
             android:name=".view.navbar.NavigationBar"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/Theme.Easipe_MobileApplicationDevelopment" />
         <activity
             android:name=".view.profile.EditAccountActivity"
             android:exported="false" />
         <activity
             android:name=".view.profile.MyAccountActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.features.SavedRecipeActivity"
             android:exported="false" />
         <activity
             android:name=".view.features.MyRecipesActivity"
