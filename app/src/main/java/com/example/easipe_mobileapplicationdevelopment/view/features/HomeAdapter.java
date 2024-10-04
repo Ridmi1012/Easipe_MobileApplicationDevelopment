@@ -28,6 +28,7 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
     private DatabaseReference savedRecipesRef;
     private String userId;
 
+
     public HomeAdapter(@NonNull FirebaseRecyclerOptions<Recipe> options, Context context) {
         super(options);
         this.context = context;
@@ -39,6 +40,9 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
 
     @Override
     protected void onBindViewHolder(@NonNull HomeAdapter.HomeRecipeViewHolder holder, int position, @NonNull Recipe model) {
+
+        String recipeId = getRef(position).getKey();
+
         holder.Htitle.setText(model.getRecipeTitle() != null ? model.getRecipeTitle() : "Untitled");
         holder.Hdiscription.setText(model.getRecipeDiscription());
         holder.HratingBar.setRating(model.getRecipeRating());
@@ -53,14 +57,23 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
             // Toggle the saved status
             model.setIssaved(!model.isIssaved());
 
+
+
             if (model.isIssaved()) {
-                // Save the recipe to the database using recipeId as the key
-                saveRecipeToUser(model.getRecipeId(), model, holder);
+                // Save the recipe to the database using userId and recipeId as the key
+               savedRecipesRef.child(recipeId).setValue(model).addOnCompleteListener(task -> {
+                   if (task.isSuccessful()) {
+                       holder.Hbookmark.setBackgroundColor(Color.GRAY); // Change to saved color
+                       Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show();
+                   } else {
+                       Toast.makeText(context, "Failed to save recipe.", Toast.LENGTH_SHORT).show();
+                   }
+               });
             } else {
                 // Remove the recipe from the saved recipes
-                savedRecipesRef.child(model.getRecipeId()).removeValue().addOnCompleteListener(task -> {
+                savedRecipesRef.child(recipeId).removeValue().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        holder.Hbookmark.setBackgroundColor(Color.TRANSPARENT); // Change to default color
+                        holder.Hbookmark.setBackgroundColor(Color.GRAY); // Change to default color
                         Toast.makeText(context, "Recipe removed from saved!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(context, "Failed to remove recipe.", Toast.LENGTH_SHORT).show();
@@ -77,17 +90,17 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
         });
     }
 
-    // Method to save the recipe under userId with recipeId as the key
-    public void saveRecipeToUser(String recipeId, Recipe recipe, HomeRecipeViewHolder holder) {
-        DatabaseReference savedRecipeRef = savedRecipesRef.child(recipeId); // Use the recipeId here
-
-        savedRecipeRef.setValue(recipe).addOnSuccessListener(aVoid -> {
-            holder.Hbookmark.setBackgroundColor(Color.GRAY); // Change to saved color
-            Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show();
-        }).addOnFailureListener(e -> {
-            Toast.makeText(context, "Failed to save recipe.", Toast.LENGTH_SHORT).show();
-        });
-    }
+//    // Method to save the recipe under userId with recipeId as the key
+//    public void saveRecipeToUser(String recipeId, Recipe recipe, HomeRecipeViewHolder holder) {
+//        DatabaseReference savedRecipeRef = savedRecipesRef.child(userId).child(recipeId); // Use userId and recipeId here
+//
+//        savedRecipeRef.setValue(recipe).addOnSuccessListener(aVoid -> {
+//            holder.Hbookmark.setBackgroundColor(Color.GRAY); // Change to saved color
+//            Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show();
+//        }).addOnFailureListener(e -> {
+//            Toast.makeText(context, "Failed to save recipe.", Toast.LENGTH_SHORT).show();
+//        });
+//    }
 
     @NonNull
     @Override
