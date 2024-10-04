@@ -5,11 +5,14 @@ package com.example.easipe_mobileapplicationdevelopment.view.auth;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,6 +52,24 @@ public class LoginActivity extends AppCompatActivity {
 
         //check whether the user has already logged in
         authProfile = FirebaseAuth.getInstance();
+
+        //show hide password eye icon
+        ImageView imageviewShowHidePassword = findViewById(R.id.showHidePassword);
+        imageviewShowHidePassword.setImageResource(R.drawable.hide_pwd);
+        imageviewShowHidePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (editTextPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    //if password is visible then hide it
+                    editTextPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    //change the eye icon
+                    imageviewShowHidePassword.setImageResource(R.drawable.hide_pwd);
+                } else {
+                    editTextPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    imageviewShowHidePassword.setImageResource(R.drawable.show_pwd);
+                }
+            }
+        });
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.client_id))
