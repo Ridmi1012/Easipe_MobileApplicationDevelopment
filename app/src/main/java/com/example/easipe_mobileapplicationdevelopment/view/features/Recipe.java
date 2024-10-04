@@ -14,11 +14,12 @@ public class Recipe {
     private String method;
     private String additionalmethod;
     private String recipeImageurl;
+    private String recipeVideourl;
     private boolean issaved;
 
 
     //Add Recipe
-    public Recipe(String userId, String recipeTitle, String recipeDiscription, float recipeRating, String recipeTime, String ingredient, String method, String additionalmethod, String recipeImageurl, boolean issaved) {
+    public Recipe(String userId, String recipeTitle, String recipeDiscription, float recipeRating, String recipeTime, String ingredient, String method, String additionalmethod, String recipeImageurl,String recipeVideourl, boolean issaved) {
         this.userId = userId;
         this.recipeTitle = recipeTitle;
         this.recipeDiscription = recipeDiscription;
@@ -28,6 +29,7 @@ public class Recipe {
         this.method = method;
         this.additionalmethod = additionalmethod;
         this.recipeImageurl = recipeImageurl;
+        this.recipeVideourl = recipeVideourl;
         this.issaved = issaved;
     }
 
@@ -73,6 +75,10 @@ public class Recipe {
 
     public String getRecipeImageurl() {
         return recipeImageurl;
+    }
+
+    public String getRecipeVideourl() {
+        return recipeVideourl;
     }
 
     public String getUserId() {
