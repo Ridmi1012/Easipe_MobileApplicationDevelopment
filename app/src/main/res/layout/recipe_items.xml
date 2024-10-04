@@ -41,7 +41,7 @@
             android:layout_marginStart="350dp"/>
 
         <RatingBar
-            android:id="@+id/rating_bar"
+            android:id="@+id/receipe_rating_bar"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
             android:id="@+id/receipe_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rating_bar"
+            android:layout_below="@+id/receipe_rating_bar"
             android:layout_marginLeft="15dp"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="5dp"

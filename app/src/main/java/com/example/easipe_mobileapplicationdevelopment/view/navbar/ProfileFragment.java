@@ -1,6 +1,7 @@
 package com.example.easipe_mobileapplicationdevelopment.view.navbar;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,11 @@ import com.example.easipe_mobileapplicationdevelopment.R;
 import com.example.easipe_mobileapplicationdevelopment.Repository.MyRecipesDataManager;
 import com.example.easipe_mobileapplicationdevelopment.view.features.Recipe;
 import com.example.easipe_mobileapplicationdevelopment.view.features.RecipeAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -25,35 +31,63 @@ public class ProfileFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private RecipeAdapter recipeAdapter;
-    private List<Recipe> myRecipes;
+    private DatabaseReference databaseReferenceProfile;
+
+    private String userId;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the fragment layout
-        return inflater.inflate(R.layout.fragment_profile, container, false);
-    }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_profile,container,false);
 
         // Initialize RecyclerView and set layout manager
         recyclerView = view.findViewById(R.id.my_recipes_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Fetch recipe data
-        myRecipes = MyRecipesDataManager.getRecipes();
+        // Fetch user ID from Firebase Auth
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = auth.getCurrentUser();
 
-        // Set up adapter and bind to RecyclerView
-        recipeAdapter = new RecipeAdapter(myRecipes, getContext());
-        recyclerView.setAdapter(recipeAdapter);
+        if (currentUser != null) {
+            userId = currentUser.getUid();
+            Log.d("UserID", "Current User ID: " + userId); // Log the user ID
 
-        // Handle edge-to-edge insets
-        ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+            databaseReferenceProfile = FirebaseDatabase.getInstance().getReference().child("recipes");
+
+            // Configure the FirebaseRecyclerOptions
+            FirebaseRecyclerOptions<Recipe> options = new FirebaseRecyclerOptions.Builder<Recipe>()
+                    .setQuery(databaseReferenceProfile.orderByChild("userId").equalTo(userId), Recipe.class)
+                    .build();
+
+            // Initialize the adapter with Firebase options
+            recipeAdapter = new RecipeAdapter(options, getContext());
+
+            // Set the adapter to the RecyclerView
+            recyclerView.setAdapter(recipeAdapter);
+        } else {
+            Log.e("Firebase", "User is not authenticated");
+        }
+
+        return view;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (recipeAdapter != null) {
+            recipeAdapter.startListening();  // Start listening to Firebase data changes
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (recipeAdapter != null) {
+            recipeAdapter.stopListening();  // Stop listening to Firebase data changes
+        }
+    }
+
+
 }

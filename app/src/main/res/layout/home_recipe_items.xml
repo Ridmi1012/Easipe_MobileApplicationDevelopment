@@ -36,16 +36,16 @@
             android:textStyle="bold"
             android:maxLines="1"/>
 
+
         <ImageView
             android:id="@+id/home_bookmark_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/bookmark_icon"
+            android:layout_width="44dp"
+            android:layout_height="34dp"
             android:layout_below="@+id/home_receipe_image"
+            android:layout_marginStart="265dp"
+            android:layout_marginTop="8dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginStart="310dp"/>
-
+            android:src="@drawable/bookmark_icon" />
 
         <RatingBar
             android:id="@+id/home_rating_bar"
@@ -64,10 +64,11 @@
             android:id="@+id/home_receipe_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="2dp"
             android:layout_below="@+id/home_bookmark_icon"
-            android:layout_marginLeft="280dp"
-            android:text="30 min"/>
+            android:layout_marginLeft="263dp"
+            android:layout_marginTop="2dp"
+            android:textSize="15dp"
+            android:text="30 min" />
 
         <TextView
             android:id="@+id/home_receipe_discription"

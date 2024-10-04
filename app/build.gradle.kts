@@ -37,6 +37,11 @@ android {
 
 dependencies {
 
+    implementation(libs.glide)
+    annotationProcessor(libs.compiler)
+    implementation (libs.firebase.ui.database)
+    implementation(libs.play.services.auth)
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -48,9 +53,11 @@ dependencies {
     implementation(libs.legacy.support.v4)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
+    implementation(libs.firebase.storage)
     implementation(libs.media3.ui)
     implementation(libs.media3.exoplayer)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation (libs.play.services.auth)
 }
