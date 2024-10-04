@@ -5,11 +5,14 @@ package com.example.easipe_mobileapplicationdevelopment.view.auth;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,17 +20,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
 import com.example.easipe_mobileapplicationdevelopment.view.navbar.NavigationBar;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText editTextEmail, editTextPassword;
     private FirebaseAuth authProfile;
     private static final String TAG = "LoginActivity";
+    private GoogleSignInClient googleSignInClient;
+    private static final int RC_SIGN_IN = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +52,40 @@ public class LoginActivity extends AppCompatActivity {
 
         //check whether the user has already logged in
         authProfile = FirebaseAuth.getInstance();
+
+        //show hide password eye icon
+        ImageView imageviewShowHidePassword = findViewById(R.id.showHidePassword);
+        imageviewShowHidePassword.setImageResource(R.drawable.hide_pwd);
+        imageviewShowHidePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (editTextPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    //if password is visible then hide it
+                    editTextPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    //change the eye icon
+                    imageviewShowHidePassword.setImageResource(R.drawable.hide_pwd);
+                } else {
+                    editTextPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    imageviewShowHidePassword.setImageResource(R.drawable.show_pwd);
+                }
+            }
+        });
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.client_id))
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        Button googleSignInBtn = findViewById(R.id.googleSignInBtn);
+        googleSignInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signInWithGoogle();
+            }
+        });
+
 
         //Login User
         Button loginBtn = findViewById(R.id.SigninBtn);
@@ -68,6 +114,51 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void signInWithGoogle() {
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            // Signed in successfully, authenticate with Firebase
+            firebaseAuthWithGoogle(account);
+        } catch (ApiException e) {
+            Log.w(TAG, "Google sign in failed", e);
+            Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        authProfile.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(LoginActivity.this, "User has logged in with Google", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, NavigationBar.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void loginUser(String email, String password) {
@@ -124,7 +215,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent); // Redirect to NextActivity
     }
 
-//    redirect to forgot password page
+    //    redirect to forgot password page
     public void redirectToForgotPassword(View view) {
         Intent intent = new Intent(this, ForgotPasswordActivity.class);
         startActivity(intent);
