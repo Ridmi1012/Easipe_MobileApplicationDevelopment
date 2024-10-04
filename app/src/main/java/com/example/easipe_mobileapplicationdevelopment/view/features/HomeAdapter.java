@@ -33,7 +33,8 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
         this.context = context;
         // Get the current user's ID
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        savedRecipesRef = FirebaseDatabase.getInstance().getReference("user_saved_recipes").child(userId); // User-specific path
+        // Initialize savedRecipesRef with the user's ID, without recipeId
+        savedRecipesRef = FirebaseDatabase.getInstance().getReference("user_saved_recipes").child(userId);
     }
 
     @Override
@@ -53,20 +54,13 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
             model.setIssaved(!model.isIssaved());
 
             if (model.isIssaved()) {
-                // Save the recipe to the database
-                savedRecipesRef.child(model.getRecipeTitle()).setValue(model).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        holder.Hbookmark.setBackgroundColor(Color.GRAY); // Change to saved color
-                        Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Failed to save recipe.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                // Save the recipe to the database using recipeId as the key
+                saveRecipeToUser(model.getRecipeId(), model, holder);
             } else {
                 // Remove the recipe from the saved recipes
-                savedRecipesRef.child(model.getRecipeTitle()).removeValue().addOnCompleteListener(task -> {
+                savedRecipesRef.child(model.getRecipeId()).removeValue().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        holder.Hbookmark.setBackgroundColor(Color.GRAY); // Change to default color
+                        holder.Hbookmark.setBackgroundColor(Color.TRANSPARENT); // Change to default color
                         Toast.makeText(context, "Recipe removed from saved!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(context, "Failed to remove recipe.", Toast.LENGTH_SHORT).show();
@@ -80,6 +74,18 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
             Intent intent = new Intent(context, RecipeContent.class);
             intent.putExtra("recipeId", getRef(holder.getBindingAdapterPosition()).getKey()); // Pass the recipeId
             context.startActivity(intent); // Start the RecipeContentActivity
+        });
+    }
+
+    // Method to save the recipe under userId with recipeId as the key
+    public void saveRecipeToUser(String recipeId, Recipe recipe, HomeRecipeViewHolder holder) {
+        DatabaseReference savedRecipeRef = savedRecipesRef.child(recipeId); // Use the recipeId here
+
+        savedRecipeRef.setValue(recipe).addOnSuccessListener(aVoid -> {
+            holder.Hbookmark.setBackgroundColor(Color.GRAY); // Change to saved color
+            Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show();
+        }).addOnFailureListener(e -> {
+            Toast.makeText(context, "Failed to save recipe.", Toast.LENGTH_SHORT).show();
         });
     }
 
