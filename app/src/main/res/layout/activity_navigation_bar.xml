@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".view.navbar.NavigationBar">
 
     <androidx.appcompat.widget.Toolbar
@@ -12,8 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FF8A08"
-        android:paddingStart="10dp"
-        android:paddingTop="20dp"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="Easipe"
         app:titleTextColor="@color/black" />
@@ -22,21 +21,21 @@
         android:id="@+id/container_nav"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_Navigation">
-
-
-    </FrameLayout>
+        android:layout_above="@id/bottom_Navigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_Navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        app:menu="@menu/bottom_navigationbar">
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        app:itemBackground="@drawable/rounded_item_background_selector"
+        app:itemIconTint="@color/nav_item_selector"
+        app:itemTextColor="@color/nav_item_selector"
+        app:menu="@menu/bottom_navigation_bar"
+        >
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
-
 
 </RelativeLayout>
