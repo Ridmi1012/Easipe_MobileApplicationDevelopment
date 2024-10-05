@@ -13,6 +13,11 @@
         android:id="@+id/editProfile"
         android:textColor="@color/material_on_background_emphasis_high_type"/>
 
+    <item android:title="@string/change_password"
+        android:orderInCategory="3"
+        android:id="@+id/changePassword"
+        android:textColor="@color/material_on_background_emphasis_high_type"/>
+
     <item android:title="@string/logout"
         android:orderInCategory="3"
         android:id="@+id/logout"

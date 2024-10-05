@@ -1,21 +1,21 @@
-//package com.example.easipe_mobileapplicationdevelopment.view.features;
-//
-////Started-2024-09-16  Author - Hirun Senarathna StudentID - IM/2021/004
-//
-//import android.os.Bundle;
-//
-//import androidx.activity.EdgeToEdge;
-//import androidx.appcompat.app.AppCompatActivity;
-//import androidx.recyclerview.widget.LinearLayoutManager;
-//import androidx.recyclerview.widget.RecyclerView;
-//
-//import com.example.easipe_mobileapplicationdevelopment.R;
-//import com.example.easipe_mobileapplicationdevelopment.Repository.SavedRecipeDataManager;
-//
-//import java.util.List;
-//
-//public class SavedRecipeActivity extends AppCompatActivity {
-//
+package com.example.easipe_mobileapplicationdevelopment.view.features;
+
+//Started-2024-09-16  Author - Hirun Senarathna StudentID - IM/2021/004
+
+import android.os.Bundle;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.easipe_mobileapplicationdevelopment.R;
+import com.example.easipe_mobileapplicationdevelopment.Repository.SavedRecipeDataManager;
+
+import java.util.List;
+
+public class SavedRecipeActivity extends AppCompatActivity {
+
 //    private RecyclerView recyclerView;
 //    private  RecipeAdapter recipeAdapter;
 //    private List<Recipe> savedReceipes;
@@ -36,6 +36,6 @@
 //        recipeAdapter = new RecipeAdapter(savedReceipes,this);
 //        recyclerView.setAdapter(recipeAdapter);
 //    }
-//}
-//
-////Finished-2024-09-16  Author - Hirun Senarathna StudentID - IM/2021/004
+}
+
+//Finished-2024-09-16  Author - Hirun Senarathna StudentID - IM/2021/004
