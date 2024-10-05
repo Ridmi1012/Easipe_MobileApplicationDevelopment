@@ -1,6 +1,8 @@
 package com.example.easipe_mobileapplicationdevelopment.view.features;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +11,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.media3.common.MediaItem;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.ui.PlayerView;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
 import com.example.easipe_mobileapplicationdevelopment.view.navbar.NavigationBar;
@@ -25,6 +30,10 @@ public class RecipeContent extends AppCompatActivity {
 
     private DatabaseReference recipeRef;
 
+    private PlayerView playerView;
+    private ExoPlayer player;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +47,9 @@ public class RecipeContent extends AppCompatActivity {
         textViewMethod = findViewById(R.id.textView_Method);
         textViewAdditionalNotes = findViewById(R.id.textView_AdditionalNotes);
         publishButton = findViewById(R.id.PublishBtn);
+
+        // Find the PlayerView in your layout
+        playerView = findViewById(R.id.player_view);
 
         // Get recipe ID from intent (passed from previous activity)
         Intent intent = getIntent();
@@ -66,8 +78,25 @@ public class RecipeContent extends AppCompatActivity {
                     String Notes = dataSnapshot.child("additionalmethod").getValue(String.class);
                     String imageUrl = dataSnapshot.child("recipeImageurl").getValue(String.class); // Fetch image URL
                     String videoUrl = dataSnapshot.child("recipeVideourl").getValue(String.class); // Fetch video URL
+                    String recipeAdditionalNotes = dataSnapshot.child("additionalmethod").getValue(String.class);
+                    String recipeURL = dataSnapshot.child("recipeVideourl").getValue(String.class);
 
                     // Set data to views
+
+                    // Initialize ExoPlayer
+                    player = new ExoPlayer.Builder(RecipeContent.this).build();
+                    // Bind the player to the PlayerView
+                    playerView.setPlayer(player);
+                    // Prepare a media source
+                    Uri videoUri = Uri.parse(recipeURL);
+                    MediaItem mediaItem = MediaItem.fromUri(videoUri);
+                    // Set the media item to be played
+                    player.setMediaItem(mediaItem);
+                    // Prepare the player
+                    player.prepare();
+                    // Start the playback
+                    player.play();
+
                     textViewTitle.setText(recipeTitle != null ? recipeTitle : "Untitled");
                     textViewTime.setText(recipeTime != null ? recipeTime : "Unknown time");
                     textViewDescription.setText(description != null && !description.isEmpty() ? description : "Description not available");
@@ -82,6 +111,8 @@ public class RecipeContent extends AppCompatActivity {
                             formattedIngredients.append(step.trim()).append("\n"); // Append each step with a newline
                         }
                         textViewIngredients.setText(formattedIngredients.toString());
+                    } else {
+                        textViewIngredients.setText("Ingredients are not available");
                     }
 
                     // Separate methods by comma and display
@@ -122,6 +153,48 @@ public class RecipeContent extends AppCompatActivity {
         intent.putExtra("additionalmethod", Notes);
 
         startActivity(intent);
-        finish();
     }
-}
+
+        @Override
+        protected void onDestroy () {
+            super.onDestroy();
+            // Release the player when not needed
+            if (player != null) {
+                player.release();
+            }
+        }
+
+        public void redirectToLogin (View view){
+            startActivity(new Intent(this, NavigationBar.class));
+            finish();
+        }
+
+        public void sendRecipe (View view){
+            // Get the recipe details
+            String title = textViewTitle.getText().toString();
+            String time = textViewTime.getText().toString();
+            String description = textViewDescription.getText().toString();
+            String ingredients = textViewIngredients.getText().toString();
+            String method = textViewMethod.getText().toString();
+            String additionalNotes = textViewAdditionalNotes.getText().toString();
+
+            // Format the recipe details into a message
+            String recipeMessage = "Recipe: " + title + "\n\n" +
+                    "Time: " + time + "\n\n" +
+                    "Description: " + description + "\n\n" +
+                    "Ingredients:\n" + ingredients + "\n" +
+                    "Method:\n" + method + "\n" +
+                    "Additional Notes:\n" + additionalNotes;
+
+            // Create the intent for sending text
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, recipeMessage);
+            intent.setType("text/plain");
+
+            // Check if any app can handle the intent
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(Intent.createChooser(intent, "Send Recipe via"));
+            }
+        }
+    }

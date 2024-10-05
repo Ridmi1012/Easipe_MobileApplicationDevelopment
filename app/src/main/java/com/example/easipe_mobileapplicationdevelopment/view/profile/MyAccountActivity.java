@@ -22,15 +22,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+
 
 
 public class MyAccountActivity extends AppCompatActivity {
 
     private TextView userNameTextView, userEmailTextView, userLocationTextView, userAboutTextView;
-    private ImageView profileImageView; // Add ImageView for profile picture
+    private ImageView profileImageView;
     private DatabaseReference databaseReference;
     private String userId;
-    private String email, location, aboutMe; // Declare user data variables
+    private String email, location, aboutMe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +78,7 @@ public class MyAccountActivity extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("FirebaseData", "DataSnapshot: " + dataSnapshot.toString()); // Log the snapshot
+                Log.d("FirebaseData", "DataSnapshot: " + dataSnapshot.toString());
 
                 if (dataSnapshot.exists()) {
                     // Extract username from Firebase
@@ -88,8 +91,6 @@ public class MyAccountActivity extends AppCompatActivity {
                     email = dataSnapshot.child("email").getValue(String.class);
                     location = dataSnapshot.child("location").getValue(String.class);
                     aboutMe = dataSnapshot.child("description").getValue(String.class);
-
-                    // Set the combined name and other details to TextViews
                     userEmailTextView.setText(email != null ? email : "N/A");
                     userLocationTextView.setText(location != null ? location : "N/A");
                     userAboutTextView.setText(aboutMe != null ? aboutMe : "N/A");
@@ -99,7 +100,8 @@ public class MyAccountActivity extends AppCompatActivity {
                     if (profileImageURL != null && !profileImageURL.isEmpty()) {
                         Glide.with(MyAccountActivity.this)
                                 .load(profileImageURL)
-                                .into(profileImageView); // Load profile image into ImageView
+                                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                .into(profileImageView);
                     }
                 } else {
                     Log.e("Firebase", "User not found in database");
@@ -108,7 +110,6 @@ public class MyAccountActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Handle potential errors here
                 Log.e("Firebase", "Error fetching user data", databaseError.toException());
             }
         });
@@ -123,7 +124,7 @@ public class MyAccountActivity extends AppCompatActivity {
     // Method to redirect to update account page
     public void update(View view) {
         Intent intent = new Intent(this, EditAccountActivity.class);
-        intent.putExtra("username", userNameTextView.getText().toString()); // Pass the full name
+        intent.putExtra("username", userNameTextView.getText().toString());
         intent.putExtra("email", email);
         intent.putExtra("location", location);
         intent.putExtra("description", aboutMe);

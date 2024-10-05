@@ -9,16 +9,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import com.bumptech.glide.Glide;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.easipe_mobileapplicationdevelopment.R;
-import com.example.easipe_mobileapplicationdevelopment.view.navbar.NavigationBar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+
+
 
 public class EditAccountActivity extends AppCompatActivity {
 
@@ -40,11 +43,10 @@ public class EditAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_account);
 
-        // Initialize Firebase Storage
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-        // Initialize views
+
         editUserName = findViewById(R.id.user_name);
         editEmail = findViewById(R.id.user_email);
         editLocation = findViewById(R.id.user_location);
@@ -73,20 +75,18 @@ public class EditAccountActivity extends AppCompatActivity {
         String location = intent.getStringExtra("location");
         String description = intent.getStringExtra("description");
 
-        // Set the EditText fields with existing data
+        // Showing the EditText fields with current user data
         editUserName.setText(username);
         editEmail.setText(email);
         editLocation.setText(location);
         editDescription.setText(description);
 
-        // ImageView click to choose a profile image
-        editImageIcon.setOnClickListener(view -> openGallery());
 
-        // Set up the submit button click listener
+        editImageIcon.setOnClickListener(view -> openGallery());
         submitButton.setOnClickListener(view -> updateUserData());
     }
 
-    // Method to open gallery for image selection
+    // Method to open gallery
     private void openGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, REQUEST_IMAGE_PICK);
@@ -97,11 +97,13 @@ public class EditAccountActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK && data != null) {
-            // Get the selected image URI
+            // Getting the URI and showing it on the ImageView
             imageUri = data.getData();
+            Glide.with(EditAccountActivity.this)
+                    .load(imageUri)
+                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                    .into(profileImageView);
 
-            // Set the selected image to the ImageView (profile picture)
-            profileImageView.setImageURI(imageUri);
         }
     }
 
@@ -112,7 +114,7 @@ public class EditAccountActivity extends AppCompatActivity {
         String updatedLocation = editLocation.getText().toString().trim();
         String updatedDescription = editDescription.getText().toString().trim();
 
-        // Check if an image was selected and upload it to Firebase Storage
+        // Check if an image was selected and upload it to Firebase
         if (imageUri != null) {
             uploadImageToFirebase(imageUri, updatedUserName, updatedEmail, updatedLocation, updatedDescription);
         } else {
@@ -155,7 +157,7 @@ public class EditAccountActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(EditAccountActivity.this, "Account updated successfully!", Toast.LENGTH_SHORT).show();
-                        finish(); // Go back to MyAccountActivity
+                        finish();
                     } else {
                         Toast.makeText(EditAccountActivity.this, "Failed to update account. Please try again.", Toast.LENGTH_SHORT).show();
                     }

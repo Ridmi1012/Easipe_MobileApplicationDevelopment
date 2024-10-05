@@ -61,7 +61,6 @@ public class NavigationBar extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, AddFragment).commit();
             } else if (itemId == R.id.navigation_search) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, SearchFragment).commit();
-
             } else if (itemId == R.id.navigation_profile) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, ProfileFragment).commit();
             }
