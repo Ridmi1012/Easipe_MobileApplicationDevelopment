@@ -30,3 +30,6 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     }
 }
+
+
+//Author IM/2021/116 Nuzha Kitchilan

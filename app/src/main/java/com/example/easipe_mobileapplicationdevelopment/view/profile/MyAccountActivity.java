@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import com.bumptech.glide.Glide;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,9 +23,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 public class MyAccountActivity extends AppCompatActivity {
 
     private TextView userNameTextView, userEmailTextView, userLocationTextView, userAboutTextView;
+    private ImageView profileImageView; // Add ImageView for profile picture
     private DatabaseReference databaseReference;
     private String userId;
     private String email, location, aboutMe; // Declare user data variables
@@ -34,11 +38,12 @@ public class MyAccountActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_my_account);
 
-        // Bind TextViews with XML elements
+        // Bind TextViews and ImageView with XML elements
         userNameTextView = findViewById(R.id.user_name);
         userEmailTextView = findViewById(R.id.user_email);
         userLocationTextView = findViewById(R.id.user_location);
         userAboutTextView = findViewById(R.id.user_about);
+        profileImageView = findViewById(R.id.profile_image);  // Add this line for profile image
 
         // Fetch user ID from Firebase Auth
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -85,10 +90,17 @@ public class MyAccountActivity extends AppCompatActivity {
                     aboutMe = dataSnapshot.child("description").getValue(String.class);
 
                     // Set the combined name and other details to TextViews
-
                     userEmailTextView.setText(email != null ? email : "N/A");
                     userLocationTextView.setText(location != null ? location : "N/A");
                     userAboutTextView.setText(aboutMe != null ? aboutMe : "N/A");
+
+                    // Retrieve profile image URL and display it using Glide
+                    String profileImageURL = dataSnapshot.child("profileImageURL").getValue(String.class);
+                    if (profileImageURL != null && !profileImageURL.isEmpty()) {
+                        Glide.with(MyAccountActivity.this)
+                                .load(profileImageURL)
+                                .into(profileImageView); // Load profile image into ImageView
+                    }
                 } else {
                     Log.e("Firebase", "User not found in database");
                 }
@@ -118,7 +130,3 @@ public class MyAccountActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
-
-
-
-//Author IM/2021/116 Nuzha Kitchilan

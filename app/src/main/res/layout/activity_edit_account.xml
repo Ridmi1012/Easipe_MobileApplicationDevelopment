@@ -54,12 +54,13 @@
 
 
     <!--    edit icon-->
-    <ImageView
-        android:id="@+id/edit_image"
+    <ImageButton
+        android:id="@+id/edit_image_button"
         android:layout_width="54dp"
         android:layout_height="52dp"
         android:background="#FFFF8A08"
         android:contentDescription="edit profile"
+        android:onClick="editProfilePicture"
         app:layout_constraintBottom_toBottomOf="@id/profile_image"
         app:layout_constraintEnd_toEndOf="@id/profile_image"
         app:layout_constraintHorizontal_bias="0.924"

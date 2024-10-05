@@ -42,6 +42,7 @@ dependencies {
     implementation (libs.firebase.ui.database)
     implementation(libs.play.services.auth)
 
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
