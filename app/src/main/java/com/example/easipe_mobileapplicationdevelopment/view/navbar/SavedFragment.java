@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+
 import com.example.easipe_mobileapplicationdevelopment.R;
 import com.example.easipe_mobileapplicationdevelopment.view.features.Recipe;
 import com.example.easipe_mobileapplicationdevelopment.view.features.HomeAdapter;
@@ -25,6 +27,7 @@ public class SavedFragment extends Fragment {
     private HomeAdapter savedRecipesAdapter;
     private DatabaseReference savedRecipesRef;
     private String userId;
+    private SearchView savedSearchView;
 
     public SavedFragment() {
         // Required empty public constructor
@@ -43,6 +46,7 @@ public class SavedFragment extends Fragment {
 
         savedRecipesRecyclerView = view.findViewById(R.id.saved_recipes_list);
         savedRecipesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        savedSearchView = view.findViewById(R.id.saved_search_recipe_bar);
 
         // Get the current user's ID
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -70,6 +74,59 @@ public class SavedFragment extends Fragment {
         // Set up the adapter with the options
         savedRecipesAdapter = new HomeAdapter(options, getContext());
         savedRecipesRecyclerView.setAdapter(savedRecipesAdapter);
+
+        //foe search
+        savedSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Handle the search on submit
+                searchSavedRecipes(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //handle realtime search
+                // Handle the search on submit
+                searchSavedRecipes(newText);
+                return false;
+            }
+        });
+    }
+
+    private void searchSavedRecipes(String searchText) {
+
+        // Prevent searching for empty or null strings, reset to default query
+        if (searchText == null || searchText.trim().isEmpty()) {
+            resetToDefaultQuery();
+            return;
+        }
+
+        // Create a query to search for recipes whose title contains the searchText
+        Query searchQuery = savedRecipesRef.orderByChild("recipeTitle")
+                .startAt(searchText)
+                .endAt(searchText + "\uf8ff");
+
+        // Update FirebaseRecyclerOptions with the new search query
+        FirebaseRecyclerOptions<Recipe> searchOptions = new FirebaseRecyclerOptions.Builder<Recipe>()
+                .setQuery(searchQuery, Recipe.class)
+                .build();
+
+        // Update the adapter with the new search options
+        savedRecipesAdapter.updateOptions(searchOptions);
+        savedRecipesAdapter.notifyDataSetChanged();
+    }
+
+    private void resetToDefaultQuery() {
+
+        Query defaultQuery = savedRecipesRef.limitToFirst(5);
+
+        FirebaseRecyclerOptions<Recipe> options = new FirebaseRecyclerOptions.Builder<Recipe>()
+                .setQuery(defaultQuery, Recipe.class)
+                .build();
+
+        savedRecipesAdapter.updateOptions(options);
+        savedRecipesAdapter.notifyDataSetChanged();
     }
 
     @Override
