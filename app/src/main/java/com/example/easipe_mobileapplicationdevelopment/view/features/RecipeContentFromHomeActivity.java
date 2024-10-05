@@ -24,7 +24,7 @@ import java.io.FileOutputStream;
 
 public class RecipeContentFromHomeActivity extends AppCompatActivity {
 
-    private TextView textViewTitle, textViewTime, textViewDescription, textViewIngredients, textViewMethod, textViewAdditionalNotes;
+    private TextView textViewTitle, textViewTime, textViewServings, textViewDescription, textViewIngredients, textViewMethod, textViewAdditionalNotes;
 
     private DatabaseReference recipeRef;
 
@@ -38,9 +38,11 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
         textViewTitle = findViewById(R.id.textView_Title);
         textViewDescription = findViewById(R.id.textView_Description);
         textViewTime = findViewById(R.id.textView_Time);
+        textViewServings = findViewById(R.id.textView_Servings);
         textViewIngredients = findViewById(R.id.textView_Ingredients);
         textViewMethod = findViewById(R.id.textView_Method);
         textViewAdditionalNotes = findViewById(R.id.textView_AdditionalNotes);
+
 
         // Get recipe ID from intent (passed from previous activity)
         Intent intent = getIntent();
@@ -60,10 +62,11 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Get recipe data
+                    // Get recipe data (recipeRating in the database is equal to the servings here)
                     String recipeTitle = dataSnapshot.child("recipeTitle").getValue(String.class);
                     String description = dataSnapshot.child("recipeDiscription").getValue(String.class);
                     String recipeTime = dataSnapshot.child("recipeTime").getValue(String.class);
+                    Long recipeServings = dataSnapshot.child("recipeRating").getValue(Long.class);
                     String recipeIngredients = dataSnapshot.child("ingredient").getValue(String.class);
                     String recipeMethod = dataSnapshot.child("method").getValue(String.class);
                     String recipeAdditionalNotes = dataSnapshot.child("additionalmethod").getValue(String.class);
@@ -71,6 +74,7 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
                     // Set data to views
                     textViewTitle.setText(recipeTitle != null ? recipeTitle : "Untitled");
                     textViewTime.setText(recipeTime != null ? recipeTime : "Unknown time");
+                    textViewServings.setText(recipeServings != null ? String.valueOf(recipeServings) + " Servings" : "Servings not available");
                     textViewDescription.setText(description != null && !description.isEmpty() ? description : "Description not available");
                     textViewIngredients.setText(recipeIngredients != null ? recipeIngredients : "Ingredients not available");
 
@@ -143,12 +147,14 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
         String time = textViewTime.getText().toString();
         String description = textViewDescription.getText().toString();
         String ingredients = textViewIngredients.getText().toString();
+        String servings = textViewServings.getText().toString();
         String method = textViewMethod.getText().toString();
         String additionalNotes = textViewAdditionalNotes.getText().toString();
 
         // Format the recipe details into a message
         String recipeMessage = "Recipe: " + title + "\n\n" +
                 "Time: " + time + "\n\n" +
+                "Servings: " + servings + "\n\n" +
                 "Description: " + description + "\n\n" +
                 "Ingredients:\n" + ingredients + "\n" +
                 "Method:\n" + method + "\n" +
