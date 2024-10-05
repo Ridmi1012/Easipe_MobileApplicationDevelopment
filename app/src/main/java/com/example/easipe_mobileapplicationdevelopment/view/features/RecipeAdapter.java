@@ -1,5 +1,7 @@
 package com.example.easipe_mobileapplicationdevelopment.view.features;
 
+////Hirun IM/2021/004
+
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -87,22 +89,22 @@ public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter
 
             Intent intent = new Intent(context, RecipeContent.class);
             intent.putExtra("recipeId", getRef(holder.getBindingAdapterPosition()).getKey()); // Pass the recipeId
-            context.startActivity(intent); // Start the RecipeContentActivity
+            context.startActivity(intent);
         });
     }
 
     // Method to delete the recipe from both "recipes" and all users' saved recipes
     private void deleteRecipe(String userId, String recipeId) {
-        // Reference to the recipe in the "recipes" table
+
         DatabaseReference recipeRef = FirebaseDatabase.getInstance().getReference("recipes").child(recipeId);
-        // Reference to the saved recipes (for all users)
+
         DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("user_saved_recipes");
 
         // Remove recipe from the "recipes" node
         recipeRef.removeValue().addOnSuccessListener(aVoid -> {
             Log.d("RecipeAdapter", "Recipe deleted from 'recipes' successfully");
 
-            // Now remove the recipe from ALL users' saved recipes, not just the current user
+
             savedRecipesRef.orderByChild(recipeId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

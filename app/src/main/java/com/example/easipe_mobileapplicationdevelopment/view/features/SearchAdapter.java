@@ -1,5 +1,6 @@
 package com.example.easipe_mobileapplicationdevelopment.view.features;
 
+//Hirun IM/2021/004
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -38,8 +39,8 @@ public class SearchAdapter extends FirebaseRecyclerAdapter<Recipe,SearchAdapter.
         // Handle card click to navigate to RecipeContentFromHomeActivity with recipeId
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, RecipeContentFromHomeActivity.class);
-            intent.putExtra("recipeId", getRef(holder.getBindingAdapterPosition()).getKey()); // Pass the recipeId
-            context.startActivity(intent); // Start the RecipeContentFromHomeActivity
+            intent.putExtra("recipeId", getRef(holder.getBindingAdapterPosition()).getKey());
+            context.startActivity(intent);
         });
     }
 

@@ -51,7 +51,7 @@ public class RecipeContent extends AppCompatActivity {
         // Find the PlayerView in your layout
         playerView = findViewById(R.id.player_view);
 
-        // Get recipe ID from intent (passed from previous activity)
+        // Get recipe ID from intent
         Intent intent = getIntent();
         String recipeId = intent.getStringExtra("recipeId");
 
@@ -85,16 +85,15 @@ public class RecipeContent extends AppCompatActivity {
 
                     // Initialize ExoPlayer
                     player = new ExoPlayer.Builder(RecipeContent.this).build();
-                    // Bind the player to the PlayerView
                     playerView.setPlayer(player);
-                    // Prepare a media source
+
                     Uri videoUri = Uri.parse(recipeURL);
                     MediaItem mediaItem = MediaItem.fromUri(videoUri);
-                    // Set the media item to be played
+
                     player.setMediaItem(mediaItem);
-                    // Prepare the player
+
                     player.prepare();
-                    // Start the playback
+
                     player.play();
 
                     textViewTitle.setText(recipeTitle != null ? recipeTitle : "Untitled");
@@ -108,7 +107,7 @@ public class RecipeContent extends AppCompatActivity {
                         String[] ingredients = recipeIngredients.split(",");
                         StringBuilder formattedIngredients = new StringBuilder();
                         for (String step : ingredients) {
-                            formattedIngredients.append(step.trim()).append("\n"); // Append each step with a newline
+                            formattedIngredients.append(step.trim()).append("\n");
                         }
                         textViewIngredients.setText(formattedIngredients.toString());
                     } else {
@@ -120,7 +119,7 @@ public class RecipeContent extends AppCompatActivity {
                         String[] methodSteps = recipeMethod.split(",");
                         StringBuilder formattedMethod = new StringBuilder();
                         for (String step : methodSteps) {
-                            formattedMethod.append(step.trim()).append("\n"); // Append each step with a newline
+                            formattedMethod.append(step.trim()).append("\n");
                         }
                         textViewMethod.setText(formattedMethod.toString());
                     }
@@ -142,12 +141,12 @@ public class RecipeContent extends AppCompatActivity {
     }
 
     public void redirectToUpdateRecipe(String title, String description, String duration, String imageUrl, String videoUrl, String recipeIngredients, String recipeMethod, String Notes) {
-        Intent intent = new Intent(this, UpdateRecipeActivity.class); // Create an Intent instance
+        Intent intent = new Intent(this, UpdateRecipeActivity.class);
         intent.putExtra("recipeTitle", title);
         intent.putExtra("recipeDiscription", description);
         intent.putExtra("recipeTime", duration);
-        intent.putExtra("recipeImageurl", imageUrl); // Pass image URL
-        intent.putExtra("recipeVideourl", videoUrl); // Pass video URL
+        intent.putExtra("recipeImageurl", imageUrl);
+        intent.putExtra("recipeVideourl", videoUrl);
         intent.putExtra("ingredient", recipeIngredients);
         intent.putExtra("method", recipeMethod);
         intent.putExtra("additionalmethod", Notes);

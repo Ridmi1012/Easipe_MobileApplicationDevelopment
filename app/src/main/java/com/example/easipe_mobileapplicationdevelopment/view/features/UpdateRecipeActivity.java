@@ -87,8 +87,8 @@ public class UpdateRecipeActivity extends AppCompatActivity {
         String title = getIntent().getStringExtra("recipeTitle");
         String description = getIntent().getStringExtra("recipeDiscription");
         String duration = getIntent().getStringExtra("recipeTime");
-        String imageUrl = getIntent().getStringExtra("recipeImageurl"); // Fetch image URL
-        Uri videoUrl = Uri.parse(getIntent().getStringExtra("recipeVideourl"));// Fetch video URL
+        String imageUrl = getIntent().getStringExtra("recipeImageurl");
+        Uri videoUrl = Uri.parse(getIntent().getStringExtra("recipeVideourl"));
         String ingredients =getIntent().getStringExtra("ingredient");
         String methods =getIntent().getStringExtra("method");
         String additionalNotes =getIntent().getStringExtra("additionalmethod");
@@ -120,14 +120,14 @@ public class UpdateRecipeActivity extends AppCompatActivity {
 
         // Load video into the VideoView using ExoPlayer
         if (videoUrl != null) {
-            recipeVideoView.setVideoURI(videoUrl); // Display the selected video in VideoView
-            recipeVideoView.setVisibility(View.VISIBLE); // Make the VideoView visible
+            recipeVideoView.setVideoURI(videoUrl);
+            recipeVideoView.setVisibility(View.VISIBLE);
             recipeVideoView.start();
         }
 
         if (ingredients != null) {
-            methodsContainer = findViewById(R.id.methods_container); // Find your LinearLayout
-            methodFields = new ArrayList<>(); // Initialize the list
+            methodsContainer = findViewById(R.id.methods_container);
+            methodFields = new ArrayList<>();
 
             String[] recipeIngredients = ingredients.split(",");
 
@@ -137,30 +137,27 @@ public class UpdateRecipeActivity extends AppCompatActivity {
 
                 // Set layout parameters for the new EditText
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT, // or widthInPx
-                        LinearLayout.LayoutParams.WRAP_CONTENT // height
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
                 );
-                layoutParams.setMargins(15, 8, 15, 0); // Add margins as per your design
+                layoutParams.setMargins(15, 8, 15, 0);
 
                 newMethodField.setLayoutParams(layoutParams);
 
-                // Apply the custom background (rounded corners, padding, and border) from the drawable XML
+                // Apply the custom background
                 newMethodField.setBackgroundResource(R.drawable.rounded_background);
 
-                // Optionally set text size and other properties
                 newMethodField.setTextSize(15);
 
-                // Add the new EditText to the methods container (LinearLayout)
                 methodsContainer.addView(newMethodField);
 
-                // Add the new EditText to the list of method fields to track them
                 methodFields.add(newMethodField);
             }
         }
 
         if (methods != null) {
-            methodsContainer = findViewById(R.id.methods_container1); // Find your LinearLayout
-            methodFields1 = new ArrayList<>(); // Initialize the list
+            methodsContainer = findViewById(R.id.methods_container1);
+            methodFields1 = new ArrayList<>();
 
             String[] recipeMethods = methods.split(",");
 
@@ -170,31 +167,29 @@ public class UpdateRecipeActivity extends AppCompatActivity {
 
                 // Set layout parameters for the new EditText
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT, // or widthInPx
-                        LinearLayout.LayoutParams.WRAP_CONTENT // height
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
                 );
-                layoutParams.setMargins(15, 8, 15, 0); // Add margins as per your design
+                layoutParams.setMargins(15, 8, 15, 0);
 
                 newMethodField.setLayoutParams(layoutParams);
 
-                // Apply the custom background (rounded corners, padding, and border) from the drawable XML
+                // Apply the custom background
                 newMethodField.setBackgroundResource(R.drawable.rounded_background);
 
                 // Optionally set text size and other properties
                 newMethodField.setTextSize(15);
 
-                // Add the new EditText to the methods container (LinearLayout)
                 methodsContainer.addView(newMethodField);
 
-                // Add the new EditText to the list of method fields to track them
                 methodFields.add(newMethodField);
             }
         }
 
         // Add ingredient button listener to dynamically add new EditText fields
         addIngredientBtn.setOnClickListener(v -> {
-            methodsContainer = findViewById(R.id.methods_container); // Find your LinearLayout
-            methodFields = new ArrayList<>(); // Initialize the list
+            methodsContainer = findViewById(R.id.methods_container);
+            methodFields = new ArrayList<>();
 
             // Create a new EditText for the new ingredient
             EditText newMethodField = new EditText(this);
@@ -202,29 +197,26 @@ public class UpdateRecipeActivity extends AppCompatActivity {
 
             // Set layout parameters for the new EditText
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, // or widthInPx
-                    LinearLayout.LayoutParams.WRAP_CONTENT // height
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             );
             layoutParams.setMargins(15, 8, 15, 0); // Add margins as per your design
 
             newMethodField.setLayoutParams(layoutParams);
 
-            // Apply the custom background (rounded corners, padding, and border) from the drawable XML
+            // Apply the custom background
             newMethodField.setBackgroundResource(R.drawable.rounded_background);
 
-            // Optionally set text size and other properties
             newMethodField.setTextSize(15);
 
-            // Add the new EditText to the methods container (LinearLayout)
             methodsContainer.addView(newMethodField);
 
-            // Add the new EditText to the list of method fields to track them
             methodFields.add(newMethodField);
         });
 
         // Add ingredient button listener to dynamically add new EditText fields
         addStepsBtn.setOnClickListener(v -> {
-            methodsContainer = findViewById(R.id.methods_container1); // Find your LinearLayout
+            methodsContainer = findViewById(R.id.methods_container1);
             methodFields1 = new ArrayList<>();
 
             // Create a new EditText for the new ingredient
@@ -233,23 +225,21 @@ public class UpdateRecipeActivity extends AppCompatActivity {
 
             // Set layout parameters for the new EditText
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, // or widthInPx
-                    LinearLayout.LayoutParams.WRAP_CONTENT // height
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            layoutParams.setMargins(15, 8, 15, 0); // Add margins as per your design
+            layoutParams.setMargins(15, 8, 15, 0);
 
             newMethodField.setLayoutParams(layoutParams);
 
-            // Apply the custom background (rounded corners, padding, and border) from the drawable XML
+            // Apply the custom background
             newMethodField.setBackgroundResource(R.drawable.rounded_background);
 
-            // Optionally set text size and other properties
+
             newMethodField.setTextSize(15);
 
-            // Add the new EditText to the methods container (LinearLayout)
             methodsContainer.addView(newMethodField);
 
-            // Add the new EditText to the list of method fields to track them
             methodFields.add(newMethodField);
         });
     }
