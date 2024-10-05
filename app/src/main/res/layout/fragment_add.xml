@@ -135,15 +135,15 @@
 
             <ImageView
                 android:id="@+id/recipeimg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="113dp"
+                android:layout_height="105dp"
                 android:layout_gravity="center"
                 android:layout_margin="16dp"
                 android:layout_marginTop="20dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="Selected Image"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_launcher_background" />
+                android:src="@drawable/baseline_add_a_photo_24" />
 
             <Button
                 android:id="@+id/SelectImgBtn"
@@ -153,6 +153,30 @@
                 android:layout_gravity="center"
                 android:backgroundTint="#FF9800"
                 android:text="Select Image" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <VideoView
+                android:id="@+id/recipeVideoView"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:layout_gravity="center"
+                android:layout_margin="30dp"
+                android:layout_marginRight="16dp" /> <!-- Initially hidden until a video is selected -->
+
+            <Button
+                android:id="@+id/SelectVideoBtn"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:backgroundTint="#FF9800"
+                android:text="Select Video" />
 
         </LinearLayout>
 
@@ -264,7 +288,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
             android:layout_gravity="left"
-            android:text="Additional Methods"
+            android:text="Additional Notes"
             android:textSize="18dp"
             android:textStyle="bold"/>
 
@@ -289,7 +313,6 @@
             android:layout_marginBottom="20dp"
             android:backgroundTint="#FF9800"
             android:text="Publish" />
-
 
     </LinearLayout>
 </ScrollView>

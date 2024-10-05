@@ -1,7 +1,9 @@
 package com.example.easipe_mobileapplicationdevelopment.view.features;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,16 +29,21 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
     private DatabaseReference savedRecipesRef;
     private String userId;
 
+
     public HomeAdapter(@NonNull FirebaseRecyclerOptions<Recipe> options, Context context) {
         super(options);
         this.context = context;
         // Get the current user's ID
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        savedRecipesRef = FirebaseDatabase.getInstance().getReference("user_saved_recipes").child(userId); // User-specific path
+        // Initialize savedRecipesRef with the user's ID, without recipeId
+        savedRecipesRef = FirebaseDatabase.getInstance().getReference("user_saved_recipes").child(userId);
     }
 
     @Override
     protected void onBindViewHolder(@NonNull HomeAdapter.HomeRecipeViewHolder holder, int position, @NonNull Recipe model) {
+
+        String recipeId = getRef(position).getKey();
+
         holder.Htitle.setText(model.getRecipeTitle() != null ? model.getRecipeTitle() : "Untitled");
         holder.Hdiscription.setText(model.getRecipeDiscription());
         holder.HratingBar.setRating(model.getRecipeRating());
@@ -44,7 +51,21 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
         Glide.with(context).load(model.getRecipeImageurl()).into(holder.Himage);
 
         // Set bookmark icon color based on saved status
-        holder.Hbookmark.setBackgroundColor(model.isIssaved() ? Color.GRAY : Color.TRANSPARENT);
+        savedRecipesRef.child(recipeId).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult().exists()) {
+                // If the recipe is saved, show a gray background
+                GradientDrawable drawable = new GradientDrawable();
+                drawable.setColor(Color.GRAY);  // Set the background color to gray
+                drawable.setCornerRadius(30);   // Set the corner radius for rounded corners
+                holder.Hbookmark.setBackground(drawable);  // Apply the drawable as the background
+            } else {
+                // If the recipe is not saved, show a transparent background
+                GradientDrawable drawable = new GradientDrawable();
+                drawable.setColor(Color.TRANSPARENT);  // Set the background color to transparent
+                drawable.setCornerRadius(30);          // Set the corner radius for rounded corners
+                holder.Hbookmark.setBackground(drawable);  // Apply the drawable as the background
+            }
+        });
 
         // Handle bookmark click
         holder.Hbookmark.setOnClickListener(v -> {
@@ -52,20 +73,28 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
             model.setIssaved(!model.isIssaved());
 
             if (model.isIssaved()) {
-                // Save the recipe to the database
-                savedRecipesRef.child(model.getRecipeTitle()).setValue(model).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        holder.Hbookmark.setBackgroundColor(Color.GRAY); // Change to saved color
-                        Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Failed to save recipe.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                // Save the recipe to the database using userId and recipeId as the key
+               savedRecipesRef.child(recipeId).setValue(model).addOnCompleteListener(task -> {
+                   if (task.isSuccessful()) {
+                       GradientDrawable drawable = new GradientDrawable();
+                       drawable.setColor(Color.GRAY);  // Set the background color
+                       drawable.setCornerRadius(30);  // Set the corner radius for rounded corners
+
+                       holder.Hbookmark.setBackground(drawable); // Change to saved color
+                       Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show();
+                   } else {
+                       Toast.makeText(context, "Failed to save recipe.", Toast.LENGTH_SHORT).show();
+                   }
+               });
             } else {
                 // Remove the recipe from the saved recipes
-                savedRecipesRef.child(model.getRecipeTitle()).removeValue().addOnCompleteListener(task -> {
+                savedRecipesRef.child(recipeId).removeValue().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        holder.Hbookmark.setBackgroundColor(Color.GRAY); // Change to default color
+                        GradientDrawable drawable = new GradientDrawable();
+                        drawable.setColor(Color.GRAY);  // Set the background color
+                        drawable.setCornerRadius(30);   // Set the corner radius for rounded corners
+
+                        holder.Hbookmark.setBackground(drawable); // Change to default color
                         Toast.makeText(context, "Recipe removed from saved!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(context, "Failed to remove recipe.", Toast.LENGTH_SHORT).show();
@@ -73,7 +102,27 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
                 });
             }
         });
+
+        // Handle card click to navigate to RecipeContentActivity with recipeId
+        holder.itemView.setOnClickListener(v -> {
+
+            Intent intent = new Intent(context, RecipeContent.class);
+            intent.putExtra("recipeId", getRef(holder.getBindingAdapterPosition()).getKey()); // Pass the recipeId
+            context.startActivity(intent); // Start the RecipeContentActivity
+        });
     }
+
+//    // Method to save the recipe under userId with recipeId as the key
+//    public void saveRecipeToUser(String recipeId, Recipe recipe, HomeRecipeViewHolder holder) {
+//        DatabaseReference savedRecipeRef = savedRecipesRef.child(userId).child(recipeId); // Use userId and recipeId here
+//
+//        savedRecipeRef.setValue(recipe).addOnSuccessListener(aVoid -> {
+//            holder.Hbookmark.setBackgroundColor(Color.GRAY); // Change to saved color
+//            Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show();
+//        }).addOnFailureListener(e -> {
+//            Toast.makeText(context, "Failed to save recipe.", Toast.LENGTH_SHORT).show();
+//        });
+//    }
 
     @NonNull
     @Override

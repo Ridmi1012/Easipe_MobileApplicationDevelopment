@@ -15,12 +15,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
 import com.example.easipe_mobileapplicationdevelopment.view.features.Recipe;
@@ -40,12 +42,16 @@ public class AddFragment extends Fragment {
     private StorageReference storageReference;
 
     private ImageView recipeImg;
-    private Uri imageUri;
+    private VideoView recipeVideoView;
+    private Uri imageUri,videoUri;
     private EditText editTextTitle, editTextDescription, editTextServings, editTextDuration, editTextMethod, editTextIngredient, editTextAddition;
-    private Button publishBtn, selectImgBtn, addIngredientBtn, addStepsBtn;
+    private Button publishBtn, selectImgBtn,selectVideoBtn, addIngredientBtn, addStepsBtn;
     private LinearLayout ingredientsContainer, methodsContainer; // Declare methodsContainer
     private List<EditText> ingredientFields = new ArrayList<>(); // List to store dynamically added ingredient fields
-    private List<EditText> methodFields = new ArrayList<>(); // List to store dynamically added method fields
+    private List<EditText> methodFields = new ArrayList<>();// List to store dynamically added method fields
+
+    private String imageUrl = null;
+    private String videoUrl = null;
 
     @Nullable
     @Override
@@ -58,7 +64,9 @@ public class AddFragment extends Fragment {
         storageReference = storage.getReference();
 
         recipeImg = view.findViewById(R.id.recipeimg);
+        recipeVideoView = view.findViewById(R.id.recipeVideoView);
         selectImgBtn = view.findViewById(R.id.SelectImgBtn);
+        selectVideoBtn = view.findViewById(R.id.SelectVideoBtn);
         editTextTitle = view.findViewById(R.id.editTextTitle);
         editTextDescription = view.findViewById(R.id.editTextDescription);
         editTextServings = view.findViewById(R.id.editTextServings);
@@ -78,6 +86,7 @@ public class AddFragment extends Fragment {
         publishBtn.setOnClickListener(v -> publish());
 
         selectImgBtn.setOnClickListener(v -> openGallery());
+        selectVideoBtn.setOnClickListener(v -> openVideoGallery());
 
         int widthInDp = 325; // width in dp
         float scale = getContext().getResources().getDisplayMetrics().density; // Get screen density
@@ -141,6 +150,12 @@ public class AddFragment extends Fragment {
         return view;
     }
 
+    private void openVideoGallery() {
+
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+        videoLauncher.launch(intent);
+    }
+
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         galleryLauncher.launch(intent);
@@ -156,29 +171,116 @@ public class AddFragment extends Fragment {
             }
     );
 
+
+    private final ActivityResultLauncher<Intent> videoLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == getActivity().RESULT_OK && result.getData() != null) {
+                    videoUri = result.getData().getData();
+                    recipeVideoView.setVideoURI(videoUri); // Display the selected video in VideoView
+                    recipeVideoView.setVisibility(View.VISIBLE); // Make the VideoView visible
+                    recipeVideoView.start(); // Start the video playback
+                }
+            }
+    );
+
     private void publish() {
+        // Reset imageUrl and videoUrl before uploading
+        imageUrl = null;
+        videoUrl = null;
+
+        String title = editTextTitle.getText().toString();
+        String description = editTextDescription.getText().toString();
+        String duration = editTextDuration.getText().toString();
+
+        // Validate required fields
+        if (title.isEmpty() || description.isEmpty() || duration.isEmpty()) {
+            Toast.makeText(getContext(), "Please fill in all required fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        float rate;
+        try {
+            rate = Float.parseFloat(editTextServings.getText().toString());
+        } catch (NumberFormatException e) {
+            Toast.makeText(getContext(), "Please enter a valid number for servings", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Validate image selection
         if (imageUri != null) {
-            uploadImage();
+            uploadImage();  // Upload image first
         } else {
             Toast.makeText(getContext(), "Please select an image", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Check if a video is selected or not
+        if (videoUri != null) {
+            uploadVideo();  // Upload video
+        } else {
+            videoUrl = ""; // No video selected, so set the URL to an empty string
+            checkUploadsComplete(); // Proceed to check uploads (only image in this case)
         }
     }
 
+    // Method to clear the fields after publishing
+    private void clearFields() {
+        editTextTitle.setText("");
+        editTextDescription.setText("");
+        editTextServings.setText("");
+        editTextDuration.setText("");
+        editTextIngredient.setText("");
+        editTextMethod.setText("");
+        editTextAddition.setText("");
+
+
+        // Clear dynamically added ingredients and steps
+        ingredientsContainer.removeAllViews();
+        methodsContainer.removeAllViews();
+
+        // Clear stored URIs
+        imageUri = null;
+        videoUri = null;
+    }
+
+
+    private void uploadVideo() {
+        String videoName = UUID.randomUUID().toString() + ".mp4";
+        StorageReference videoRef = storageReference.child("videos/" + videoName);
+
+        videoRef.putFile(videoUri)
+                .addOnSuccessListener(taskSnapshot -> videoRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    videoUrl = uri.toString();
+                    checkUploadsComplete();  // Check if both image and video URLs are available
+                }))
+                .addOnFailureListener(e -> Toast.makeText(getContext(), "Video upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+    }
+
     private void uploadImage() {
-        // Create a unique filename for the image
         String imageName = UUID.randomUUID().toString() + ".jpg";
         StorageReference imageRef = storageReference.child("images/" + imageName);
 
-        // Upload the image to Firebase Storage
         imageRef.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot -> imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                    String imageUrl = uri.toString();
-                    addRecipe(imageUrl); // Pass the URL to save in the database
+                    imageUrl = uri.toString();
+                    checkUploadsComplete();  // Check if both image and video URLs are available
                 }))
                 .addOnFailureListener(e -> Toast.makeText(getContext(), "Image upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
-    private void addRecipe(String imageUrl) {
+    private void checkUploadsComplete() {
+        // Check if both imageUrl and videoUrl are not null
+        if (imageUrl != null && (videoUri == null || videoUrl != null)) {
+            // If videoUri is null, it means no video was uploaded, so we proceed with just the image
+            addRecipe(imageUrl, videoUrl);
+
+            clearFields();
+
+        }
+    }
+
+    private void addRecipe(String imageUrl, String videoUrl) {
         String userId;
         String title = editTextTitle.getText().toString();
         String description = editTextDescription.getText().toString();
@@ -188,13 +290,14 @@ public class AddFragment extends Fragment {
         String Methods = editTextMethod.getText().toString();
         String additionalMethod = editTextAddition.getText().toString();
         boolean Status = false;
+        String recipeId = UUID.randomUUID().toString();  ;
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             userId = auth.getCurrentUser().getUid();
         } else {
             Log.e("Firebase", "User is not authenticated");
-            return;
+           return;
         }
 
 
@@ -216,7 +319,7 @@ public class AddFragment extends Fragment {
             }
         }
 
-        Recipe recipe = new Recipe(userId ,title, description, rate, duration, ingredientsList.toString(), methodList.toString(), additionalMethod, imageUrl, Status);
+        Recipe recipe = new Recipe(userId ,title, description, rate, duration, ingredientsList.toString(), methodList.toString(), additionalMethod, imageUrl,videoUrl, Status,recipeId);
 
         databaseReference.push().setValue(recipe);
         Toast.makeText(getContext(), "Recipe added", Toast.LENGTH_SHORT).show();

@@ -1,30 +1,29 @@
 package com.example.easipe_mobileapplicationdevelopment.view.navbar;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.SearchView;
 import com.example.easipe_mobileapplicationdevelopment.R;
-import com.example.easipe_mobileapplicationdevelopment.view.features.HomeAdapter;
 import com.example.easipe_mobileapplicationdevelopment.view.features.Recipe;
+import com.example.easipe_mobileapplicationdevelopment.view.features.SearchAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
+import com.google.firebase.database.Query;
 
 public class SearchFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private HomeAdapter homeAdapter;
-    private DatabaseReference databaseReferenceHome;
+    private SearchAdapter searchAdapter;
+    private DatabaseReference databaseReferenceSearch;
+    private SearchView searchView;
 
     @Nullable
     @Override
@@ -37,46 +36,97 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize both RecyclerViews
-        recyclerView = view.findViewById(R.id.home_recipes_list);
+        // Initialize the views
+        recyclerView = view.findViewById(R.id.search_recipes_list);
+        searchView = view.findViewById(R.id.search_recipe_bar);
 
-
-        // Set layout managers for both RecyclerViews
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        // Set up RecyclerView with GridLayoutManager (2 columns)
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        recyclerView.setLayoutManager(gridLayoutManager);
 
         // Initialize Firebase Database Reference
-        databaseReferenceHome = FirebaseDatabase.getInstance().getReference("recipes");
+        databaseReferenceSearch = FirebaseDatabase.getInstance().getReference("recipes");
 
-        // Configure FirebaseRecyclerOptions for the first RecyclerView
-        FirebaseRecyclerOptions<Recipe> options1 = new FirebaseRecyclerOptions.Builder<Recipe>()
-                .setQuery(databaseReferenceHome.limitToFirst(5), Recipe.class) // Change the query as needed
+        // Default query to display some items initially (limit to first 10 items)
+        Query defaultQuery = databaseReferenceSearch.limitToFirst(5);
+
+        // Set up FirebaseRecyclerOptions for the default query
+        FirebaseRecyclerOptions<Recipe> options = new FirebaseRecyclerOptions.Builder<Recipe>()
+                .setQuery(defaultQuery, Recipe.class)
                 .build();
 
+        // Initialize and set up the adapter
+        searchAdapter = new SearchAdapter(options, getContext());
+        recyclerView.setAdapter(searchAdapter);
 
+        // Add search functionality for real-time search as user types in the search view
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Handle the search on submit
+                searchRecipes(query);
+                return false;
+            }
 
-        // Set up the FirebaseRecyclerAdapter for both RecyclerViews
-        homeAdapter = new HomeAdapter(options1, getContext());
-
-
-        recyclerView.setAdapter(homeAdapter);
-
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Handle real-time search when text changes
+                searchRecipes(newText);
+                return false;
+            }
+        });
     }
 
+    // Method to perform search with Firebase query
+    private void searchRecipes(String searchText) {
+        // Prevent searching for empty or null strings, reset to default query
+        if (searchText == null || searchText.trim().isEmpty()) {
+            resetToDefaultQuery();
+            return;
+        }
+
+        // Create a query to search for recipes whose title contains the searchText
+        Query searchQuery = databaseReferenceSearch.orderByChild("recipeTitle")
+                .startAt(searchText)
+                .endAt(searchText + "\uf8ff");
+
+        // Update FirebaseRecyclerOptions with the new search query
+        FirebaseRecyclerOptions<Recipe> searchOptions = new FirebaseRecyclerOptions.Builder<Recipe>()
+                .setQuery(searchQuery, Recipe.class)
+                .build();
+
+        // Update the adapter with the new search options
+        searchAdapter.updateOptions(searchOptions);
+        searchAdapter.notifyDataSetChanged();
+    }
+
+    // Method to reset the RecyclerView to the default query when search input is empty
+    private void resetToDefaultQuery() {
+        Query defaultQuery = databaseReferenceSearch.limitToFirst(5);
+
+        FirebaseRecyclerOptions<Recipe> options = new FirebaseRecyclerOptions.Builder<Recipe>()
+                .setQuery(defaultQuery, Recipe.class)
+                .build();
+
+        searchAdapter.updateOptions(options);
+        searchAdapter.notifyDataSetChanged();
+    }
+
+    // Start listening to the FirebaseRecyclerAdapter when fragment is visible
     @Override
     public void onStart() {
         super.onStart();
-        homeAdapter.startListening();
-
+        if (searchAdapter != null) {
+            searchAdapter.startListening();
+        }
     }
 
+    // Stop listening to the FirebaseRecyclerAdapter when fragment is stopped
     @Override
     public void onStop() {
         super.onStop();
-        if (homeAdapter != null) {
-            homeAdapter.stopListening();
-        }
-        if (homeAdapter != null) {
-            homeAdapter.stopListening();
+        if (searchAdapter != null) {
+            searchAdapter.stopListening();
         }
     }
 }
