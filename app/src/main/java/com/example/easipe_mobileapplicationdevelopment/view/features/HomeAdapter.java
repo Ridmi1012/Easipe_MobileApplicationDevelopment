@@ -20,8 +20,11 @@ import com.example.easipe_mobileapplicationdevelopment.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.HomeRecipeViewHolder> {
 
@@ -48,6 +51,33 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
         holder.Hdiscription.setText(model.getRecipeDiscription());
         holder.Htime.setText(model.getRecipeTime() != null ? model.getRecipeTime() : "Unknown time");
         Glide.with(context).load(model.getRecipeImageurl()).into(holder.Himage);
+
+        DatabaseReference ratingsRef = FirebaseDatabase.getInstance().getReference("recipes").child(recipeId).child("ratings");
+        ratingsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                float totalRating = 0;
+                int ratingCount = 0;
+
+                // Calculate the total rating and count
+                for (DataSnapshot ratingSnapshot : dataSnapshot.getChildren()) { // 'dataSnapshot' instead of 'snapshot'
+                    Float rating = ratingSnapshot.getValue(Float.class);
+                    if (rating != null) {
+                        totalRating += rating;
+                        ratingCount++;
+                    }
+                }
+
+                // Calculate average rating
+                float averageRating = (ratingCount > 0) ? (totalRating / ratingCount) : 0;
+                holder.HratingBar.setRating(averageRating);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, "Failed to load ratings", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Set bookmark icon color based on saved status
         savedRecipesRef.child(recipeId).get().addOnCompleteListener(task -> {
