@@ -54,9 +54,6 @@
             android:name=".view.features.UpdateRecipeActivity"
             android:exported="false" />
         <activity
-            android:name=".view.features.AddRecipeActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
