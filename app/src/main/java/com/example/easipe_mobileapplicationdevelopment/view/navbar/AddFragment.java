@@ -22,7 +22,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
 import com.example.easipe_mobileapplicationdevelopment.view.features.Recipe;
@@ -199,9 +198,9 @@ public class AddFragment extends Fragment {
             return;
         }
 
-        float rate;
+        int servings;
         try {
-            rate = Float.parseFloat(editTextServings.getText().toString());
+            servings = Integer.parseInt(editTextServings.getText().toString());
         } catch (NumberFormatException e) {
             Toast.makeText(getContext(), "Please enter a valid number for servings", Toast.LENGTH_SHORT).show();
             return;
@@ -284,7 +283,7 @@ public class AddFragment extends Fragment {
         String userId;
         String title = editTextTitle.getText().toString();
         String description = editTextDescription.getText().toString();
-        float rate = Float.parseFloat(editTextServings.getText().toString());
+        int serving = Integer.parseInt((editTextServings.getText().toString()));
         String duration = editTextDuration.getText().toString();
         String ingredient = editTextIngredient.getText().toString();
         String Methods = editTextMethod.getText().toString();
@@ -319,7 +318,7 @@ public class AddFragment extends Fragment {
             }
         }
 
-        Recipe recipe = new Recipe(userId ,title, description, rate, duration, ingredientsList.toString(), methodList.toString(), additionalMethod, imageUrl,videoUrl, Status,recipeId);
+        Recipe recipe = new Recipe(userId ,title, description, serving, duration, ingredientsList.toString(), methodList.toString(), additionalMethod, imageUrl,videoUrl, Status,recipeId);
 
         databaseReference.push().setValue(recipe);
         Toast.makeText(getContext(), "Recipe added", Toast.LENGTH_SHORT).show();

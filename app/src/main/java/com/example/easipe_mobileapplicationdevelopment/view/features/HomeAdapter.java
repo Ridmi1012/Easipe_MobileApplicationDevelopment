@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.easipe_mobileapplicationdevelopment.R;
-import com.example.easipe_mobileapplicationdevelopment.view.profile.MyAccountActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,7 +46,6 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
 
         holder.Htitle.setText(model.getRecipeTitle() != null ? model.getRecipeTitle() : "Untitled");
         holder.Hdiscription.setText(model.getRecipeDiscription());
-        holder.HratingBar.setRating(model.getRecipeRating());
         holder.Htime.setText(model.getRecipeTime() != null ? model.getRecipeTime() : "Unknown time");
         Glide.with(context).load(model.getRecipeImageurl()).into(holder.Himage);
 

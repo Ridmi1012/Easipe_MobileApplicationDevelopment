@@ -8,7 +8,7 @@ public class Recipe {
     private String userId;
     private String recipeTitle;
     private String recipeDiscription;
-    private float recipeRating;
+    private int recipeServing;
     private String recipeTime;
     private String ingredient;
     private String method;
@@ -20,11 +20,11 @@ public class Recipe {
 
 
     //Add Recipe
-    public Recipe(String userId, String recipeTitle, String recipeDiscription, float recipeRating, String recipeTime, String ingredient, String method, String additionalmethod, String recipeImageurl,String recipeVideourl, boolean issaved,String recipeId) {
+    public Recipe(String userId, String recipeTitle, String recipeDiscription, int recipeServing, String recipeTime, String ingredient, String method, String additionalmethod, String recipeImageurl,String recipeVideourl, boolean issaved,String recipeId) {
         this.userId = userId;
         this.recipeTitle = recipeTitle;
         this.recipeDiscription = recipeDiscription;
-        this.recipeRating = recipeRating;
+        this.recipeServing = recipeServing;
         this.recipeTime = recipeTime;
         this.ingredient = ingredient;
         this.method = method;
@@ -41,9 +41,9 @@ public class Recipe {
     }
 
     //my profile
-    public Recipe(String recipeTitle, float recipeRating, String recipeTime) {
+    public Recipe(String recipeTitle, int recipeServing, String recipeTime) {
         this.recipeTitle = recipeTitle;
-        this.recipeRating = recipeRating;
+        this.recipeServing = recipeServing;
         this.recipeTime = recipeTime;
     }
 
@@ -55,8 +55,8 @@ public class Recipe {
         return recipeDiscription;
     }
 
-    public float getRecipeRating() {
-        return recipeRating;
+    public float getRecipeServing() {
+        return recipeServing;
     }
 
     public String getRecipeTime() {
