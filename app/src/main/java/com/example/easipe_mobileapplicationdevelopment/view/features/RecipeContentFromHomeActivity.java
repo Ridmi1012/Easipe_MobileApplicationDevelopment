@@ -1,5 +1,7 @@
 package com.example.easipe_mobileapplicationdevelopment.view.features;
 
+//mishel IM/2021/115
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,8 +26,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.File;
-import java.io.FileOutputStream;
 
 public class RecipeContentFromHomeActivity extends AppCompatActivity {
 
@@ -55,10 +55,10 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
 
         userRatingBar = findViewById(R.id.receipe_rating_bar);
 
-        // Find the PlayerView in your layout
+
         playerView = findViewById(R.id.player_view);
 
-        // Get recipe ID from intent (passed from previous activity)
+        // Get recipe ID from intent
         Intent intent = getIntent();
         String recipeId = intent.getStringExtra("recipeId");
 
@@ -76,7 +76,7 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Get recipe data (recipeRating in the database is equal to the servings here)
+
                     String recipeTitle = dataSnapshot.child("recipeTitle").getValue(String.class);
                     String description = dataSnapshot.child("recipeDiscription").getValue(String.class);
                     String recipeTime = dataSnapshot.child("recipeTime").getValue(String.class);
@@ -87,20 +87,20 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
 
                     String recipeURL = dataSnapshot.child("recipeVideourl").getValue(String.class);
 
-                    // Set data to views
+
 
                     // Initialize ExoPlayer
                     player = new ExoPlayer.Builder(RecipeContentFromHomeActivity.this).build();
-                    // Bind the player to the PlayerView
+
                     playerView.setPlayer(player);
-                    // Prepare a media source
+
                     Uri videoUri = Uri.parse(recipeURL);
                     MediaItem mediaItem = MediaItem.fromUri(videoUri);
-                    // Set the media item to be played
+
                     player.setMediaItem(mediaItem);
-                    // Prepare the player
+
                     player.prepare();
-                    // Start the playback
+
                     player.play();
 
                     // Set data to views
@@ -132,7 +132,7 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
                         StringBuilder formattedMethod = new StringBuilder();
 
                         for (String step : methodSteps) {
-                            formattedMethod.append(step.trim()).append("\n"); // Append each step with a newline
+                            formattedMethod.append(step.trim()).append("\n");
                         }
 
                         textViewMethod.setText(formattedMethod.toString());
@@ -147,7 +147,7 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
                         StringBuilder formattedAdditionalNotes = new StringBuilder();
 
                         for (String step : additionalNotes) {
-                            formattedAdditionalNotes.append(step.trim()).append("\n"); // Append each step with a newline
+                            formattedAdditionalNotes.append(step.trim()).append("\n");
                         }
 
                         textViewAdditionalNotes.setText(formattedAdditionalNotes.toString());

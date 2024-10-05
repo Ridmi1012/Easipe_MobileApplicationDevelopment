@@ -3,6 +3,7 @@ package com.example.easipe_mobileapplicationdevelopment.view.features;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,7 +30,7 @@ public class UpdateRecipeActivity extends AppCompatActivity {
     private VideoView recipeVideoView;
     private ExoPlayer player;
 
-    private Button publishBtn, selectImgBtn,selectVideoBtn, addIngredientBtn, addStepsBtn;
+    private Button publishBtn, selectImgBtn, selectVideoBtn, addIngredientBtn, addStepsBtn;
 
     private LinearLayout methodsContainer; // This should be defined in your XML layout
     private ArrayList<EditText> methodFields;
@@ -38,31 +39,11 @@ public class UpdateRecipeActivity extends AppCompatActivity {
     private Uri imageUri;
     private Uri videoUri;
 
-    // Create activity result launchers for image and video selection
-    private final ActivityResultLauncher<Intent> getImageLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    imageUri = result.getData().getData();
-                    if (imageUri != null) {
-                        recipeImageView.setImageURI(imageUri);
-                    }
-                }
-            });
-
-    private final ActivityResultLauncher<Intent> getVideoLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    videoUri = result.getData().getData();
-                    if (videoUri != null) {
-                        player.setMediaItem(MediaItem.fromUri(videoUri));
-                        player.prepare();
-                        player.play();
-                    }
-                }
-            });
     private ImageView recipeimg;
+
+    // ActivityResultLaunchers for selecting image and video
+    private ActivityResultLauncher<Intent> imagePickerLauncher;
+    private ActivityResultLauncher<Intent> videoPickerLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +60,49 @@ public class UpdateRecipeActivity extends AppCompatActivity {
         editTextAdditionalNotes = findViewById(R.id.editTextAddition);
         addIngredientBtn = findViewById(R.id.addIngredientBtn);
         addStepsBtn = findViewById(R.id.AddMethodBtn);
+        selectImgBtn = findViewById(R.id.SelectImgBtn);
+        selectVideoBtn = findViewById(R.id.SelectVideoBtn);
 
         // Initialize the player
         player = new ExoPlayer.Builder(this).build();
+
+        // Initialize image picker
+        imagePickerLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        imageUri = result.getData().getData();
+                        // Load the selected image into ImageView
+                        Glide.with(UpdateRecipeActivity.this)
+                                .load(imageUri)
+                                .error(R.drawable.baseline_add_a_photo_24) // Error placeholder
+                                .into(recipeImageView);
+                    }
+                });
+
+        // Initialize video picker
+        videoPickerLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        videoUri = result.getData().getData();
+                        // Load the selected video into VideoView
+                        recipeVideoView.setVideoURI(videoUri);
+                        recipeVideoView.setVisibility(View.VISIBLE);
+                        recipeVideoView.start();
+                    }
+                });
+
+        // Set up click listeners for buttons to select image and video
+        selectImgBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            imagePickerLauncher.launch(intent);
+        });
+
+        selectVideoBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+            videoPickerLauncher.launch(intent);
+        });
 
         // Retrieve data from Intent (title, description, etc.)
         String title = getIntent().getStringExtra("recipeTitle");
@@ -89,9 +110,9 @@ public class UpdateRecipeActivity extends AppCompatActivity {
         String duration = getIntent().getStringExtra("recipeTime");
         String imageUrl = getIntent().getStringExtra("recipeImageurl"); // Fetch image URL
         Uri videoUrl = Uri.parse(getIntent().getStringExtra("recipeVideourl"));// Fetch video URL
-        String ingredients =getIntent().getStringExtra("ingredient");
-        String methods =getIntent().getStringExtra("method");
-        String additionalNotes =getIntent().getStringExtra("additionalmethod");
+        String ingredients = getIntent().getStringExtra("ingredient");
+        String methods = getIntent().getStringExtra("method");
+        String additionalNotes = getIntent().getStringExtra("additionalmethod");
 
         // Set values to EditText fields
         if (title != null) {
@@ -118,7 +139,7 @@ public class UpdateRecipeActivity extends AppCompatActivity {
                     .into(recipeImageView);
         }
 
-        // Load video into the VideoView using ExoPlayer
+        // Load video into the VideoView
         if (videoUrl != null) {
             recipeVideoView.setVideoURI(videoUrl); // Display the selected video in VideoView
             recipeVideoView.setVisibility(View.VISIBLE); // Make the VideoView visible
@@ -156,11 +177,13 @@ public class UpdateRecipeActivity extends AppCompatActivity {
                 // Add the new EditText to the list of method fields to track them
                 methodFields.add(newMethodField);
             }
+
+
         }
 
         if (methods != null) {
-            methodsContainer = findViewById(R.id.methods_container1); // Find your LinearLayout
-            methodFields1 = new ArrayList<>(); // Initialize the list
+            methodsContainer = findViewById(R.id.methods_container1);
+            methodFields1 = new ArrayList<>();
 
             String[] recipeMethods = methods.split(",");
 
@@ -170,31 +193,29 @@ public class UpdateRecipeActivity extends AppCompatActivity {
 
                 // Set layout parameters for the new EditText
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT, // or widthInPx
-                        LinearLayout.LayoutParams.WRAP_CONTENT // height
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
                 );
-                layoutParams.setMargins(15, 8, 15, 0); // Add margins as per your design
+                layoutParams.setMargins(15, 8, 15, 0);
 
                 newMethodField.setLayoutParams(layoutParams);
 
-                // Apply the custom background (rounded corners, padding, and border) from the drawable XML
+                // Apply the custom background
                 newMethodField.setBackgroundResource(R.drawable.rounded_background);
 
                 // Optionally set text size and other properties
                 newMethodField.setTextSize(15);
 
-                // Add the new EditText to the methods container (LinearLayout)
                 methodsContainer.addView(newMethodField);
 
-                // Add the new EditText to the list of method fields to track them
                 methodFields.add(newMethodField);
             }
         }
 
         // Add ingredient button listener to dynamically add new EditText fields
         addIngredientBtn.setOnClickListener(v -> {
-            methodsContainer = findViewById(R.id.methods_container); // Find your LinearLayout
-            methodFields = new ArrayList<>(); // Initialize the list
+            methodsContainer = findViewById(R.id.methods_container);
+            methodFields = new ArrayList<>();
 
             // Create a new EditText for the new ingredient
             EditText newMethodField = new EditText(this);

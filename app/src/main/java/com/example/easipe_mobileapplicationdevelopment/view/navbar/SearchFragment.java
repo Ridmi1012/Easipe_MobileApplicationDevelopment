@@ -1,5 +1,5 @@
 package com.example.easipe_mobileapplicationdevelopment.view.navbar;
-
+//hirun IM/2021/004
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,9 +44,7 @@ public class SearchFragment extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        // Initialize Firebase Database Reference
         databaseReferenceSearch = FirebaseDatabase.getInstance().getReference("recipes");
-
 
         // Set up FirebaseRecyclerOptions for the default query
         FirebaseRecyclerOptions<Recipe> options = new FirebaseRecyclerOptions.Builder<Recipe>()
@@ -61,14 +59,12 @@ public class SearchFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // Handle the search on submit
                 searchRecipes(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // Handle real-time search when text changes
                 searchRecipes(newText);
                 return false;
             }
@@ -77,23 +73,19 @@ public class SearchFragment extends Fragment {
 
     // Method to perform search with Firebase query
     private void searchRecipes(String searchText) {
-        // Prevent searching for empty or null strings, reset to default query
         if (searchText == null || searchText.trim().isEmpty()) {
             resetToDefaultQuery();
             return;
         }
 
-        // Create a query to search for recipes whose title contains the searchText
         Query searchQuery = databaseReferenceSearch.orderByChild("recipeTitle")
                 .startAt(searchText)
                 .endAt(searchText + "\uf8ff");
 
-        // Update FirebaseRecyclerOptions with the new search query
         FirebaseRecyclerOptions<Recipe> searchOptions = new FirebaseRecyclerOptions.Builder<Recipe>()
                 .setQuery(searchQuery, Recipe.class)
                 .build();
 
-        // Update the adapter with the new search options
         searchAdapter.updateOptions(searchOptions);
         searchAdapter.notifyDataSetChanged();
     }

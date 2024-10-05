@@ -1,5 +1,6 @@
 package com.example.easipe_mobileapplicationdevelopment.view.navbar;
 
+//hirun IM/2021/004
 import android.os.Bundle;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -52,9 +53,7 @@ public class SavedFragment extends Fragment {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             userId = auth.getCurrentUser().getUid();
-            Log.d("UserID", "Current User ID: " + userId); // Log the user ID
-
-            // Reference to saved recipes under userId, organized by recipeId
+            Log.d("UserID", "Current User ID: " + userId);
 
             savedRecipesRef = FirebaseDatabase.getInstance().getReference("user_saved_recipes").child(userId);
         } else {
@@ -71,7 +70,6 @@ public class SavedFragment extends Fragment {
                         .setQuery(query, Recipe.class) // Query retrieves recipes by recipeId
                         .build();
 
-        // Set up the adapter with the options
         savedRecipesAdapter = new HomeAdapter(options, getContext());
         savedRecipesRecyclerView.setAdapter(savedRecipesAdapter);
 
@@ -79,6 +77,7 @@ public class SavedFragment extends Fragment {
         savedSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
                 // Handle the search on submit
                 searchSavedRecipes(query);
                 return false;
@@ -86,7 +85,6 @@ public class SavedFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //handle realtime search
                 // Handle the search on submit
                 searchSavedRecipes(newText);
                 return false;
@@ -119,11 +117,9 @@ public class SavedFragment extends Fragment {
 
     private void resetToDefaultQuery() {
 
-
         FirebaseRecyclerOptions<Recipe> options = new FirebaseRecyclerOptions.Builder<Recipe>()
                 .setQuery(savedRecipesRef, Recipe.class)
                 .build();
-
         savedRecipesAdapter.updateOptions(options);
         savedRecipesAdapter.notifyDataSetChanged();
     }
@@ -131,12 +127,12 @@ public class SavedFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        savedRecipesAdapter.startListening();  // Start listening for Firebase changes
+        savedRecipesAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        savedRecipesAdapter.stopListening();  // Stop listening to avoid memory leaks
+        savedRecipesAdapter.stopListening();
     }
 }
