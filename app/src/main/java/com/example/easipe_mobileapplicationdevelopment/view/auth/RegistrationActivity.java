@@ -65,6 +65,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 String confirmedPassword = editTextpassword2.getText().toString();
                 String location = "";
                 String description = "";
+                String profileImageURL = "";
 
                 if (TextUtils.isEmpty(firstname)) {
                     Toast.makeText(RegistrationActivity.this, "Please enter the first name", Toast.LENGTH_SHORT).show();
@@ -110,14 +111,14 @@ public class RegistrationActivity extends AppCompatActivity {
                     editTextpassword2.requestFocus();
                 } else {
                     Toast.makeText(RegistrationActivity.this, "this is good", Toast.LENGTH_SHORT).show();
-                    registerUser(firstname, lastname, email, username, password, location, description);
+                    registerUser(firstname, lastname, email, username, password, location, description, profileImageURL );
                 }
             }
         });
     }
 
 
-    private void registerUser(String firstname, String lastname, String email, String username, String password, String location, String description) {
+    private void registerUser(String firstname, String lastname, String email, String username, String password, String location, String description, String profileImageURL) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference referenceProfile = database.getReference("Registered User");
 
@@ -132,7 +133,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     editTextemail.requestFocus();
                 } else {
                     // Proceed to register the user if the email does not exist
-                    createFirebaseUser(firstname, lastname, email, username, password, location, description);
+                    createFirebaseUser(firstname, lastname, email, username, password, location, description, profileImageURL);
                 }
             }
 
@@ -144,7 +145,7 @@ public class RegistrationActivity extends AppCompatActivity {
         });
     }
 
-    private void createFirebaseUser(String firstname, String lastname, String email, String username, String password, String location, String description) {
+    private void createFirebaseUser(String firstname, String lastname, String email, String username, String password, String location, String description, String profileImageURL) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
         // Create user profile
@@ -156,7 +157,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             FirebaseUser firebaseUser = auth.getCurrentUser();
 
                             // Enter user data into the Firebase Realtime Database
-                            ReadWriteUserDetails writeUserDetails = new ReadWriteUserDetails(firstname, lastname, email, username, password, location, description);
+                            ReadWriteUserDetails writeUserDetails = new ReadWriteUserDetails(firstname, lastname, email, username, password, location, description, profileImageURL);
 
                             // Extracting User reference from the database for "Registered Users"
                             DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Registered User");
