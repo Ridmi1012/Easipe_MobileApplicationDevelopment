@@ -57,16 +57,17 @@
     <ImageButton
         android:id="@+id/edit_image_button"
         android:layout_width="54dp"
-        android:layout_height="52dp"
-        android:background="#FFFF8A08"
+        android:layout_height="54dp"
+        android:backgroundTint="#FF8A08"
         android:contentDescription="edit profile"
         android:onClick="editProfilePicture"
         app:layout_constraintBottom_toBottomOf="@id/profile_image"
         app:layout_constraintEnd_toEndOf="@id/profile_image"
         app:layout_constraintHorizontal_bias="0.924"
         app:layout_constraintStart_toStartOf="@id/profile_image"
-        app:srcCompat="@drawable/baseline_edit_24"
-        tools:layout_editor_absoluteY="192dp" />
+        app:srcCompat="@drawable/baseline_camera_alt_24"
+        tools:layout_editor_absoluteY="192dp"
+        android:background="@drawable/round_button" />
 
 
     <!--user's name input-->
@@ -90,6 +91,9 @@
         android:layout_marginTop="2dp"
         android:textSize="14sp"
         android:textStyle="bold"
+        android:background="@drawable/rounded_background"
+        android:ems="10"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/username" />
@@ -116,6 +120,9 @@
         android:layout_marginTop="2dp"
         android:textSize="14sp"
         android:textStyle="bold"
+        android:background="@drawable/rounded_background"
+        android:ems="20"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/email" />
@@ -141,6 +148,9 @@
         android:layout_marginTop="2dp"
         android:textSize="14sp"
         android:textStyle="bold"
+        android:background="@drawable/rounded_background"
+        android:ems="10"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/location" />
@@ -166,6 +176,9 @@
         android:layout_marginTop="2dp"
         android:textSize="14sp"
         android:textStyle="bold"
+        android:background="@drawable/rounded_background"
+        android:ems="10"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/about_me" />
