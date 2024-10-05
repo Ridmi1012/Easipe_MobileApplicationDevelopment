@@ -85,10 +85,6 @@ public class NavigationBar extends AppCompatActivity {
             Intent intent = new Intent(NavigationBar.this, MyAccountActivity.class);
             startActivity(intent);
             finish();
-        } else if (id == R.id.editProfile) {
-            Intent intent = new Intent(NavigationBar.this, EditAccountActivity.class);
-            startActivity(intent);
-            finish();
         } else if (id == R.id.changePassword) {
             Intent intent = new Intent(NavigationBar.this, ChangePasswordActivity.class);
             startActivity(intent);

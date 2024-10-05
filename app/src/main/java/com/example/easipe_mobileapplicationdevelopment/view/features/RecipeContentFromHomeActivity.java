@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +17,7 @@ import androidx.media3.ui.PlayerView;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
 import com.example.easipe_mobileapplicationdevelopment.view.navbar.NavigationBar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +31,8 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
 
     private TextView textViewTitle, textViewTime, textViewServings, textViewDescription, textViewIngredients, textViewMethod, textViewAdditionalNotes;
 
+
+    private RatingBar userRatingBar;
     private DatabaseReference recipeRef;
 
     private PlayerView playerView;
@@ -49,6 +52,8 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
         textViewIngredients = findViewById(R.id.textView_Ingredients);
         textViewMethod = findViewById(R.id.textView_Method);
         textViewAdditionalNotes = findViewById(R.id.textView_AdditionalNotes);
+
+        userRatingBar = findViewById(R.id.receipe_rating_bar);
 
         // Find the PlayerView in your layout
         playerView = findViewById(R.id.player_view);
@@ -161,12 +166,38 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
                 Toast.makeText(RecipeContentFromHomeActivity.this, "Failed to load recipe details", Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+
+
+    // Method to be called when the review button is clicked
+    public void submitReview(View view) {
+        float userRating = userRatingBar.getRating();  // Get the rating from the rating bar
+
+        if (userRating == 0) {
+            Toast.makeText(this, "Please provide a rating before submitting", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        // Submit the rating to Firebase under the 'ratings' child of the recipe
+        recipeRef.child("ratings").child(userId).setValue(userRating)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(this, "Rating submitted!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Failed to submit rating", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public void redirectToLogin(View view) {
         startActivity(new Intent(this, NavigationBar.class));
         finish();
     }
+
+
 
     public void sendRecipe(View view) {
         // Get the recipe details
