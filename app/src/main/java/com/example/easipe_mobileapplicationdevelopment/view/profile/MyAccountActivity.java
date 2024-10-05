@@ -22,6 +22,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+
 
 
 public class MyAccountActivity extends AppCompatActivity {
@@ -99,6 +102,7 @@ public class MyAccountActivity extends AppCompatActivity {
                     if (profileImageURL != null && !profileImageURL.isEmpty()) {
                         Glide.with(MyAccountActivity.this)
                                 .load(profileImageURL)
+                                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                                 .into(profileImageView); // Load profile image into ImageView
                     }
                 } else {

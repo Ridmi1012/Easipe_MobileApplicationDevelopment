@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import com.bumptech.glide.Glide;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +20,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+
+
 
 public class EditAccountActivity extends AppCompatActivity {
 
@@ -101,7 +106,11 @@ public class EditAccountActivity extends AppCompatActivity {
             imageUri = data.getData();
 
             // Set the selected image to the ImageView (profile picture)
-            profileImageView.setImageURI(imageUri);
+            Glide.with(EditAccountActivity.this)
+                    .load(imageUri)
+                    .apply(RequestOptions.bitmapTransform(new CircleCrop())) // Apply CircleCrop transformation
+                    .into(profileImageView);
+
         }
     }
 
