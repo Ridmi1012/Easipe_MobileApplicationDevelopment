@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.play.services.auth)
 
     implementation(libs.appcompat)
+    implementation(libs.material3)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)

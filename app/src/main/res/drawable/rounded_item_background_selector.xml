@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="true">
-        <shape android:shape="rectangle">
-            <solid android:color="#FF8A08"/>  <!-- Orange color when selected -->
-            <corners android:radius="30dp"/>  <!-- Rounded corners -->
+        <shape android:layout_height="wrap_content" android:shape="rectangle">
+            <solid android:color="#FF8A08" />  <!-- Orange color when selected -->
+            <corners android:radius="30dp" />  <!-- Rounded corners -->
+            <!-- Set height for the selected state -->
         </shape>
     </item>
+
     <item android:state_checked="false">
         <shape android:shape="rectangle">
             <solid android:color="@android:color/transparent"/>  <!-- Transparent when not selected -->
+            <size android:height="40dp"/>     <!-- Set height for the unselected state -->
         </shape>
     </item>
 </selector>

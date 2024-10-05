@@ -30,11 +30,10 @@
         android:layout_alignParentBottom="true"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        app:itemBackground="@drawable/rounded_item_background_selector"
-        app:itemIconTint="@color/nav_item_selector"
-        app:itemTextColor="@color/nav_item_selector"
-        app:menu="@menu/bottom_navigation_bar"
-        >
+        app:labelVisibilityMode="selected"
+        app:itemRippleColor="@color/primary_color"
+
+        app:menu="@menu/bottom_navigation_bar">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
