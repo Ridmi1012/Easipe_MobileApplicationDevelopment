@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <!-- Custom Active Indicator Style -->
+<!--    <style name="CustomActiveIndicatorStyle" parent="Widget.MaterialComponents.BottomNavigationView">-->
+<!--        &lt;!&ndash; Set the background color for the active indicator &ndash;&gt;-->
+<!--        <item name="itemActiveIndicatorStyle">@color/primary_color</item>-->
+<!--        <item name="android:color">@color/primary_color</item> &lt;!&ndash; Set your desired color &ndash;&gt;-->
+<!--        &lt;!&ndash; Shape customization for the indicator &ndash;&gt;-->
+
+<!--    </style>-->
+
+</resources>
