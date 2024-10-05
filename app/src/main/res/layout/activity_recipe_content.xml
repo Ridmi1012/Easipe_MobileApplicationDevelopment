@@ -58,7 +58,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_centerInParent="true"
-                android:background="#000000"/>
+                android:background="#000000">
+
+            </androidx.media3.ui.PlayerView>
 
         </RelativeLayout>
 
@@ -182,6 +184,7 @@
             android:layout_width="325dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
+            android:onClick="redirectToUpdateRecipe"
             android:backgroundTint="#FF9800"
             android:text="Update" />
     </LinearLayout>
