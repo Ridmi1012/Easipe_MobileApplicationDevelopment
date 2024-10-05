@@ -75,6 +75,9 @@ public class RecipeContent extends AppCompatActivity {
                     String recipeTime = dataSnapshot.child("recipeTime").getValue(String.class);
                     String recipeIngredients = dataSnapshot.child("ingredient").getValue(String.class);
                     String recipeMethod = dataSnapshot.child("method").getValue(String.class);
+                    String Notes = dataSnapshot.child("additionalmethod").getValue(String.class);
+                    String imageUrl = dataSnapshot.child("recipeImageurl").getValue(String.class); // Fetch image URL
+                    String videoUrl = dataSnapshot.child("recipeVideourl").getValue(String.class); // Fetch video URL
                     String recipeAdditionalNotes = dataSnapshot.child("additionalmethod").getValue(String.class);
                     String recipeURL = dataSnapshot.child("recipeVideourl").getValue(String.class);
 
@@ -98,51 +101,32 @@ public class RecipeContent extends AppCompatActivity {
                     textViewTime.setText(recipeTime != null ? recipeTime : "Unknown time");
                     textViewDescription.setText(description != null && !description.isEmpty() ? description : "Description not available");
                     textViewIngredients.setText(recipeIngredients != null ? recipeIngredients : "Ingredients not available");
+                    textViewAdditionalNotes.setText(Notes != null ? Notes : "Ingredients not available");
 
-                    //seperate ingredients by comma and display
+                    // Separate ingredients by comma and display
                     if (recipeIngredients != null) {
                         String[] ingredients = recipeIngredients.split(",");
-
                         StringBuilder formattedIngredients = new StringBuilder();
-
                         for (String step : ingredients) {
                             formattedIngredients.append(step.trim()).append("\n"); // Append each step with a newline
                         }
-
                         textViewIngredients.setText(formattedIngredients.toString());
                     } else {
                         textViewIngredients.setText("Ingredients are not available");
                     }
 
-                    //seperate methods by comma and display
+                    // Separate methods by comma and display
                     if (recipeMethod != null) {
                         String[] methodSteps = recipeMethod.split(",");
-
                         StringBuilder formattedMethod = new StringBuilder();
-
                         for (String step : methodSteps) {
                             formattedMethod.append(step.trim()).append("\n"); // Append each step with a newline
                         }
-
                         textViewMethod.setText(formattedMethod.toString());
-                    } else {
-                        textViewMethod.setText("Method not available");
                     }
 
-                    //seperate additional notes by comma and display
-                    if (recipeAdditionalNotes != null) {
-                        String[] additionalNotes = recipeAdditionalNotes.split(",");
-
-                        StringBuilder formattedAdditionalNotes = new StringBuilder();
-
-                        for (String step : additionalNotes) {
-                            formattedAdditionalNotes.append(step.trim()).append("\n"); // Append each step with a newline
-                        }
-
-                        textViewAdditionalNotes.setText(formattedAdditionalNotes.toString());
-                    } else {
-                        textViewAdditionalNotes.setText("Additional notes are not available");
-                    }
+                    // Set the redirect to the Update Recipe Activity
+                    publishButton.setOnClickListener(v -> redirectToUpdateRecipe(recipeTitle, description, recipeTime, imageUrl, videoUrl, recipeIngredients, recipeMethod, Notes));
 
                 } else {
                     Toast.makeText(RecipeContent.this, "Recipe not found", Toast.LENGTH_SHORT).show();
@@ -157,48 +141,60 @@ public class RecipeContent extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // Release the player when not needed
-        if (player != null) {
-            player.release();
+    public void redirectToUpdateRecipe(String title, String description, String duration, String imageUrl, String videoUrl, String recipeIngredients, String recipeMethod, String Notes) {
+        Intent intent = new Intent(this, UpdateRecipeActivity.class); // Create an Intent instance
+        intent.putExtra("recipeTitle", title);
+        intent.putExtra("recipeDiscription", description);
+        intent.putExtra("recipeTime", duration);
+        intent.putExtra("recipeImageurl", imageUrl); // Pass image URL
+        intent.putExtra("recipeVideourl", videoUrl); // Pass video URL
+        intent.putExtra("ingredient", recipeIngredients);
+        intent.putExtra("method", recipeMethod);
+        intent.putExtra("additionalmethod", Notes);
+
+        startActivity(intent);
+    }
+
+        @Override
+        protected void onDestroy () {
+            super.onDestroy();
+            // Release the player when not needed
+            if (player != null) {
+                player.release();
+            }
+        }
+
+        public void redirectToLogin (View view){
+            startActivity(new Intent(this, NavigationBar.class));
+            finish();
+        }
+
+        public void sendRecipe (View view){
+            // Get the recipe details
+            String title = textViewTitle.getText().toString();
+            String time = textViewTime.getText().toString();
+            String description = textViewDescription.getText().toString();
+            String ingredients = textViewIngredients.getText().toString();
+            String method = textViewMethod.getText().toString();
+            String additionalNotes = textViewAdditionalNotes.getText().toString();
+
+            // Format the recipe details into a message
+            String recipeMessage = "Recipe: " + title + "\n\n" +
+                    "Time: " + time + "\n\n" +
+                    "Description: " + description + "\n\n" +
+                    "Ingredients:\n" + ingredients + "\n" +
+                    "Method:\n" + method + "\n" +
+                    "Additional Notes:\n" + additionalNotes;
+
+            // Create the intent for sending text
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, recipeMessage);
+            intent.setType("text/plain");
+
+            // Check if any app can handle the intent
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(Intent.createChooser(intent, "Send Recipe via"));
+            }
         }
     }
-
-    public void redirectToLogin(View view) {
-        startActivity(new Intent(this, NavigationBar.class));
-        finish();
-    }
-
-    public void sendRecipe(View view) {
-        // Get the recipe details
-        String title = textViewTitle.getText().toString();
-        String time = textViewTime.getText().toString();
-        String description = textViewDescription.getText().toString();
-        String ingredients = textViewIngredients.getText().toString();
-        String method = textViewMethod.getText().toString();
-        String additionalNotes = textViewAdditionalNotes.getText().toString();
-
-        // Format the recipe details into a message
-        String recipeMessage = "Recipe: " + title + "\n\n" +
-                "Time: " + time + "\n\n" +
-                "Description: " + description + "\n\n" +
-                "Ingredients:\n" + ingredients + "\n" +
-                "Method:\n" + method + "\n" +
-                "Additional Notes:\n" + additionalNotes;
-
-        // Create the intent for sending text
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, recipeMessage);
-        intent.setType("text/plain");
-
-        // Check if any app can handle the intent
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(Intent.createChooser(intent, "Send Recipe via"));
-        }
-    }
-
-
-}
