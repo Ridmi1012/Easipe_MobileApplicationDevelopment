@@ -40,6 +40,7 @@ public class HomeFragment extends Fragment {
         // Initialize RecyclerView and other views
         recyclerView = view.findViewById(R.id.home_recipes_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         // Initialize Firebase Database Reference
         databaseReferenceHome = FirebaseDatabase.getInstance().getReference("recipes");
 
