@@ -30,7 +30,6 @@ public class SearchAdapter extends FirebaseRecyclerAdapter<Recipe,SearchAdapter.
     protected void onBindViewHolder(@NonNull SearchAdapter.SearchViewHolder holder, int position, @NonNull Recipe model) {
 
         holder.SearchRecipeTitle.setText(model.getRecipeTitle() != null ? model.getRecipeTitle() : "Untitled");
-        holder.SearchRecipeRatingBar.setRating(model.getRecipeRating());
         holder.SearchRecipeTime.setText(model.getRecipeTime() != null ? model.getRecipeTime() : "Unknown time");
 
         // Using Glide to load the image from URL into ImageView

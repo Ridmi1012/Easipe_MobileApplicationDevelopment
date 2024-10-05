@@ -66,7 +66,7 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
                     String recipeTitle = dataSnapshot.child("recipeTitle").getValue(String.class);
                     String description = dataSnapshot.child("recipeDiscription").getValue(String.class);
                     String recipeTime = dataSnapshot.child("recipeTime").getValue(String.class);
-                    Long recipeServings = dataSnapshot.child("recipeRating").getValue(Long.class);
+                    Long recipeServings = dataSnapshot.child("recipeServing").getValue(Long.class);
                     String recipeIngredients = dataSnapshot.child("ingredient").getValue(String.class);
                     String recipeMethod = dataSnapshot.child("method").getValue(String.class);
                     String recipeAdditionalNotes = dataSnapshot.child("additionalmethod").getValue(String.class);
