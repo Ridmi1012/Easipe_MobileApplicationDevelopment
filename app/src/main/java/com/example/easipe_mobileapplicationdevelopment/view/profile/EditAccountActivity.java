@@ -21,8 +21,6 @@ import com.google.firebase.storage.StorageReference;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 
-
-
 public class EditAccountActivity extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_PICK = 1;
@@ -31,7 +29,7 @@ public class EditAccountActivity extends AppCompatActivity {
     private Button submitButton;
     private ImageView profileImageView, editImageIcon;
     private DatabaseReference databaseReference;
-    private String userId;
+    private String userId, profileImageURL;
     private Uri imageUri;
 
     // Firebase storage
@@ -45,7 +43,6 @@ public class EditAccountActivity extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-
 
         editUserName = findViewById(R.id.user_name);
         editEmail = findViewById(R.id.user_email);
@@ -74,6 +71,7 @@ public class EditAccountActivity extends AppCompatActivity {
         String email = intent.getStringExtra("email");
         String location = intent.getStringExtra("location");
         String description = intent.getStringExtra("description");
+        profileImageURL = intent.getStringExtra("profileImageURL");  // Get the existing profile image URL
 
         // Showing the EditText fields with current user data
         editUserName.setText(username);
@@ -81,6 +79,13 @@ public class EditAccountActivity extends AppCompatActivity {
         editLocation.setText(location);
         editDescription.setText(description);
 
+        // Load existing profile image using Glide
+        if (profileImageURL != null && !profileImageURL.isEmpty()) {
+            Glide.with(this)
+                    .load(profileImageURL)
+                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                    .into(profileImageView);
+        }
 
         editImageIcon.setOnClickListener(view -> openGallery());
         submitButton.setOnClickListener(view -> updateUserData());
@@ -97,13 +102,13 @@ public class EditAccountActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK && data != null) {
+
             // Getting the URI and showing it on the ImageView
             imageUri = data.getData();
             Glide.with(EditAccountActivity.this)
                     .load(imageUri)
                     .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                     .into(profileImageView);
-
         }
     }
 
@@ -114,56 +119,33 @@ public class EditAccountActivity extends AppCompatActivity {
         String updatedLocation = editLocation.getText().toString().trim();
         String updatedDescription = editDescription.getText().toString().trim();
 
-        // Check if an image was selected and upload it to Firebase
+        // Save to Firebase Database
         if (imageUri != null) {
-            uploadImageToFirebase(imageUri, updatedUserName, updatedEmail, updatedLocation, updatedDescription);
+            String imagePath = "profileImages/" + userId + ".jpg";
+            StorageReference imageReference = storageReference.child(imagePath);
+            imageReference.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
+                imageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                    String profileImageURL = uri.toString();
+
+                    // Update user data in the database
+                    updateDatabase(updatedUserName, updatedEmail, updatedLocation, updatedDescription, profileImageURL);
+                });
+            }).addOnFailureListener(e -> Toast.makeText(EditAccountActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show());
         } else {
-            // If no image is selected, just update the text fields
-            saveUserInfo(updatedUserName, updatedEmail, updatedLocation, updatedDescription, null);
+            // Update user data without changing the profile image
+            updateDatabase(updatedUserName, updatedEmail, updatedLocation, updatedDescription, profileImageURL);
         }
     }
 
-    private void uploadImageToFirebase(Uri imageUri, String updatedUserName, String updatedEmail, String updatedLocation, String updatedDescription) {
-        // Create a storage reference for the image
-        StorageReference fileReference = storageReference.child("profile_images/" + userId + "_profile.jpg");
-
-        // Upload the image
-        fileReference.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
-            // Get the download URL for the uploaded image
-            fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                String imageUrl = uri.toString();
-
-                // Save user info with the profile image URL
-                saveUserInfo(updatedUserName, updatedEmail, updatedLocation, updatedDescription, imageUrl);
-
-            }).addOnFailureListener(e -> {
-                Toast.makeText(EditAccountActivity.this, "Failed to get download URL", Toast.LENGTH_SHORT).show();
-            });
-        }).addOnFailureListener(e -> {
-            Toast.makeText(EditAccountActivity.this, "Image Upload Failed", Toast.LENGTH_SHORT).show();
-        });
-    }
-
-    private void saveUserInfo(String updatedUserName, String updatedEmail, String updatedLocation, String updatedDescription, String profileImageUrl) {
-        // Update the data in Firebase Realtime Database
+    private void updateDatabase(String updatedUserName, String updatedEmail, String updatedLocation, String updatedDescription, String profileImageURL) {
+        // Update the user data in Firebase
         databaseReference.child("username").setValue(updatedUserName);
         databaseReference.child("email").setValue(updatedEmail);
         databaseReference.child("location").setValue(updatedLocation);
         databaseReference.child("description").setValue(updatedDescription);
-        if (profileImageUrl != null) {
-            databaseReference.child("profileImageURL").setValue(profileImageUrl);
-        }
-        databaseReference.child("profileImageURL").setValue(profileImageUrl)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(EditAccountActivity.this, "Account updated successfully!", Toast.LENGTH_SHORT).show();
-                        finish();
-                    } else {
-                        Toast.makeText(EditAccountActivity.this, "Failed to update account. Please try again.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        databaseReference.child("profileImageURL").setValue(profileImageURL);
+
+        Toast.makeText(this, "Profile Updated", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }
-
-
-
