@@ -119,10 +119,9 @@ public class SavedFragment extends Fragment {
 
     private void resetToDefaultQuery() {
 
-        Query defaultQuery = savedRecipesRef.limitToFirst(5);
 
         FirebaseRecyclerOptions<Recipe> options = new FirebaseRecyclerOptions.Builder<Recipe>()
-                .setQuery(defaultQuery, Recipe.class)
+                .setQuery(savedRecipesRef, Recipe.class)
                 .build();
 
         savedRecipesAdapter.updateOptions(options);

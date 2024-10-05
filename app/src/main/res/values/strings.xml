@@ -85,4 +85,23 @@
     <string name="change_password">Change Password</string>
     <string name="example_domain_com">example@domain.com</string>
     <string name="authenticate">Authenticate</string>
+    <string name="update_recipe">Update Recipe</string>
+    <string name="title">Title</string>
+    <string name="enter_the_title">Enter the title</string>
+    <string name="description">Description</string>
+    <string name="enter_a_description">Enter a description</string>
+    <string name="servings">Servings</string>
+    <string name="enter_the_number_of_servings">Enter the number of servings</string>
+    <string name="duration">Duration</string>
+    <string name="enter_the_duration">Enter the duration</string>
+    <string name="selected_image">Selected Image</string>
+    <string name="select_image">Select Image</string>
+    <string name="select_video">Select Video</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="add_ingredient">+ Add Ingredient</string>
+    <string name="methods">Methods</string>
+    <string name="add_steps">+ Add Steps</string>
+    <string name="additional_notes">Additional Notes</string>
+    <string name="type_additional_notes">Type additional notes</string>
+    <string name="update">Update</string>
 </resources>

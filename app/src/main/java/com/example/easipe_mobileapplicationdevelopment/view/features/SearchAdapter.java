@@ -1,6 +1,7 @@
 package com.example.easipe_mobileapplicationdevelopment.view.features;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +30,17 @@ public class SearchAdapter extends FirebaseRecyclerAdapter<Recipe,SearchAdapter.
     protected void onBindViewHolder(@NonNull SearchAdapter.SearchViewHolder holder, int position, @NonNull Recipe model) {
 
         holder.SearchRecipeTitle.setText(model.getRecipeTitle() != null ? model.getRecipeTitle() : "Untitled");
-        holder.SearchRecipeRatingBar.setRating(model.getRecipeRating());
         holder.SearchRecipeTime.setText(model.getRecipeTime() != null ? model.getRecipeTime() : "Unknown time");
 
         // Using Glide to load the image from URL into ImageView
         Glide.with(context).load(model.getRecipeImageurl()).into(holder.SearchRecipeImage);
+
+        // Handle card click to navigate to RecipeContentFromHomeActivity with recipeId
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, RecipeContentFromHomeActivity.class);
+            intent.putExtra("recipeId", getRef(holder.getBindingAdapterPosition()).getKey()); // Pass the recipeId
+            context.startActivity(intent); // Start the RecipeContentFromHomeActivity
+        });
     }
 
     @NonNull

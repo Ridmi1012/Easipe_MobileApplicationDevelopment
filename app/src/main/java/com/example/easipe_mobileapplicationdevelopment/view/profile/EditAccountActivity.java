@@ -1,51 +1,62 @@
 package com.example.easipe_mobileapplicationdevelopment.view.profile;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import com.bumptech.glide.Glide;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import com.example.easipe_mobileapplicationdevelopment.R;
-import com.example.easipe_mobileapplicationdevelopment.view.navbar.NavigationBar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 
 public class EditAccountActivity extends AppCompatActivity {
 
+    private static final int REQUEST_IMAGE_PICK = 1;
+
     private EditText editUserName, editEmail, editLocation, editDescription;
     private Button submitButton;
+    private ImageView profileImageView, editImageIcon;
     private DatabaseReference databaseReference;
-    private String userId;
+    private String userId, profileImageURL;
+    private Uri imageUri;
+
+    // Firebase storage
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_edit_account);
 
-        // Initialize EditText and Button views
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
         editUserName = findViewById(R.id.user_name);
         editEmail = findViewById(R.id.user_email);
         editLocation = findViewById(R.id.user_location);
         editDescription = findViewById(R.id.user_about);
         submitButton = findViewById(R.id.edit_button);
+        profileImageView = findViewById(R.id.profile_image);
+        editImageIcon = findViewById(R.id.edit_image_button);
 
         // Fetch user ID from Firebase Auth
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             userId = auth.getCurrentUser().getUid();
-            Log.d("UserID", "Current User ID: " + userId); // Log the user ID
+            Log.d("UserID", "Current User ID: " + userId);
         } else {
             Log.e("Firebase", "User is not authenticated");
             return;
@@ -60,22 +71,45 @@ public class EditAccountActivity extends AppCompatActivity {
         String email = intent.getStringExtra("email");
         String location = intent.getStringExtra("location");
         String description = intent.getStringExtra("description");
+        profileImageURL = intent.getStringExtra("profileImageURL");  // Get the existing profile image URL
 
-        // Set the EditText fields with existing data
+        // Showing the EditText fields with current user data
         editUserName.setText(username);
         editEmail.setText(email);
         editLocation.setText(location);
         editDescription.setText(description);
 
-        // Apply window insets for edge-to-edge display
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        // Load existing profile image using Glide
+        if (profileImageURL != null && !profileImageURL.isEmpty()) {
+            Glide.with(this)
+                    .load(profileImageURL)
+                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                    .into(profileImageView);
+        }
 
-        // Set up the submit button click listener
+        editImageIcon.setOnClickListener(view -> openGallery());
         submitButton.setOnClickListener(view -> updateUserData());
+    }
+
+    // Method to open gallery
+    private void openGallery() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, REQUEST_IMAGE_PICK);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK && data != null) {
+
+            // Getting the URI and showing it on the ImageView
+            imageUri = data.getData();
+            Glide.with(EditAccountActivity.this)
+                    .load(imageUri)
+                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                    .into(profileImageView);
+        }
     }
 
     private void updateUserData() {
@@ -85,29 +119,33 @@ public class EditAccountActivity extends AppCompatActivity {
         String updatedLocation = editLocation.getText().toString().trim();
         String updatedDescription = editDescription.getText().toString().trim();
 
-        // Split full name into first name and last name
-        String[] nameParts = updatedUserName.split(" ", 2);
-        String firstName = nameParts.length > 0 ? nameParts[0] : "";
-        String lastName = nameParts.length > 1 ? nameParts[1] : "";
+        // Save to Firebase Database
+        if (imageUri != null) {
+            String imagePath = "profileImages/" + userId + ".jpg";
+            StorageReference imageReference = storageReference.child(imagePath);
+            imageReference.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
+                imageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                    String profileImageURL = uri.toString();
 
-        // Update the data in Firebase
+                    // Update user data in the database
+                    updateDatabase(updatedUserName, updatedEmail, updatedLocation, updatedDescription, profileImageURL);
+                });
+            }).addOnFailureListener(e -> Toast.makeText(EditAccountActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show());
+        } else {
+            // Update user data without changing the profile image
+            updateDatabase(updatedUserName, updatedEmail, updatedLocation, updatedDescription, profileImageURL);
+        }
+    }
+
+    private void updateDatabase(String updatedUserName, String updatedEmail, String updatedLocation, String updatedDescription, String profileImageURL) {
+        // Update the user data in Firebase
         databaseReference.child("username").setValue(updatedUserName);
         databaseReference.child("email").setValue(updatedEmail);
         databaseReference.child("location").setValue(updatedLocation);
-        databaseReference.child("description").setValue(updatedDescription)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(EditAccountActivity.this, "Account updated successfully!", Toast.LENGTH_SHORT).show();
-                        redirectToHomePage();
-                    } else {
-                        Toast.makeText(EditAccountActivity.this, "Failed to update account. Please try again.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
+        databaseReference.child("description").setValue(updatedDescription);
+        databaseReference.child("profileImageURL").setValue(profileImageURL);
 
-    // Method to redirect to home page
-    public void redirectToHomePage() {
-        startActivity(new Intent(this, NavigationBar.class));
+        Toast.makeText(this, "Profile Updated", Toast.LENGTH_SHORT).show();
         finish();
     }
 }

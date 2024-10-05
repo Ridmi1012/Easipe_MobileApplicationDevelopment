@@ -46,7 +46,6 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
 
         holder.Htitle.setText(model.getRecipeTitle() != null ? model.getRecipeTitle() : "Untitled");
         holder.Hdiscription.setText(model.getRecipeDiscription());
-        holder.HratingBar.setRating(model.getRecipeRating());
         holder.Htime.setText(model.getRecipeTime() != null ? model.getRecipeTime() : "Unknown time");
         Glide.with(context).load(model.getRecipeImageurl()).into(holder.Himage);
 
@@ -83,6 +82,7 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
                        holder.Hbookmark.setBackground(drawable); // Change to saved color
                        Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show();
                    } else {
+
                        Toast.makeText(context, "Failed to save recipe.", Toast.LENGTH_SHORT).show();
                    }
                });
@@ -91,7 +91,7 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
                 savedRecipesRef.child(recipeId).removeValue().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         GradientDrawable drawable = new GradientDrawable();
-                        drawable.setColor(Color.GRAY);  // Set the background color
+                        drawable.setColor(Color.TRANSPARENT);  // Set the background color
                         drawable.setCornerRadius(30);   // Set the corner radius for rounded corners
 
                         holder.Hbookmark.setBackground(drawable); // Change to default color
@@ -105,24 +105,14 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
 
         // Handle card click to navigate to RecipeContentActivity with recipeId
         holder.itemView.setOnClickListener(v -> {
-
-            Intent intent = new Intent(context, RecipeContent.class);
+            Intent intent;
+            intent = new Intent(context, RecipeContentFromHomeActivity.class);
             intent.putExtra("recipeId", getRef(holder.getBindingAdapterPosition()).getKey()); // Pass the recipeId
             context.startActivity(intent); // Start the RecipeContentActivity
         });
     }
 
-//    // Method to save the recipe under userId with recipeId as the key
-//    public void saveRecipeToUser(String recipeId, Recipe recipe, HomeRecipeViewHolder holder) {
-//        DatabaseReference savedRecipeRef = savedRecipesRef.child(userId).child(recipeId); // Use userId and recipeId here
 //
-//        savedRecipeRef.setValue(recipe).addOnSuccessListener(aVoid -> {
-//            holder.Hbookmark.setBackgroundColor(Color.GRAY); // Change to saved color
-//            Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show();
-//        }).addOnFailureListener(e -> {
-//            Toast.makeText(context, "Failed to save recipe.", Toast.LENGTH_SHORT).show();
-//        });
-//    }
 
     @NonNull
     @Override

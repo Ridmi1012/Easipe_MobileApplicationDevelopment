@@ -42,6 +42,7 @@ dependencies {
     implementation (libs.firebase.ui.database)
     implementation(libs.play.services.auth)
 
+
     implementation(libs.appcompat)
     implementation(libs.material3)
     implementation(libs.material)
@@ -63,4 +64,5 @@ dependencies {
     implementation (libs.play.services.auth)
     implementation (libs.media3.exoplayer.v100)
     implementation (libs.media3.ui.v100)
+
 }
