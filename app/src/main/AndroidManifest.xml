@@ -36,9 +36,6 @@
             android:name=".view.profile.MyAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".view.features.MyRecipesActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.auth.ForgotPasswordActivity"
             android:exported="false" />
         <activity
@@ -52,9 +49,6 @@
             android:exported="false" />
         <activity
             android:name=".view.features.UpdateRecipeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.features.AddRecipeActivity"
             android:exported="false" />
         <activity
             android:name=".view.SplashScreenActivity"

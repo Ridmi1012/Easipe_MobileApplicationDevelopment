@@ -2,9 +2,9 @@ package com.example.easipe_mobileapplicationdevelopment.view.features;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +32,9 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
     private RatingBar userRatingBar;
     private DatabaseReference recipeRef;
 
+    private PlayerView playerView;
+    private ExoPlayer player;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,8 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
 
         userRatingBar = findViewById(R.id.receipe_rating_bar);
 
+        // Find the PlayerView in your layout
+        playerView = findViewById(R.id.player_view);
 
         // Get recipe ID from intent (passed from previous activity)
         Intent intent = getIntent();
@@ -76,6 +81,24 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
                     String recipeIngredients = dataSnapshot.child("ingredient").getValue(String.class);
                     String recipeMethod = dataSnapshot.child("method").getValue(String.class);
                     String recipeAdditionalNotes = dataSnapshot.child("additionalmethod").getValue(String.class);
+
+                    String recipeURL = dataSnapshot.child("recipeVideourl").getValue(String.class);
+
+                    // Set data to views
+
+                    // Initialize ExoPlayer
+                    player = new ExoPlayer.Builder(RecipeContentFromHomeActivity.this).build();
+                    // Bind the player to the PlayerView
+                    playerView.setPlayer(player);
+                    // Prepare a media source
+                    Uri videoUri = Uri.parse(recipeURL);
+                    MediaItem mediaItem = MediaItem.fromUri(videoUri);
+                    // Set the media item to be played
+                    player.setMediaItem(mediaItem);
+                    // Prepare the player
+                    player.prepare();
+                    // Start the playback
+                    player.play();
 
                     // Set data to views
                     textViewTitle.setText(recipeTitle != null ? recipeTitle : "Untitled");

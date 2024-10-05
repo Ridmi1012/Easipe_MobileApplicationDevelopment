@@ -143,6 +143,4 @@ public class ProfileFragment extends Fragment {
             recipeAdapter.stopListening();  // Stop listening to Firebase data changes
         }
     }
-
-
 }

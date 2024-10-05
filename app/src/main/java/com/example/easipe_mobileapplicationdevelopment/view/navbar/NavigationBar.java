@@ -61,7 +61,6 @@ public class NavigationBar extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, AddFragment).commit();
             } else if (itemId == R.id.navigation_search) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, SearchFragment).commit();
-
             } else if (itemId == R.id.navigation_profile) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.container_nav, ProfileFragment).commit();
             }
@@ -84,10 +83,6 @@ public class NavigationBar extends AppCompatActivity {
 
         if (id == R.id.myProfile){
             Intent intent = new Intent(NavigationBar.this, MyAccountActivity.class);
-            startActivity(intent);
-            finish();
-        } else if (id == R.id.editProfile) {
-            Intent intent = new Intent(NavigationBar.this, EditAccountActivity.class);
             startActivity(intent);
             finish();
         } else if (id == R.id.changePassword) {
