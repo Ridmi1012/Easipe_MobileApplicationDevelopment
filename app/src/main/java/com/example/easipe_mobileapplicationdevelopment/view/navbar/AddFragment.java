@@ -45,9 +45,9 @@ public class AddFragment extends Fragment {
     private Uri imageUri,videoUri;
     private EditText editTextTitle, editTextDescription, editTextServings, editTextDuration, editTextMethod, editTextIngredient, editTextAddition;
     private Button publishBtn, selectImgBtn,selectVideoBtn, addIngredientBtn, addStepsBtn;
-    private LinearLayout ingredientsContainer, methodsContainer; // Declare methodsContainer
-    private List<EditText> ingredientFields = new ArrayList<>(); // List to store dynamically added ingredient fields
-    private List<EditText> methodFields = new ArrayList<>();// List to store dynamically added method fields
+    private LinearLayout ingredientsContainer, methodsContainer;
+    private List<EditText> ingredientFields = new ArrayList<>();
+    private List<EditText> methodFields = new ArrayList<>();
 
     private String imageUrl = null;
     private String videoUrl = null;
@@ -55,7 +55,7 @@ public class AddFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflate the fragment layout
+        // the inflate fragment layout
         View view = inflater.inflate(R.layout.fragment_add, container, false);
 
         // Initialize Firebase Storage
@@ -74,9 +74,9 @@ public class AddFragment extends Fragment {
         editTextMethod = view.findViewById(R.id.editTextMethod);
         editTextAddition = view.findViewById(R.id.editTextAddition);
         ingredientsContainer = view.findViewById(R.id.ingredientsContainer);
-        methodsContainer = view.findViewById(R.id.methodsContainer); // Initialize methodsContainer
+        methodsContainer = view.findViewById(R.id.methodsContainer);
         addIngredientBtn = view.findViewById(R.id.addIngredientBtn);
-        addStepsBtn = view.findViewById(R.id.AddMethodBtn); // Button to add more ingredients
+        addStepsBtn = view.findViewById(R.id.AddMethodBtn);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("recipes");
@@ -87,35 +87,31 @@ public class AddFragment extends Fragment {
         selectImgBtn.setOnClickListener(v -> openGallery());
         selectVideoBtn.setOnClickListener(v -> openVideoGallery());
 
-        int widthInDp = 325; // width in dp
+        int widthInDp = 325;
         float scale = getContext().getResources().getDisplayMetrics().density; // Get screen density
         int widthInPx = (int) (widthInDp * scale + 0.5f);
 
         // Add ingredient button listener to dynamically add new EditText fields
         addIngredientBtn.setOnClickListener(v -> {
-            // Create a new EditText for the new ingredient
+
             EditText newIngredientField = new EditText(getContext());
             newIngredientField.setHint("Type Ingredient");
 
             // Set layout parameters for the new EditText
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    widthInPx, // width in pixels
-                    LinearLayout.LayoutParams.WRAP_CONTENT // height
+                    widthInPx,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            layoutParams.setMargins(15, 8, 15, 0); // Add margins as per your design
+            layoutParams.setMargins(15, 8, 15, 0);
 
             newIngredientField.setLayoutParams(layoutParams);
 
-            // Apply the custom background (rounded corners, padding, and border) from the drawable XML
             newIngredientField.setBackgroundResource(R.drawable.rounded_background);
 
-            // Optionally set text size and other properties
             newIngredientField.setTextSize(15);
 
-            // Add the new EditText to the container (LinearLayout)
             ingredientsContainer.addView(newIngredientField);
 
-            // Add the new EditText to the list of ingredient fields if you want to track them
             ingredientFields.add(newIngredientField);
         });
 
@@ -124,25 +120,19 @@ public class AddFragment extends Fragment {
             EditText newMethodField = new EditText(getContext());
             newMethodField.setHint("Type The Next Step");
 
-            // Set layout parameters for the new EditText
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    widthInPx, // width in pixels
-                    LinearLayout.LayoutParams.WRAP_CONTENT // height
+                    widthInPx,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            layoutParams.setMargins(15, 8, 15, 0); // Add margins as per your design
-
+            layoutParams.setMargins(15, 8, 15, 0);
             newMethodField.setLayoutParams(layoutParams);
 
-            // Apply the custom background (rounded corners, padding, and border) from the drawable XML
             newMethodField.setBackgroundResource(R.drawable.rounded_background);
 
-            // Optionally set text size and other properties
             newMethodField.setTextSize(15);
 
-            // Add the new EditText to the methods container (LinearLayout)
             methodsContainer.addView(newMethodField);
 
-            // Add the new EditText to the list of method fields to track them
             methodFields.add(newMethodField);
         });
 
@@ -165,7 +155,7 @@ public class AddFragment extends Fragment {
             result -> {
                 if (result.getResultCode() == getActivity().RESULT_OK && result.getData() != null) {
                     imageUri = result.getData().getData();
-                    recipeImg.setImageURI(imageUri); // Display the selected image
+                    recipeImg.setImageURI(imageUri);
                 }
             }
     );
@@ -208,7 +198,7 @@ public class AddFragment extends Fragment {
 
         // Validate image selection
         if (imageUri != null) {
-            uploadImage();  // Upload image first
+            uploadImage();
         } else {
             Toast.makeText(getContext(), "Please select an image", Toast.LENGTH_SHORT).show();
             return;
@@ -216,7 +206,7 @@ public class AddFragment extends Fragment {
 
         // Check if a video is selected or not
         if (videoUri != null) {
-            uploadVideo();  // Upload video
+            uploadVideo();
         } else {
             videoUrl = ""; // No video selected, so set the URL to an empty string
             checkUploadsComplete(); // Proceed to check uploads (only image in this case)
@@ -271,7 +261,6 @@ public class AddFragment extends Fragment {
     private void checkUploadsComplete() {
         // Check if both imageUrl and videoUrl are not null
         if (imageUrl != null && (videoUri == null || videoUrl != null)) {
-            // If videoUri is null, it means no video was uploaded, so we proceed with just the image
             addRecipe(imageUrl, videoUrl);
 
             clearFields();
