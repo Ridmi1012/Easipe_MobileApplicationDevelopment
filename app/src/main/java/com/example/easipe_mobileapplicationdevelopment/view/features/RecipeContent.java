@@ -2,15 +2,10 @@ package com.example.easipe_mobileapplicationdevelopment.view.features;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Paint;
-import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,9 +22,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.io.File;
-import java.io.FileOutputStream;
 
 public class RecipeContent extends AppCompatActivity {
 
