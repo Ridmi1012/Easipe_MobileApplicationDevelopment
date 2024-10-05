@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="#FE8C00"
     tools:context=".view.navbar.SearchFragment">
 
     <LinearLayout
@@ -12,9 +13,9 @@
 
         <RelativeLayout
             android:id="@+id/tool_bar"
-            android:layout_marginTop="80dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp">
 
             <TextView
                 android:id="@+id/title"
@@ -29,45 +30,25 @@
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/search_recipe"
-                android:layout_width="325dp"
+            <SearchView
+                android:id="@+id/search_recipe_bar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="15dp"
-                android:drawableStart="@drawable/search_icon"
-                android:background="@drawable/rounded_background"
                 android:layout_below="@id/title"
-                android:layout_marginHorizontal="@android:dimen/app_icon_size"
-                android:ems="20"
-                android:hint="search recipes"
                 android:backgroundTint="#FE8C00"
-                android:inputType="text"
-                android:textSize="15sp" />
+                android:iconifiedByDefault="false"
+                android:queryHint="search recipes..." />
 
         </RelativeLayout>
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_recipes_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_below="@+id/serch_recipe_myR"
+            android:layout_marginTop="20dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/home_recipes_list"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clipToPadding="false"
-                android:layout_marginTop="16dp" />
-
-        </LinearLayout>
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 </RelativeLayout>
-
-
-
-
-
-
