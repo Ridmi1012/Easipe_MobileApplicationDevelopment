@@ -47,12 +47,10 @@ public class SearchFragment extends Fragment {
         // Initialize Firebase Database Reference
         databaseReferenceSearch = FirebaseDatabase.getInstance().getReference("recipes");
 
-        // Default query to display some items initially (limit to first 5 items)
-        Query defaultQuery = databaseReferenceSearch.limitToFirst(5);
 
         // Set up FirebaseRecyclerOptions for the default query
         FirebaseRecyclerOptions<Recipe> options = new FirebaseRecyclerOptions.Builder<Recipe>()
-                .setQuery(defaultQuery, Recipe.class)
+                .setQuery(databaseReferenceSearch, Recipe.class)
                 .build();
 
         // Initialize and set up the adapter
@@ -102,10 +100,9 @@ public class SearchFragment extends Fragment {
 
     // Method to reset the RecyclerView to the default query when search input is empty
     private void resetToDefaultQuery() {
-        Query defaultQuery = databaseReferenceSearch.limitToFirst(5);
 
         FirebaseRecyclerOptions<Recipe> options = new FirebaseRecyclerOptions.Builder<Recipe>()
-                .setQuery(defaultQuery, Recipe.class)
+                .setQuery(databaseReferenceSearch, Recipe.class)
                 .build();
 
         searchAdapter.updateOptions(options);
