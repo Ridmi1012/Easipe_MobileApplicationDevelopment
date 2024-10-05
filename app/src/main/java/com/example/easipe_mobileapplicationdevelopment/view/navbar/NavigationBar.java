@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
 import com.example.easipe_mobileapplicationdevelopment.view.auth.LoginActivity;
+import com.example.easipe_mobileapplicationdevelopment.view.profile.ChangePasswordActivity;
 import com.example.easipe_mobileapplicationdevelopment.view.profile.EditAccountActivity;
 import com.example.easipe_mobileapplicationdevelopment.view.profile.MyAccountActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -89,7 +90,11 @@ public class NavigationBar extends AppCompatActivity {
             Intent intent = new Intent(NavigationBar.this, EditAccountActivity.class);
             startActivity(intent);
             finish();
-        } else if (id == R.id.logout){
+        } else if (id == R.id.changePassword) {
+            Intent intent = new Intent(NavigationBar.this, ChangePasswordActivity.class);
+            startActivity(intent);
+            finish();
+        }else if (id == R.id.logout){
             // Sign out from Firebase
             authProfile.signOut();
 

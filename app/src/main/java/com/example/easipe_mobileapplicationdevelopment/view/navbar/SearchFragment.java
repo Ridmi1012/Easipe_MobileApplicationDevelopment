@@ -47,7 +47,7 @@ public class SearchFragment extends Fragment {
         // Initialize Firebase Database Reference
         databaseReferenceSearch = FirebaseDatabase.getInstance().getReference("recipes");
 
-        // Default query to display some items initially (limit to first 10 items)
+        // Default query to display some items initially (limit to first 5 items)
         Query defaultQuery = databaseReferenceSearch.limitToFirst(5);
 
         // Set up FirebaseRecyclerOptions for the default query

@@ -82,4 +82,7 @@
     <string name="search_recipes">search recipes</string>
     <string name="my_recipies">My Recipies</string>
     <string name="client_id">121253700409-lmphcf8alvebhpjong81d2jl34f24htb.apps.googleusercontent.com</string>
+    <string name="change_password">Change Password</string>
+    <string name="example_domain_com">example@domain.com</string>
+    <string name="authenticate">Authenticate</string>
 </resources>
