@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -15,6 +16,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.media3.common.MediaItem;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.ui.PlayerView;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
 import com.example.easipe_mobileapplicationdevelopment.view.navbar.NavigationBar;
@@ -34,6 +38,9 @@ public class RecipeContent extends AppCompatActivity {
 
     private DatabaseReference recipeRef;
 
+    private PlayerView playerView;
+    private ExoPlayer player;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +55,9 @@ public class RecipeContent extends AppCompatActivity {
         textViewMethod = findViewById(R.id.textView_Method);
         textViewAdditionalNotes = findViewById(R.id.textView_AdditionalNotes);
         publishButton = findViewById(R.id.PublishBtn);
+
+        // Find the PlayerView in your layout
+        playerView = findViewById(R.id.player_view);
 
         // Get recipe ID from intent (passed from previous activity)
         Intent intent = getIntent();
@@ -74,8 +84,24 @@ public class RecipeContent extends AppCompatActivity {
                     String recipeIngredients = dataSnapshot.child("ingredient").getValue(String.class);
                     String recipeMethod = dataSnapshot.child("method").getValue(String.class);
                     String recipeAdditionalNotes = dataSnapshot.child("additionalmethod").getValue(String.class);
+                    String recipeURL = dataSnapshot.child("recipeVideourl").getValue(String.class);
 
                     // Set data to views
+
+                    // Initialize ExoPlayer
+                    player = new ExoPlayer.Builder(RecipeContent.this).build();
+                    // Bind the player to the PlayerView
+                    playerView.setPlayer(player);
+                    // Prepare a media source
+                    Uri videoUri = Uri.parse(recipeURL);
+                    MediaItem mediaItem = MediaItem.fromUri(videoUri);
+                    // Set the media item to be played
+                    player.setMediaItem(mediaItem);
+                    // Prepare the player
+                    player.prepare();
+                    // Start the playback
+                    player.play();
+
                     textViewTitle.setText(recipeTitle != null ? recipeTitle : "Untitled");
                     textViewTime.setText(recipeTime != null ? recipeTime : "Unknown time");
                     textViewDescription.setText(description != null && !description.isEmpty() ? description : "Description not available");
@@ -137,6 +163,15 @@ public class RecipeContent extends AppCompatActivity {
                 Toast.makeText(RecipeContent.this, "Failed to load recipe details", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Release the player when not needed
+        if (player != null) {
+            player.release();
+        }
     }
 
     public void redirectToLogin(View view) {
