@@ -27,10 +27,10 @@
                 android:layout_marginStart="1dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="55dp"
-                android:text="Update Recipe"
+                android:text="@string/update_recipe"
                 android:textAlignment="center"
                 android:textColor="@color/material_on_background_emphasis_high_type"
-                android:textSize="30dp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
 
@@ -40,10 +40,10 @@
             android:id="@+id/textView_Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_gravity="left"
-            android:text="Title"
-            android:textSize="15dp"/>
+            android:text="@string/title"
+            android:textSize="15sp"/>
 
         <EditText
             android:id="@+id/editTextTitle"
@@ -54,19 +54,19 @@
             android:layout_marginRight="15dp"
             android:background="@drawable/rounded_background"
             android:ems="20"
-            android:hint="Enter the title"
+            android:hint="@string/enter_the_title"
             android:inputType="text"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textView_Description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_gravity="left"
-            android:text="Description"
-            android:textSize="15dp"/>
+            android:text="@string/description"
+            android:textSize="15sp"/>
 
         <EditText
             android:id="@+id/editTextDescription"
@@ -76,19 +76,19 @@
             android:layout_marginRight="15dp"
             android:background="@drawable/rounded_background"
             android:ems="20"
-            android:hint="Enter a description"
+            android:hint="@string/enter_a_description"
             android:inputType="text"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textView_Servings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_gravity="left"
-            android:text="Servings"
-            android:textSize="15dp"/>
+            android:text="@string/servings"
+            android:textSize="15sp"/>
 
         <EditText
             android:id="@+id/editTextServings"
@@ -99,9 +99,9 @@
             android:layout_marginRight="15dp"
             android:background="@drawable/rounded_background"
             android:ems="20"
-            android:hint="Enter the number of servings"
+            android:hint="@string/enter_the_number_of_servings"
             android:inputType="text"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
 
         <TextView
@@ -109,10 +109,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_gravity="left"
-            android:text="Duration"
-            android:textSize="15dp"/>
+            android:text="@string/duration"
+            android:textSize="15sp"/>
 
         <EditText
             android:id="@+id/editTextDuration"
@@ -123,9 +123,9 @@
             android:layout_marginRight="15dp"
             android:background="@drawable/rounded_background"
             android:ems="20"
-            android:hint="Enter the duration"
+            android:hint="@string/enter_the_duration"
             android:inputType="text"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -140,7 +140,7 @@
                 android:layout_margin="16dp"
                 android:layout_marginTop="20dp"
                 android:adjustViewBounds="true"
-                android:contentDescription="Selected Image"
+                android:contentDescription="@string/selected_image"
                 android:scaleType="centerCrop"/>
 <!--                android:src="@drawable/baseline_add_a_photo_24" -->
 
@@ -152,7 +152,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
                 android:backgroundTint="#FF9800"
-                android:text="Select Image" />
+                android:text="@string/select_image" />
 
         </LinearLayout>
         <LinearLayout
@@ -167,7 +167,7 @@
                 android:layout_height="95dp"
                 android:layout_gravity="center"
                 android:layout_margin="30dp"
-                android:layout_marginRight="16dp" /> <!-- Initially hidden until a video is selected -->
+                android:layout_marginEnd="16dp" /> <!-- Initially hidden until a video is selected -->
 
             <Button
                 android:id="@+id/SelectVideoBtn"
@@ -176,7 +176,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
                 android:backgroundTint="#FF9800"
-                android:text="Select Video" />
+                android:text="@string/select_video" />
 
         </LinearLayout>
 
@@ -193,10 +193,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_gravity="left"
-            android:text="Ingredients"
-            android:textSize="18dp"
+            android:text="@string/ingredients"
+            android:textSize="18sp"
             android:textStyle="bold"/>
 
         <LinearLayout
@@ -222,7 +222,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:backgroundTint="#FF9800"
-            android:text="+ Add Ingredient" />
+            android:text="@string/add_ingredient" />
 
         <View
             android:layout_width="325dp"
@@ -235,10 +235,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_gravity="left"
-            android:text="Methods"
-            android:textSize="18dp"
+            android:text="@string/methods"
+            android:textSize="18sp"
             android:textStyle="bold"/>
 
         <LinearLayout
@@ -264,7 +264,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:backgroundTint="#FF9800"
-            android:text="+ Add Steps " />
+            android:text="@string/add_steps" />
 
         <View
             android:layout_width="325dp"
@@ -277,10 +277,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_gravity="left"
-            android:text="Additional Notes"
-            android:textSize="18dp"
+            android:text="@string/additional_notes"
+            android:textSize="18sp"
             android:textStyle="bold"/>
 
         <EditText
@@ -292,9 +292,9 @@
             android:layout_marginRight="15dp"
             android:background="@drawable/rounded_background"
             android:ems="20"
-            android:hint="Type additional notes"
+            android:hint="@string/type_additional_notes"
             android:inputType="text"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/updateBtn"
@@ -303,7 +303,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:backgroundTint="#FF9800"
-            android:text="Update" />
+            android:text="@string/update" />
 
     </LinearLayout>
 </ScrollView>
