@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.easipe_mobileapplicationdevelopment.R;
+import com.example.easipe_mobileapplicationdevelopment.view.profile.MyAccountActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -105,8 +106,8 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
 
         // Handle card click to navigate to RecipeContentActivity with recipeId
         holder.itemView.setOnClickListener(v -> {
-
-            Intent intent = new Intent(context, RecipeContent.class);
+            Intent intent;
+            intent = new Intent(context, RecipeContentFromHomeActivity.class);
             intent.putExtra("recipeId", getRef(holder.getBindingAdapterPosition()).getKey()); // Pass the recipeId
             context.startActivity(intent); // Start the RecipeContentActivity
         });

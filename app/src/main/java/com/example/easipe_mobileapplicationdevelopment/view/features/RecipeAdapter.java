@@ -1,6 +1,7 @@
 package com.example.easipe_mobileapplicationdevelopment.view.features;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,14 @@ public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter
             if (recipeId != null) {
                 deleteRecipe(model.getUserId(), recipeId);
             }
+        });
+
+        // Handle card click to navigate to RecipeContentActivity with recipeId
+        holder.itemView.setOnClickListener(v -> {
+
+            Intent intent = new Intent(context, RecipeContent.class);
+            intent.putExtra("recipeId", getRef(holder.getBindingAdapterPosition()).getKey()); // Pass the recipeId
+            context.startActivity(intent); // Start the RecipeContentActivity
         });
     }
 
