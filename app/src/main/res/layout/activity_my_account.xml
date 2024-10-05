@@ -53,8 +53,6 @@
         app:srcCompat="@drawable/baseline_account_circle_24" />
 
     <!--username-->
-
-    <!--user's name input-->
     <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
@@ -68,6 +66,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_image" />
 
+    <!--username input-->
     <TextView
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
@@ -75,6 +74,9 @@
         android:layout_marginTop="2dp"
         android:textSize="14sp"
         android:textStyle="bold"
+        android:background="@drawable/rounded_background"
+        android:ems="10"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/username" />
@@ -101,6 +103,9 @@
         android:layout_marginTop="2dp"
         android:textSize="14sp"
         android:textStyle="bold"
+        android:background="@drawable/rounded_background"
+        android:ems="20"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/email" />
@@ -125,6 +130,9 @@
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:textStyle="bold"
+        android:background="@drawable/rounded_background"
+        android:ems="10"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/location" />
@@ -150,6 +158,9 @@
         android:layout_marginTop="2dp"
         android:textSize="14sp"
         android:textStyle="bold"
+        android:background="@drawable/rounded_background"
+        android:ems="10"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/about_me" />
