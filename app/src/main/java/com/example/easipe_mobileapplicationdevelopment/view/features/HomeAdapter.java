@@ -1,5 +1,7 @@
 package com.example.easipe_mobileapplicationdevelopment.view.features;
 
+//Hirun IM/2021/004
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -38,7 +40,7 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
         this.context = context;
         // Get the current user's ID
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        // Initialize savedRecipesRef with the user's ID, without recipeId
+
         savedRecipesRef = FirebaseDatabase.getInstance().getReference("user_saved_recipes").child(userId);
     }
 
@@ -84,15 +86,15 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
             if (task.isSuccessful() && task.getResult().exists()) {
                 // If the recipe is saved, show a gray background
                 GradientDrawable drawable = new GradientDrawable();
-                drawable.setColor(Color.GRAY);  // Set the background color to gray
-                drawable.setCornerRadius(30);   // Set the corner radius for rounded corners
-                holder.Hbookmark.setBackground(drawable);  // Apply the drawable as the background
+                drawable.setColor(Color.GRAY);
+                drawable.setCornerRadius(30);
+                holder.Hbookmark.setBackground(drawable);
             } else {
                 // If the recipe is not saved, show a transparent background
                 GradientDrawable drawable = new GradientDrawable();
-                drawable.setColor(Color.TRANSPARENT);  // Set the background color to transparent
-                drawable.setCornerRadius(30);          // Set the corner radius for rounded corners
-                holder.Hbookmark.setBackground(drawable);  // Apply the drawable as the background
+                drawable.setColor(Color.TRANSPARENT);
+                drawable.setCornerRadius(30);
+                holder.Hbookmark.setBackground(drawable);
             }
         });
 
@@ -106,8 +108,8 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
                savedRecipesRef.child(recipeId).setValue(model).addOnCompleteListener(task -> {
                    if (task.isSuccessful()) {
                        GradientDrawable drawable = new GradientDrawable();
-                       drawable.setColor(Color.GRAY);  // Set the background color
-                       drawable.setCornerRadius(30);  // Set the corner radius for rounded corners
+                       drawable.setColor(Color.GRAY);
+                       drawable.setCornerRadius(30);
 
                        holder.Hbookmark.setBackground(drawable); // Change to saved color
                        Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show();
@@ -121,8 +123,8 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
                 savedRecipesRef.child(recipeId).removeValue().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         GradientDrawable drawable = new GradientDrawable();
-                        drawable.setColor(Color.TRANSPARENT);  // Set the background color
-                        drawable.setCornerRadius(30);   // Set the corner radius for rounded corners
+                        drawable.setColor(Color.TRANSPARENT);
+                        drawable.setCornerRadius(30);
 
                         holder.Hbookmark.setBackground(drawable); // Change to default color
                         Toast.makeText(context, "Recipe removed from saved!", Toast.LENGTH_SHORT).show();
@@ -138,7 +140,7 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
             Intent intent;
             intent = new Intent(context, RecipeContentFromHomeActivity.class);
             intent.putExtra("recipeId", getRef(holder.getBindingAdapterPosition()).getKey()); // Pass the recipeId
-            context.startActivity(intent); // Start the RecipeContentActivity
+            context.startActivity(intent);
         });
     }
 

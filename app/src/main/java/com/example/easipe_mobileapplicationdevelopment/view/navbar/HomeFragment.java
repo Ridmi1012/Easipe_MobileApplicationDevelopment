@@ -1,5 +1,6 @@
 package com.example.easipe_mobileapplicationdevelopment.view.navbar;
 
+//hirun IM/2021/004
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,7 @@ public class HomeFragment extends Fragment {
         // Initialize RecyclerView and other views
         recyclerView = view.findViewById(R.id.home_recipes_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         // Initialize Firebase Database Reference
         databaseReferenceHome = FirebaseDatabase.getInstance().getReference("recipes");
 

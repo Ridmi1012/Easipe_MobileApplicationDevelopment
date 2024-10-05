@@ -1,5 +1,7 @@
 package com.example.easipe_mobileapplicationdevelopment.view.features;
 
+////Hirun IM/2021/004
+
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -43,6 +45,37 @@ public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter
         // Using Glide to load the image from URL into ImageView
         Glide.with(context).load(model.getRecipeImageurl()).into(holder.profileRecipeImage);
 
+
+        // Calculate average rating
+        DatabaseReference ratingsRef = FirebaseDatabase.getInstance().getReference("recipes").child(getRef(position).getKey()).child("ratings");
+        ratingsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    float totalRating = 0;
+                    int numberOfRatings = 0;
+                    for (DataSnapshot ratingSnapshot : dataSnapshot.getChildren()) {
+                        Float rating = ratingSnapshot.getValue(Float.class);
+                        if (rating != null) {
+                            totalRating += rating;
+                            numberOfRatings++;
+                        }
+                    }
+                    if (numberOfRatings > 0) {
+                        float averageRating = totalRating / numberOfRatings;
+                        holder.profileRecipeRatingBar.setRating(averageRating); // Set the average rating to the RatingBar
+                    }
+                } else {
+                    holder.profileRecipeRatingBar.setRating(0); // No ratings available
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("RecipeAdapter", "Failed to read ratings", databaseError.toException());
+            }
+        });
+
         // Add delete functionality
         holder.profileDelete.setOnClickListener(v -> {
             String recipeId = getRef(position).getKey(); // Get the unique ID of the recipe
@@ -56,22 +89,22 @@ public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter
 
             Intent intent = new Intent(context, RecipeContent.class);
             intent.putExtra("recipeId", getRef(holder.getBindingAdapterPosition()).getKey()); // Pass the recipeId
-            context.startActivity(intent); // Start the RecipeContentActivity
+            context.startActivity(intent);
         });
     }
 
     // Method to delete the recipe from both "recipes" and all users' saved recipes
     private void deleteRecipe(String userId, String recipeId) {
-        // Reference to the recipe in the "recipes" table
+
         DatabaseReference recipeRef = FirebaseDatabase.getInstance().getReference("recipes").child(recipeId);
-        // Reference to the saved recipes (for all users)
+
         DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("user_saved_recipes");
 
         // Remove recipe from the "recipes" node
         recipeRef.removeValue().addOnSuccessListener(aVoid -> {
             Log.d("RecipeAdapter", "Recipe deleted from 'recipes' successfully");
 
-            // Now remove the recipe from ALL users' saved recipes, not just the current user
+
             savedRecipesRef.orderByChild(recipeId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -1,5 +1,5 @@
 package com.example.easipe_mobileapplicationdevelopment.view.navbar;
-
+//hirun IM/2021/004
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,16 +9,11 @@ import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
-import com.example.easipe_mobileapplicationdevelopment.Repository.MyRecipesDataManager;
 import com.example.easipe_mobileapplicationdevelopment.view.features.Recipe;
 import com.example.easipe_mobileapplicationdevelopment.view.features.RecipeAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -28,7 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import java.util.List;
+
 
 public class ProfileFragment extends Fragment {
 

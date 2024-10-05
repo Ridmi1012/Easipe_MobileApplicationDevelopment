@@ -19,7 +19,7 @@ public class Recipe {
     private String recipeId;
 
 
-    //Add Recipe
+    //for Add Recipe
     public Recipe(String userId, String recipeTitle, String recipeDiscription, int recipeServing, String recipeTime, String ingredient, String method, String additionalmethod, String recipeImageurl,String recipeVideourl, boolean issaved,String recipeId) {
         this.userId = userId;
         this.recipeTitle = recipeTitle;
@@ -40,7 +40,7 @@ public class Recipe {
     public Recipe() {
     }
 
-    //my profile
+    //for my profile
     public Recipe(String recipeTitle, int recipeServing, String recipeTime) {
         this.recipeTitle = recipeTitle;
         this.recipeServing = recipeServing;
