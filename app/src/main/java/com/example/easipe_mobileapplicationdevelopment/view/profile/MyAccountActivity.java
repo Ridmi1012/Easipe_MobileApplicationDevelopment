@@ -25,15 +25,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 
-
-
 public class MyAccountActivity extends AppCompatActivity {
 
     private TextView userNameTextView, userEmailTextView, userLocationTextView, userAboutTextView;
     private ImageView profileImageView;
     private DatabaseReference databaseReference;
     private String userId;
-    private String email, location, aboutMe;
+    private String email, location, aboutMe, profileImageURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +81,6 @@ public class MyAccountActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     // Extract username from Firebase
                     String username = dataSnapshot.child("username").getValue(String.class);
-
-                    // Set the username to the TextView
                     userNameTextView.setText(username != null ? username : "N/A");
 
                     // Extract other user details from Firebase
@@ -96,7 +92,7 @@ public class MyAccountActivity extends AppCompatActivity {
                     userAboutTextView.setText(aboutMe != null ? aboutMe : "N/A");
 
                     // Retrieve profile image URL and display it using Glide
-                    String profileImageURL = dataSnapshot.child("profileImageURL").getValue(String.class);
+                    profileImageURL = dataSnapshot.child("profileImageURL").getValue(String.class);
                     if (profileImageURL != null && !profileImageURL.isEmpty()) {
                         Glide.with(MyAccountActivity.this)
                                 .load(profileImageURL)
@@ -128,6 +124,7 @@ public class MyAccountActivity extends AppCompatActivity {
         intent.putExtra("email", email);
         intent.putExtra("location", location);
         intent.putExtra("description", aboutMe);
+        intent.putExtra("profileImageURL", profileImageURL);  // Pass the existing profile image URL
         startActivity(intent);
     }
 }
