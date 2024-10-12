@@ -37,7 +37,7 @@ public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter
     @Override
     protected void onBindViewHolder(@NonNull RecipeAdapter.RecipeViewHolder holder, int position, @NonNull Recipe model) {
 
-
+        String recipeId = getRef(position).getKey();
 
         holder.profileRecipeTitle.setText(model.getRecipeTitle() != null ? model.getRecipeTitle() : "Untitled");
         holder.profileRecipeTime.setText(model.getRecipeTime() != null ? model.getRecipeTime() : "Unknown time");
@@ -45,40 +45,11 @@ public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter
         // Using Glide to load the image from URL into ImageView
         Glide.with(context).load(model.getRecipeImageurl()).into(holder.profileRecipeImage);
 
-
-        // Calculate average rating
-        DatabaseReference ratingsRef = FirebaseDatabase.getInstance().getReference("recipes").child(getRef(position).getKey()).child("ratings");
-        ratingsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    float totalRating = 0;
-                    int numberOfRatings = 0;
-                    for (DataSnapshot ratingSnapshot : dataSnapshot.getChildren()) {
-                        Float rating = ratingSnapshot.getValue(Float.class);
-                        if (rating != null) {
-                            totalRating += rating;
-                            numberOfRatings++;
-                        }
-                    }
-                    if (numberOfRatings > 0) {
-                        float averageRating = totalRating / numberOfRatings;
-                        holder.profileRecipeRatingBar.setRating(averageRating); // Set the average rating to the RatingBar
-                    }
-                } else {
-                    holder.profileRecipeRatingBar.setRating(0); // No ratings available
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("RecipeAdapter", "Failed to read ratings", databaseError.toException());
-            }
-        });
+        //calculate avarage rating
+        Rating.calculateAverageRating(recipeId,holder.profileRecipeRatingBar);
 
         // Add delete functionality
         holder.profileDelete.setOnClickListener(v -> {
-            String recipeId = getRef(position).getKey(); // Get the unique ID of the recipe
             if (recipeId != null) {
                 deleteRecipe(model.getUserId(), recipeId);
             }

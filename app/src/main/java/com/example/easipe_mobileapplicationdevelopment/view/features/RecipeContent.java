@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class RecipeContent extends AppCompatActivity {
 
-    private TextView textViewTitle, textViewTime, textViewDescription, textViewIngredients, textViewMethod, textViewAdditionalNotes;
+    private TextView textViewTitle, textViewTime, textViewDescription,textViewServings, textViewIngredients, textViewMethod, textViewAdditionalNotes;
     private Button publishButton;
 
     private DatabaseReference recipeRef;
@@ -42,6 +42,7 @@ public class RecipeContent extends AppCompatActivity {
         // Initialize UI elements
         textViewTitle = findViewById(R.id.textView_Title);
         textViewDescription = findViewById(R.id.textView_Description);
+        textViewServings = findViewById(R.id.textView_Servings);
         textViewTime = findViewById(R.id.textView_Time);
         textViewIngredients = findViewById(R.id.textView_Ingredients);
         textViewMethod = findViewById(R.id.textView_Method);
@@ -70,9 +71,11 @@ public class RecipeContent extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     // Get recipe data
+
                     String recipeTitle = dataSnapshot.child("recipeTitle").getValue(String.class);
                     String description = dataSnapshot.child("recipeDiscription").getValue(String.class);
                     String recipeTime = dataSnapshot.child("recipeTime").getValue(String.class);
+                    String recipeServings = dataSnapshot.child("recipeServing").getValue(String.class);
                     String recipeIngredients = dataSnapshot.child("ingredient").getValue(String.class);
                     String recipeMethod = dataSnapshot.child("method").getValue(String.class);
                     String Notes = dataSnapshot.child("additionalmethod").getValue(String.class);
@@ -98,6 +101,7 @@ public class RecipeContent extends AppCompatActivity {
 
                     textViewTitle.setText(recipeTitle != null ? recipeTitle : "Untitled");
                     textViewTime.setText(recipeTime != null ? recipeTime : "Unknown time");
+                    textViewServings.setText(recipeServings != null ? recipeServings + " Servings" : "Servings not available");
                     textViewDescription.setText(description != null && !description.isEmpty() ? description : "Description not available");
                     textViewIngredients.setText(recipeIngredients != null ? recipeIngredients : "Ingredients not available");
                     textViewAdditionalNotes.setText(Notes != null ? Notes : "Ingredients not available");
@@ -125,7 +129,8 @@ public class RecipeContent extends AppCompatActivity {
                     }
 
                     // Set the redirect to the Update Recipe Activity
-                    publishButton.setOnClickListener(v -> redirectToUpdateRecipe(recipeTitle, description, recipeTime, imageUrl, videoUrl, recipeIngredients, recipeMethod, Notes));
+                    publishButton.setOnClickListener(v -> redirectToUpdateRecipe(recipeId, recipeTitle, description, recipeTime,recipeServings, imageUrl, videoUrl, recipeIngredients, recipeMethod, Notes));
+
 
                 } else {
                     Toast.makeText(RecipeContent.this, "Recipe not found", Toast.LENGTH_SHORT).show();
@@ -140,11 +145,14 @@ public class RecipeContent extends AppCompatActivity {
         });
     }
 
-    public void redirectToUpdateRecipe(String title, String description, String duration, String imageUrl, String videoUrl, String recipeIngredients, String recipeMethod, String Notes) {
+    public void redirectToUpdateRecipe(String recipeId,String title, String description, String duration,String serving, String imageUrl, String videoUrl, String recipeIngredients, String recipeMethod, String Notes) {
         Intent intent = new Intent(this, UpdateRecipeActivity.class);
+
+        intent.putExtra("recipeId",recipeId);
         intent.putExtra("recipeTitle", title);
         intent.putExtra("recipeDiscription", description);
         intent.putExtra("recipeTime", duration);
+        intent.putExtra("recipeServing",serving);
         intent.putExtra("recipeImageurl", imageUrl);
         intent.putExtra("recipeVideourl", videoUrl);
         intent.putExtra("ingredient", recipeIngredients);
@@ -165,7 +173,7 @@ public class RecipeContent extends AppCompatActivity {
 
         public void redirectToLogin (View view){
             startActivity(new Intent(this, NavigationBar.class));
-            finish();
+
         }
 
         public void sendRecipe (View view){
