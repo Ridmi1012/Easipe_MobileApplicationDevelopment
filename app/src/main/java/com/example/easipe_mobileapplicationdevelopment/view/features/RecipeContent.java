@@ -173,7 +173,7 @@ public class RecipeContent extends AppCompatActivity {
 
         public void redirectToLogin (View view){
             startActivity(new Intent(this, NavigationBar.class));
-            finish();
+
         }
 
         public void sendRecipe (View view){

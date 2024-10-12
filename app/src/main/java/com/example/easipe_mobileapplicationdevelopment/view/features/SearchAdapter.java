@@ -45,33 +45,8 @@ public class SearchAdapter extends FirebaseRecyclerAdapter<Recipe,SearchAdapter.
         // Using Glide to load the image from URL into ImageView
         Glide.with(context).load(model.getRecipeImageurl()).into(holder.SearchRecipeImage);
 
-        DatabaseReference ratingsRef = FirebaseDatabase.getInstance().getReference("recipes").child(recipeId).child("ratings");
-        ratingsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                float totalRating = 0;
-                int ratingCount = 0;
-
-                // Calculate the total rating and count
-                for (DataSnapshot ratingSnapshot : snapshot.getChildren()) { // 'dataSnapshot' instead of 'snapshot'
-                    Float rating = ratingSnapshot.getValue(Float.class);
-                    if (rating != null) {
-                        totalRating += rating;
-                        ratingCount++;
-                    }
-                }
-
-                // Calculate average rating
-                float averageRating = (ratingCount > 0) ? (totalRating / ratingCount) : 0;
-                holder.SearchRecipeRatingBar.setRating(averageRating);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(context, "Failed to load ratings", Toast.LENGTH_SHORT).show();
-
-            }
-        });
+        //calculate avarage rating
+        Rating.calculateAverageRating(recipeId,holder.SearchRecipeRatingBar);
 
 
         // Handle card click to navigate to RecipeContentFromHomeActivity with recipeId
