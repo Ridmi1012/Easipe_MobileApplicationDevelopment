@@ -17,11 +17,12 @@ public class Recipe {
     private String recipeVideourl;
     private boolean issaved;
     private String recipeId;
+    private float averageRating;
 
 
     //for Add Recipe
 
-    public Recipe(String userId, String recipeTitle, String recipeDiscription, String recipeServing, String recipeTime, String ingredient, String method, String additionalmethod, String recipeImageurl, String recipeVideourl, boolean issaved, String recipeId) {
+    public Recipe(String userId, String recipeTitle, String recipeDiscription, String recipeServing, String recipeTime, String ingredient, String method, String additionalmethod, String recipeImageurl, String recipeVideourl, boolean issaved, String recipeId, float averageRating) {
         this.userId = userId;
         this.recipeTitle = recipeTitle;
         this.recipeDiscription = recipeDiscription;
@@ -34,6 +35,7 @@ public class Recipe {
         this.recipeVideourl = recipeVideourl;
         this.issaved = issaved;
         this.recipeId = recipeId;
+        this.averageRating = averageRating;
     }
 
     //empty construter for firebase
@@ -43,10 +45,11 @@ public class Recipe {
     //for my profile
 
 
-    public Recipe(String recipeTitle, String recipeServing, String recipeTime) {
+    public Recipe(String recipeTitle, String recipeServing, String recipeTime, float averageRating) {
         this.recipeTitle = recipeTitle;
         this.recipeServing = recipeServing;
         this.recipeTime = recipeTime;
+        this.averageRating = averageRating;
     }
 
     public String getUserId() {
@@ -101,5 +104,12 @@ public class Recipe {
         return recipeId;
     }
 
-//updated 2024-10-02 Author - Ridmi Silva Student ID- IM/2021/052
+    public float getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(float averageRating) {
+        this.averageRating = averageRating;
+    }
+    //updated 2024-10-02 Author - Ridmi Silva Student ID- IM/2021/052
 }

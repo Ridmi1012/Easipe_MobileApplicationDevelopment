@@ -35,6 +35,16 @@ public class Rating {
                 // Calculate and set the average rating
                 float averageRating = (ratingCount > 0) ? (totalRating / ratingCount) : 0;
                 ratingBar.setRating(averageRating);
+
+                // Update the average rating in the recipe
+                ratingsRef.child("averageRating").setValue(averageRating)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Log.d("Rating", "Average rating updated successfully");
+                            } else {
+                                Log.e("Rating", "Failed to update average rating");
+                            }
+                        });
             }
 
             @Override

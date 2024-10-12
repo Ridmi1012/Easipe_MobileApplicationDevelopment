@@ -51,7 +51,7 @@ public class UpdateRecipeActivity extends AppCompatActivity {
     private ArrayList<EditText> ingredientsField;
     private ArrayList<EditText> methodFields;
 
-    private DatabaseReference recipeRef;
+    private DatabaseReference recipeRef,savedRecipeRef;
     private StorageReference storageRef;
 
     private Uri imageUri;
@@ -425,23 +425,62 @@ public class UpdateRecipeActivity extends AppCompatActivity {
         }
 
         recipeRef = FirebaseDatabase.getInstance().getReference("recipes").child(recipeId);
+        savedRecipeRef =FirebaseDatabase.getInstance().getReference("user_saved_recipes");
 
 
         recipeRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                // Fetch the averageRating from within the ratings node
+                DataSnapshot ratingsSnapshot = snapshot.child("ratings");
+                Float currentAverageRating = ratingsSnapshot.child("averageRating").getValue(float.class);
+
+                if (currentAverageRating == null) {
+                    currentAverageRating = 0f;  // Default to 0 if no rating exists (for new recipes)
+                }
                 boolean status = Boolean.TRUE.equals(snapshot.child("issaved").getValue(boolean.class));
 
                 //Create a Recipe object to hold the updated data
                 Recipe recipe = new Recipe(userId, title, description, serving, duration,
                         ingredientsList.toString(), methodList.toString(),
-                        additionalMethod, imageUrl, videoUrl, status, recipeId);
+                        additionalMethod, imageUrl, videoUrl, status, recipeId, currentAverageRating );
 
                 // Update recipe in Firebase
                 recipeRef.setValue(recipe)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 Toast.makeText(UpdateRecipeActivity.this, "Recipe updated successfully", Toast.LENGTH_SHORT).show();
+
+                                savedRecipeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                        for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                                            // Check if this user saved the current recipe
+                                            if (userSnapshot.hasChild(recipeId)) {
+                                                // Get the reference to the specific user's saved recipe
+                                                DatabaseReference userRecipeRef = savedRecipeRef.child(userSnapshot.getKey()).child(recipeId);
+
+                                                // Update the recipe for this user
+                                                userRecipeRef.setValue(recipe).addOnCompleteListener(savetask -> {
+                                                    if (savetask.isSuccessful()) {
+                                                        Toast.makeText(UpdateRecipeActivity.this, "Recipe updated for user: " + userSnapshot.getKey(), Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        Toast.makeText(UpdateRecipeActivity.this, "Failed to update recipe for user: " + userSnapshot.getKey(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        Toast.makeText(UpdateRecipeActivity.this, "Failed to update saved recipe", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
                                 startActivity(new Intent(UpdateRecipeActivity.this, NavigationBar.class));
                             } else {
                                 Toast.makeText(UpdateRecipeActivity.this, "Failed to update recipe", Toast.LENGTH_SHORT).show();
