@@ -9,8 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.media3.common.MediaItem;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.ui.PlayerView;
@@ -131,7 +133,16 @@ public class RecipeContent extends AppCompatActivity {
                     // Set the redirect to the Update Recipe Activity
                     publishButton.setOnClickListener(v -> redirectToUpdateRecipe(recipeId, recipeTitle, description, recipeTime,recipeServings, imageUrl, videoUrl, recipeIngredients, recipeMethod, Notes));
 
-
+                    // Handle back press using OnBackPressedDispatcher
+                    getOnBackPressedDispatcher().addCallback(RecipeContent.this, new OnBackPressedCallback(true) {
+                        @Override
+                        public void handleOnBackPressed() {
+                            Intent intent = new Intent(RecipeContent.this, NavigationBar.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();  // Finish the current activity
+                        }
+                    });
                 } else {
                     Toast.makeText(RecipeContent.this, "Recipe not found", Toast.LENGTH_SHORT).show();
                 }
@@ -204,4 +215,4 @@ public class RecipeContent extends AppCompatActivity {
                 startActivity(Intent.createChooser(intent, "Send Recipe via"));
             }
         }
-    }
+}
