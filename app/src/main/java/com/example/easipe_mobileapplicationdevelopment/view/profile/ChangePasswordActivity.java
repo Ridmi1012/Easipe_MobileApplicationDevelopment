@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -64,6 +65,17 @@ public class ChangePasswordActivity extends AppCompatActivity {
         } else {
             reAuthenticatedUser(firebaseUser);
         }
+
+        // Handle back press using OnBackPressedDispatcher
+        getOnBackPressedDispatcher().addCallback(ChangePasswordActivity.this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(ChangePasswordActivity.this, NavigationBar.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();  // Finish the current activity
+            }
+        });
     }
 
     private void reAuthenticatedUser(FirebaseUser firebaseUser) {
