@@ -108,6 +108,14 @@
             android:textSize="16sp"
             android:textAlignment="center"/>
 
+        <TextView
+            android:id="@+id/textView_Servings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:textSize="16sp"
+            android:textAlignment="center"/>
+
         <View
             android:layout_width="325dp"
             android:layout_height="3dp"

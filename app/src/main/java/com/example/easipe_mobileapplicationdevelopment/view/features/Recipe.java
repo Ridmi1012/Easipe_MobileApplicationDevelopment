@@ -8,7 +8,7 @@ public class Recipe {
     private String userId;
     private String recipeTitle;
     private String recipeDiscription;
-    private int recipeServing;
+    private String recipeServing;
     private String recipeTime;
     private String ingredient;
     private String method;
@@ -20,7 +20,8 @@ public class Recipe {
 
 
     //for Add Recipe
-    public Recipe(String userId, String recipeTitle, String recipeDiscription, int recipeServing, String recipeTime, String ingredient, String method, String additionalmethod, String recipeImageurl,String recipeVideourl, boolean issaved,String recipeId) {
+
+    public Recipe(String userId, String recipeTitle, String recipeDiscription, String recipeServing, String recipeTime, String ingredient, String method, String additionalmethod, String recipeImageurl, String recipeVideourl, boolean issaved, String recipeId) {
         this.userId = userId;
         this.recipeTitle = recipeTitle;
         this.recipeDiscription = recipeDiscription;
@@ -35,16 +36,21 @@ public class Recipe {
         this.recipeId = recipeId;
     }
 
-
     //empty construter for firebase
     public Recipe() {
     }
 
     //for my profile
-    public Recipe(String recipeTitle, int recipeServing, String recipeTime) {
+
+
+    public Recipe(String recipeTitle, String recipeServing, String recipeTime) {
         this.recipeTitle = recipeTitle;
         this.recipeServing = recipeServing;
         this.recipeTime = recipeTime;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public String getRecipeTitle() {
@@ -55,7 +61,7 @@ public class Recipe {
         return recipeDiscription;
     }
 
-    public float getRecipeServing() {
+    public String getRecipeServing() {
         return recipeServing;
     }
 
@@ -83,10 +89,6 @@ public class Recipe {
         return recipeVideourl;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
     public boolean isIssaved() {
         return issaved;
     }
@@ -98,7 +100,6 @@ public class Recipe {
     public String getRecipeId() {
         return recipeId;
     }
-
 
 //updated 2024-10-02 Author - Ridmi Silva Student ID- IM/2021/052
 }

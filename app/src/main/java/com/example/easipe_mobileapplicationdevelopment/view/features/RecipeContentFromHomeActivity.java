@@ -80,7 +80,7 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
                     String recipeTitle = dataSnapshot.child("recipeTitle").getValue(String.class);
                     String description = dataSnapshot.child("recipeDiscription").getValue(String.class);
                     String recipeTime = dataSnapshot.child("recipeTime").getValue(String.class);
-                    Long recipeServings = dataSnapshot.child("recipeServing").getValue(Long.class);
+                    String recipeServings = dataSnapshot.child("recipeServing").getValue(String.class);
                     String recipeIngredients = dataSnapshot.child("ingredient").getValue(String.class);
                     String recipeMethod = dataSnapshot.child("method").getValue(String.class);
                     String recipeAdditionalNotes = dataSnapshot.child("additionalmethod").getValue(String.class);
@@ -106,7 +106,7 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
                     // Set data to views
                     textViewTitle.setText(recipeTitle != null ? recipeTitle : "Untitled");
                     textViewTime.setText(recipeTime != null ? recipeTime : "Unknown time");
-                    textViewServings.setText(recipeServings != null ? String.valueOf(recipeServings) + " Servings" : "Servings not available");
+                    textViewServings.setText(recipeServings != null ? recipeServings + " Servings" : "Servings not available");
                     textViewDescription.setText(description != null && !description.isEmpty() ? description : "Description not available");
                     textViewIngredients.setText(recipeIngredients != null ? recipeIngredients : "Ingredients not available");
 
