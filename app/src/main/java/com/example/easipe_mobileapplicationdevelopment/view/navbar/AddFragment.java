@@ -180,21 +180,22 @@ public class AddFragment extends Fragment {
 
         String title = editTextTitle.getText().toString();
         String description = editTextDescription.getText().toString();
+        String servings = editTextServings.getText().toString();
         String duration = editTextDuration.getText().toString();
 
         // Validate required fields
-        if (title.isEmpty() || description.isEmpty() || duration.isEmpty()) {
+        if (title.isEmpty() || description.isEmpty() || duration.isEmpty() || servings.isEmpty()) {
             Toast.makeText(getContext(), "Please fill in all required fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        int servings;
-        try {
-            servings = Integer.parseInt(editTextServings.getText().toString());
-        } catch (NumberFormatException e) {
-            Toast.makeText(getContext(), "Please enter a valid number for servings", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        int servings;
+//        try {
+//            servings = Integer.parseInt(editTextServings.getText().toString());
+//        } catch (NumberFormatException e) {
+//            Toast.makeText(getContext(), "Please enter a valid number for servings", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         // Validate image selection
         if (imageUri != null) {
@@ -272,7 +273,7 @@ public class AddFragment extends Fragment {
         String userId;
         String title = editTextTitle.getText().toString();
         String description = editTextDescription.getText().toString();
-        int serving = Integer.parseInt((editTextServings.getText().toString()));
+        String serving = editTextServings.getText().toString();
         String duration = editTextDuration.getText().toString();
         String ingredient = editTextIngredient.getText().toString();
         String Methods = editTextMethod.getText().toString();
