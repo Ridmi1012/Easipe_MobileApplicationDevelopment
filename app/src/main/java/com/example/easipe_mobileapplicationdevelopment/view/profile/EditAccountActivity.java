@@ -52,6 +52,9 @@ public class EditAccountActivity extends AppCompatActivity {
         profileImageView = findViewById(R.id.profile_image);
         editImageIcon = findViewById(R.id.edit_image_button);
 
+        // Disable the email field
+        editEmail.setEnabled(false);
+
         // Fetch user ID from Firebase Auth
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {

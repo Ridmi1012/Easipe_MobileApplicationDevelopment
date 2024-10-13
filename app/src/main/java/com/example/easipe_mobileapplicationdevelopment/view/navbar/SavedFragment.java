@@ -61,7 +61,7 @@ public class SavedFragment extends Fragment {
             return;
         }
 
-        // Query for all the saved recipes under this user, which are organized by recipeId
+        // Query for all the saved recipes under the current user
         Query query = savedRecipesRef;
 
         // Configure FirebaseRecyclerOptions to use Recipe class

@@ -11,6 +11,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.media3.common.MediaItem;
@@ -19,6 +20,7 @@ import androidx.media3.ui.PlayerView;
 
 import com.example.easipe_mobileapplicationdevelopment.R;
 import com.example.easipe_mobileapplicationdevelopment.view.navbar.NavigationBar;
+import com.example.easipe_mobileapplicationdevelopment.view.profile.MyAccountActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -167,6 +169,16 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
             }
         });
 
+        // Handle back press using OnBackPressedDispatcher
+        getOnBackPressedDispatcher().addCallback(RecipeContentFromHomeActivity.this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(RecipeContentFromHomeActivity.this, NavigationBar.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();  // Finish the current activity
+            }
+        });
     }
 
 

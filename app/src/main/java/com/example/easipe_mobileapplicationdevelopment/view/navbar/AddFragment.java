@@ -189,13 +189,6 @@ public class AddFragment extends Fragment {
             return;
         }
 
-//        int servings;
-//        try {
-//            servings = Integer.parseInt(editTextServings.getText().toString());
-//        } catch (NumberFormatException e) {
-//            Toast.makeText(getContext(), "Please enter a valid number for servings", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
 
         // Validate image selection
         if (imageUri != null) {
@@ -209,8 +202,8 @@ public class AddFragment extends Fragment {
         if (videoUri != null) {
             uploadVideo();
         } else {
-            videoUrl = ""; // No video selected, so set the URL to an empty string
-            checkUploadsComplete(); // Proceed to check uploads (only image in this case)
+            Toast.makeText(getContext(), "Please select an video", Toast.LENGTH_SHORT).show();
+            checkUploadsComplete();
         }
     }
 
@@ -279,6 +272,7 @@ public class AddFragment extends Fragment {
         String Methods = editTextMethod.getText().toString();
         String additionalMethod = editTextAddition.getText().toString();
         boolean Status = false;
+        float rating = 0.0f;
         String recipeId = UUID.randomUUID().toString();  ;
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -308,7 +302,7 @@ public class AddFragment extends Fragment {
             }
         }
 
-        Recipe recipe = new Recipe(userId ,title, description, serving, duration, ingredientsList.toString(), methodList.toString(), additionalMethod, imageUrl,videoUrl, Status,recipeId);
+        Recipe recipe = new Recipe(userId ,title, description, serving, duration, ingredientsList.toString(), methodList.toString(), additionalMethod, imageUrl,videoUrl, Status,recipeId,rating);
 
         databaseReference.push().setValue(recipe);
         Toast.makeText(getContext(), "Recipe added", Toast.LENGTH_SHORT).show();

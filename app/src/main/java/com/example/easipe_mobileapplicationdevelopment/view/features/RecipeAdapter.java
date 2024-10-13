@@ -1,6 +1,6 @@
 package com.example.easipe_mobileapplicationdevelopment.view.features;
 
-////Hirun IM/2021/004
+//Hirun IM/2021/004
 
 import android.content.Context;
 import android.content.Intent;
@@ -45,7 +45,7 @@ public class RecipeAdapter extends FirebaseRecyclerAdapter<Recipe, RecipeAdapter
         // Using Glide to load the image from URL into ImageView
         Glide.with(context).load(model.getRecipeImageurl()).into(holder.profileRecipeImage);
 
-        //calculate avarage rating
+        //calculate average rating
         Rating.calculateAverageRating(recipeId,holder.profileRecipeRatingBar);
 
         // Add delete functionality
