@@ -76,7 +76,7 @@ public class NavigationBar extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    //when any meny item is selected
+    //when any many item is selected
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
