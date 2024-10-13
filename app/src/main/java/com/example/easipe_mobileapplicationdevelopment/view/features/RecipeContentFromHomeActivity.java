@@ -73,6 +73,8 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
         // Get a reference to the Firebase database for the recipe
         recipeRef = FirebaseDatabase.getInstance().getReference("recipes").child(recipeId);
 
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         // Fetch recipe details from the database
         recipeRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -88,6 +90,9 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
                     String recipeAdditionalNotes = dataSnapshot.child("additionalmethod").getValue(String.class);
 
                     String recipeURL = dataSnapshot.child("recipeVideourl").getValue(String.class);
+
+                    Double ratingValue = dataSnapshot.child("ratings").child(userId).getValue(Double.class);
+                    float rating = (ratingValue != null) ? ratingValue.floatValue() : 0.0f;
 
 
 
@@ -111,6 +116,8 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
                     textViewServings.setText(recipeServings != null ? recipeServings + " Servings" : "Servings not available");
                     textViewDescription.setText(description != null && !description.isEmpty() ? description : "Description not available");
                     textViewIngredients.setText(recipeIngredients != null ? recipeIngredients : "Ingredients not available");
+
+                    userRatingBar.setRating(rating);
 
                     //seperate ingredients by comma and display
                     if (recipeIngredients != null) {
@@ -198,6 +205,8 @@ public class RecipeContentFromHomeActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(this, "Rating submitted!", Toast.LENGTH_SHORT).show();
+
+                        startActivity(new Intent(this, NavigationBar.class));
                     } else {
                         Toast.makeText(this, "Failed to submit rating", Toast.LENGTH_SHORT).show();
                     }
