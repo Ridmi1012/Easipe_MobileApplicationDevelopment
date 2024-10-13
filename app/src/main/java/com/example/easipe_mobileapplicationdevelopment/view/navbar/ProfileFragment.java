@@ -56,11 +56,10 @@ public class ProfileFragment extends Fragment {
             userId = currentUser.getUid();
             Log.d("UserID", "Current User ID: " + userId);
 
-            databaseReferenceProfile = FirebaseDatabase.getInstance().getReference().child("recipes");
 
             // Configure the FirebaseRecyclerOptions
             FirebaseRecyclerOptions<Recipe> options = new FirebaseRecyclerOptions.Builder<Recipe>()
-                    .setQuery(databaseReferenceProfile.orderByChild("userId").equalTo(userId), Recipe.class)
+                    .setQuery(FirebaseDatabase.getInstance().getReference().child("recipes").orderByChild("userId").equalTo(userId), Recipe.class)
                     .build();
 
             // Initialize the adapter with Firebase options
