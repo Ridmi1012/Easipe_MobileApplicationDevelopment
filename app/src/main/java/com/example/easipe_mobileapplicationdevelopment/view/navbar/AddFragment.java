@@ -209,6 +209,7 @@ public class AddFragment extends Fragment {
 
     // Method to clear the fields after publishing
     private void clearFields() {
+
         editTextTitle.setText("");
         editTextDescription.setText("");
         editTextServings.setText("");
@@ -225,6 +226,13 @@ public class AddFragment extends Fragment {
         // Clear stored URIs
         imageUri = null;
         videoUri = null;
+
+        // Reset the ImageView to its default placeholder
+        recipeImg.setImageResource(R.drawable.baseline_add_a_photo_24);
+
+        // Reset the VideoView
+        recipeVideoView.setVideoURI(null);
+        recipeVideoView.setVisibility(View.INVISIBLE);
     }
 
 
