@@ -294,7 +294,7 @@ public class AddFragment extends Fragment {
         String additionalMethod = editTextAddition.getText().toString();
         boolean Status = false;
         float rating = 0.0f;
-        String recipeId = UUID.randomUUID().toString();  ;
+        String recipeId = UUID.randomUUID().toString();
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
