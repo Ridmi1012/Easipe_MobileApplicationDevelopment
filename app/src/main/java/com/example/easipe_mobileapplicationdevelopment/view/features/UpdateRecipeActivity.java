@@ -451,9 +451,9 @@ public class UpdateRecipeActivity extends AppCompatActivity {
                                                 // Update the recipe for this user
                                                 userRecipeRef.setValue(recipe).addOnCompleteListener(savetask -> {
                                                     if (savetask.isSuccessful()) {
-                                                        Toast.makeText(UpdateRecipeActivity.this, "Recipe updated for user: " + userSnapshot.getKey(), Toast.LENGTH_SHORT).show();
+                                                        Log.d("Update","Recipe updated for user: " + userSnapshot.getKey() );
                                                     } else {
-                                                        Toast.makeText(UpdateRecipeActivity.this, "Failed to update recipe for user: " + userSnapshot.getKey(), Toast.LENGTH_SHORT).show();
+                                                        Log.d("Update","Failed to update recipe for user: " + userSnapshot.getKey() );
                                                     }
                                                 });
                                             }
