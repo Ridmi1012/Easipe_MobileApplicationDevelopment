@@ -20,8 +20,8 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="34dp"
                 android:onClick="redirectToLogin"
@@ -29,8 +29,8 @@
 
             <ImageView
                 android:id="@+id/shareImageView"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="260dp"
                 android:layout_marginTop="34dp"
                 android:onClick="sendRecipe"
@@ -38,8 +38,8 @@
 
             <ImageView
                 android:id="@+id/savedImageView"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="34dp"
                 android:layout_marginEnd="20dp"
