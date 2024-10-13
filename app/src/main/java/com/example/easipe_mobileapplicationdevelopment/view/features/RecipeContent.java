@@ -84,16 +84,13 @@ public class RecipeContent extends AppCompatActivity {
                     String Notes = dataSnapshot.child("additionalmethod").getValue(String.class);
                     String imageUrl = dataSnapshot.child("recipeImageurl").getValue(String.class); // Fetch image URL
                     String videoUrl = dataSnapshot.child("recipeVideourl").getValue(String.class); // Fetch video URL
-//                    String recipeAdditionalNotes = dataSnapshot.child("additionalmethod").getValue(String.class);
-                    String recipeURL = dataSnapshot.child("recipeVideourl").getValue(String.class);
 
                     // Set data to views
-
                     // Initialize ExoPlayer
                     player = new ExoPlayer.Builder(RecipeContent.this).build();
                     playerView.setPlayer(player);
 
-                    Uri videoUri = Uri.parse(recipeURL);
+                    Uri videoUri = Uri.parse(videoUrl);
                     MediaItem mediaItem = MediaItem.fromUri(videoUri);
 
                     player.setMediaItem(mediaItem);
@@ -160,7 +157,7 @@ public class RecipeContent extends AppCompatActivity {
         });
     }
 
-    //    Updated Recipe Activity
+    // Updated Recipe Activity
     public void redirectToUpdateRecipe(String recipeId, String title, String description, String duration, String serving, String imageUrl, String videoUrl, String recipeIngredients, String recipeMethod, String Notes) {
         Intent intent = new Intent(this, UpdateRecipeActivity.class);
 
@@ -178,6 +175,7 @@ public class RecipeContent extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // Destroying player
     @Override
     protected void onDestroy() {
         super.onDestroy();
