@@ -45,7 +45,7 @@ public class UpdateRecipeActivity extends AppCompatActivity {
     private VideoView recipeVideoView;
     private ExoPlayer player;
 
-    private Button publishBtn, selectImgBtn, selectVideoBtn, addIngredientBtn, addStepsBtn;
+    private Button selectImgBtn, selectVideoBtn, addIngredientBtn, addStepsBtn;
 
     private LinearLayout ingredientsContainer,methodsContainer; // This should be defined in your XML layout
     private ArrayList<EditText> ingredientsField;
@@ -61,7 +61,6 @@ public class UpdateRecipeActivity extends AppCompatActivity {
     private  String videoUrl;
 
 
-    private ImageView recipeimg;
 
     // ActivityResultLaunchers for selecting image and video
     private ActivityResultLauncher<Intent> imagePickerLauncher;
@@ -71,8 +70,6 @@ public class UpdateRecipeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_recipe);
-
-
 
 
 
@@ -355,7 +352,7 @@ public class UpdateRecipeActivity extends AppCompatActivity {
     private void checkUploadsComplete() {
         // Check if both imageUrl and videoUrl are not null
         if (imageUrl != null && (videoUri == null || videoUrl != null)) {
-            // Both uploads are done (or no new uploads), proceed to update the recipe
+
             updateRecipeInDatabase(imageUrl, videoUrl);
         }
     }
