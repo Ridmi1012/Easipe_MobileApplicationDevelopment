@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText editTextEmail, editTextPassword;
+    private ProgressBar progressBar;
     private FirebaseAuth authProfile;
     private static final String TAG = "LoginActivity";
     private GoogleSignInClient googleSignInClient;
@@ -46,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        progressBar = findViewById(R.id.progressBar);
 
         editTextEmail = findViewById(R.id.editTextTextEmail);
         editTextPassword = findViewById(R.id.editTextTextPassword);
@@ -109,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                     editTextPassword.setError("Password is required");
                     editTextPassword.requestFocus();
                 } else {
+                    progressBar.setVisibility(View.VISIBLE);
                     loginUser(email, password);
                 }
             }
@@ -119,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
     private void signInWithGoogle() {
         Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -140,6 +145,8 @@ public class LoginActivity extends AppCompatActivity {
         } catch (ApiException e) {
             Log.w(TAG, "Google sign in failed", e);
             Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show();
+            // Hide the progress bar
+            progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -150,12 +157,19 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(LoginActivity.this, "User has logged in with Google", Toast.LENGTH_SHORT).show();
+
+                    // Hide the progress bar
+                    progressBar.setVisibility(View.GONE);
+
                     Intent intent = new Intent(LoginActivity.this, NavigationBar.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     finish();
                 } else {
                     Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+
+                    // Hide the progress bar
+                    progressBar.setVisibility(View.GONE);
                 }
             }
         });
@@ -167,6 +181,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     Toast.makeText(LoginActivity.this, "User has logged in now", Toast.LENGTH_SHORT).show();
+
+                    // Hide the progress bar
+                    progressBar.setVisibility(View.GONE);
 
                     //open add recipe page after successful registration
                     Intent intent = new Intent(LoginActivity.this, NavigationBar.class);
@@ -193,8 +210,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //check whether the user already logged in
-
-
     @Override
     protected void onStart() {
         super.onStart();
