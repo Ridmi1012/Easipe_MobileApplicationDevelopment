@@ -1,6 +1,9 @@
 // Started - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115
 package com.example.easipe_mobileapplicationdevelopment.view.auth;
 
+import static com.example.easipe_mobileapplicationdevelopment.R.*;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -9,6 +12,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,6 +39,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private EditText editTextfirstname, editTextlastname, editTextemail, editTextusername,
             editTextpassword, editTextpassword2;
+    private ProgressBar progressBar;
     private static final String TAG = "RegistrationActivity";
 
     @Override
@@ -52,10 +57,13 @@ public class RegistrationActivity extends AppCompatActivity {
         editTextpassword = findViewById(R.id.editTextTextPassword);
         editTextpassword2 = findViewById(R.id.editTextTextPassword2);
 
+        progressBar = findViewById(R.id.progressBar1);
+
         Button ButtonSignup = findViewById(R.id.signupBtn);
         ButtonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 //Obtain the entered data
                 String firstname = editTextfirstname.getText().toString();
                 String lastname = editTextlastname.getText().toString();
@@ -110,7 +118,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     editTextpassword2.setError("Password is too weak");
                     editTextpassword2.requestFocus();
                 } else {
-                    Toast.makeText(RegistrationActivity.this, "this is good", Toast.LENGTH_SHORT).show();
+
                     registerUser(firstname, lastname, email, username, password, location, description, profileImageURL );
                 }
             }
@@ -172,6 +180,9 @@ public class RegistrationActivity extends AppCompatActivity {
                                         Toast.makeText(RegistrationActivity.this, "User registered successfully. Please verify your email",
                                                 Toast.LENGTH_SHORT).show();
 
+                                        // Hide the progress bar
+                                        progressBar.setVisibility(View.GONE);
+
                                         // Open login page after successful registration
                                         Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -180,6 +191,9 @@ public class RegistrationActivity extends AppCompatActivity {
                                     } else {
                                         Toast.makeText(RegistrationActivity.this, "User registration failed. Please try again",
                                                 Toast.LENGTH_SHORT).show();
+
+                                        // Hide the progress bar
+                                        progressBar.setVisibility(View.GONE);
                                     }
                                 }
                             });

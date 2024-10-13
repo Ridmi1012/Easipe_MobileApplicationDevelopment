@@ -5,9 +5,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
@@ -30,6 +32,7 @@ public class EditAccountActivity extends AppCompatActivity {
     private ImageView profileImageView, editImageIcon;
     private DatabaseReference databaseReference;
     private String userId, profileImageURL;
+    private ProgressBar progressBar;
     private Uri imageUri;
 
     // Firebase storage
@@ -43,6 +46,8 @@ public class EditAccountActivity extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+
+        progressBar = findViewById(R.id.progressBar);
 
         editUserName = findViewById(R.id.user_name);
         editEmail = findViewById(R.id.user_email);
@@ -128,13 +133,17 @@ public class EditAccountActivity extends AppCompatActivity {
             StorageReference imageReference = storageReference.child(imagePath);
             imageReference.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
                 imageReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                    String profileImageURL = uri.toString();
+                    String profileImageURL = uri.toString();;
 
+                    progressBar.setVisibility(View.VISIBLE);
                     // Update user data in the database
                     updateDatabase(updatedUserName, updatedEmail, updatedLocation, updatedDescription, profileImageURL);
                 });
             }).addOnFailureListener(e -> Toast.makeText(EditAccountActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show());
         } else {
+
+            progressBar.setVisibility(View.VISIBLE);
+
             // Update user data without changing the profile image
             updateDatabase(updatedUserName, updatedEmail, updatedLocation, updatedDescription, profileImageURL);
         }
@@ -149,6 +158,9 @@ public class EditAccountActivity extends AppCompatActivity {
         databaseReference.child("profileImageURL").setValue(profileImageURL);
 
         Toast.makeText(this, "Profile Updated", Toast.LENGTH_SHORT).show();
+        // Hide the progress bar
+        progressBar.setVisibility(View.GONE);
+
         finish();
     }
 }
