@@ -54,7 +54,7 @@ public class ProfileFragment extends Fragment {
 
         if (currentUser != null) {
             userId = currentUser.getUid();
-            Log.d("UserID", "Current User ID: " + userId); // Log the user ID
+            Log.d("UserID", "Current User ID: " + userId);
 
             databaseReferenceProfile = FirebaseDatabase.getInstance().getReference().child("recipes");
 

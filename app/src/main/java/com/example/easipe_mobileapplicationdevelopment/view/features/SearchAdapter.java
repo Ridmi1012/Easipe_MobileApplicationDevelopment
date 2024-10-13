@@ -27,7 +27,6 @@ import com.google.firebase.database.ValueEventListener;
 public class SearchAdapter extends FirebaseRecyclerAdapter<Recipe,SearchAdapter.SearchViewHolder> {
 
     private Context context;
-    private DatabaseReference searchRecipesRef;
 
     public SearchAdapter(@NonNull FirebaseRecyclerOptions<Recipe> options, Context context) {
         super(options);
@@ -45,7 +44,7 @@ public class SearchAdapter extends FirebaseRecyclerAdapter<Recipe,SearchAdapter.
         // Using Glide to load the image from URL into ImageView
         Glide.with(context).load(model.getRecipeImageurl()).into(holder.SearchRecipeImage);
 
-        //calculate avarage rating
+        //calculate average rating
         Rating.calculateAverageRating(recipeId,holder.SearchRecipeRatingBar);
 
 

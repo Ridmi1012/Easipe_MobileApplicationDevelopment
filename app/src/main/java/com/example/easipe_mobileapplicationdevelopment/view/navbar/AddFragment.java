@@ -189,13 +189,6 @@ public class AddFragment extends Fragment {
             return;
         }
 
-//        int servings;
-//        try {
-//            servings = Integer.parseInt(editTextServings.getText().toString());
-//        } catch (NumberFormatException e) {
-//            Toast.makeText(getContext(), "Please enter a valid number for servings", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
 
         // Validate image selection
         if (imageUri != null) {
@@ -209,8 +202,8 @@ public class AddFragment extends Fragment {
         if (videoUri != null) {
             uploadVideo();
         } else {
-            videoUrl = ""; // No video selected, so set the URL to an empty string
-            checkUploadsComplete(); // Proceed to check uploads (only image in this case)
+            Toast.makeText(getContext(), "Please select an video", Toast.LENGTH_SHORT).show();
+            checkUploadsComplete();
         }
     }
 

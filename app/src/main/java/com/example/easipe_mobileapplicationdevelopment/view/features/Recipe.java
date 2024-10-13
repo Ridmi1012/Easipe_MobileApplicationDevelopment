@@ -44,7 +44,6 @@ public class Recipe {
 
     //for my profile
 
-
     public Recipe(String recipeTitle, String recipeServing, String recipeTime, float averageRating) {
         this.recipeTitle = recipeTitle;
         this.recipeServing = recipeServing;

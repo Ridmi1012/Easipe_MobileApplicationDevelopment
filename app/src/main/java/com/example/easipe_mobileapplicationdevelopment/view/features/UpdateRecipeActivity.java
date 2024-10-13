@@ -99,20 +99,6 @@ public class UpdateRecipeActivity extends AppCompatActivity {
         player = new ExoPlayer.Builder(this).build();
 
 
-//
-//        // Initialize image picker
-//        imagePickerLauncher = registerForActivityResult(
-//                new ActivityResultContracts.StartActivityForResult(),
-//                result -> {
-//                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-//                        imageUri = result.getData().getData();
-//                        // Load the selected image into ImageView
-//                        Glide.with(UpdateRecipeActivity.this)
-//                                .load(imageUri)
-//                                .error(R.drawable.baseline_add_a_photo_24) // Error placeholder
-//                                .into(recipeImageView);
-//                    }
-//                });
 
         // Initialize video picker
         videoPickerLauncher = registerForActivityResult(
@@ -437,7 +423,7 @@ public class UpdateRecipeActivity extends AppCompatActivity {
                 Float currentAverageRating = ratingsSnapshot.child("averageRating").getValue(float.class);
 
                 if (currentAverageRating == null) {
-                    currentAverageRating = 0f;  // Default to 0 if no rating exists (for new recipes)
+                    currentAverageRating = 0f;
                 }
                 boolean status = Boolean.TRUE.equals(snapshot.child("issaved").getValue(boolean.class));
 

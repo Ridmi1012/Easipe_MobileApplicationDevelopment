@@ -54,7 +54,7 @@ public class HomeAdapter extends FirebaseRecyclerAdapter<Recipe, HomeAdapter.Hom
         holder.Htime.setText(model.getRecipeTime() != null ? model.getRecipeTime() : "Unknown time");
         Glide.with(context).load(model.getRecipeImageurl()).into(holder.Himage);
 
-        //calculate avarage rating
+        //calculate average rating
         Rating.calculateAverageRating(recipeId,holder.HratingBar);
 
         // Set bookmark icon color based on saved status
