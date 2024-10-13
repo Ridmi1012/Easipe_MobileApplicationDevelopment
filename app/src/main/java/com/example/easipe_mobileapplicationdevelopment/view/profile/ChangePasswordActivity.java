@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class ChangePasswordActivity extends AppCompatActivity {
-
+    private ProgressBar progressBar;
     private FirebaseAuth authProfile;
     private EditText editTextCurrentPassword, editTextNewPassword, editTextConfirmPassword;
     private TextView header2;
@@ -42,6 +43,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_change_password);
+
+        progressBar = findViewById(R.id.progressBar);
 
         editTextCurrentPassword = findViewById(R.id.editTextCurrentPasssword);
         editTextNewPassword = findViewById(R.id.editTextNewPassword);
@@ -82,6 +85,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         btnReAuthenticate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 userPasswordCurrent = editTextCurrentPassword.getText().toString();
                 
                 if (TextUtils.isEmpty(userPasswordCurrent)){
@@ -109,13 +113,13 @@ public class ChangePasswordActivity extends AppCompatActivity {
                                 Toast.makeText(ChangePasswordActivity.this, "Password has  been verified." +
                                         "Change the password now", Toast.LENGTH_SHORT).show();
 
-//                                //update the color of the password button
-//                                btnChangePassword.setBackgroundTintList(ContextCompat.getColorStateList(
-//                                        ChangePasswordActivity.this,));
+                                // Hide the progress bar
+                                progressBar.setVisibility(View.GONE);
 
                                 btnChangePassword.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
+                                        progressBar.setVisibility(View.VISIBLE);
                                         changePassword(firebaseUser);
                                     }
                                 });
@@ -124,6 +128,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
                                     throw task.getException();
                                 } catch (Exception e){
                                     Toast.makeText(ChangePasswordActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    // Hide the progress bar
+                                    progressBar.setVisibility(View.GONE);
                                 }
                             }
                         }
@@ -160,6 +166,10 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()){
                         Toast.makeText(ChangePasswordActivity.this, "Password has been changed", Toast.LENGTH_SHORT).show();
+
+                        // Hide the progress bar
+                        progressBar.setVisibility(View.GONE);
+
                         Intent intent = new Intent(ChangePasswordActivity.this, NavigationBar.class);
                         startActivity(intent);
                         finish();
@@ -168,6 +178,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
                             throw task.getException();
                         } catch (Exception e){
                             Toast.makeText(ChangePasswordActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            // Hide the progress bar
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 }

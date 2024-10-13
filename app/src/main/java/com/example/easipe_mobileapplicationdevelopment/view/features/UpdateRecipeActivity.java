@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -39,7 +40,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class UpdateRecipeActivity extends AppCompatActivity {
-
+    private ProgressBar progressBar;
     private EditText editTextTitle, editTextDescription, editTextServings, editTextTime, editTextIngredient, editTextMethod,editTextAdditionalNotes ;
     private ImageView recipeImageView;
     private VideoView recipeVideoView;
@@ -71,7 +72,7 @@ public class UpdateRecipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_recipe);
 
-
+        progressBar = findViewById(R.id.progressBar);
 
         // Initialize EditText fields
         editTextTitle = findViewById(R.id.editTextTitle);
@@ -345,6 +346,8 @@ public class UpdateRecipeActivity extends AppCompatActivity {
             videoUrl = currentVideoUrl;
         }
 
+        progressBar.setVisibility(View.VISIBLE);
+
         checkUploadsComplete();
 
     }
@@ -434,6 +437,8 @@ public class UpdateRecipeActivity extends AppCompatActivity {
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 Toast.makeText(UpdateRecipeActivity.this, "Recipe updated successfully", Toast.LENGTH_SHORT).show();
+                                // Hide the progress bar
+                                progressBar.setVisibility(View.GONE);
 
                                 savedRecipeRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -448,8 +453,12 @@ public class UpdateRecipeActivity extends AppCompatActivity {
                                                 // Update the recipe for this user
                                                 userRecipeRef.setValue(recipe).addOnCompleteListener(savetask -> {
                                                     if (savetask.isSuccessful()) {
+                                                        // Hide the progress bar
+                                                        progressBar.setVisibility(View.GONE);
                                                         Log.d("Update","Recipe updated for user: " + userSnapshot.getKey() );
                                                     } else {
+                                                        // Hide the progress bar
+                                                        progressBar.setVisibility(View.GONE);
                                                         Log.d("Update","Failed to update recipe for user: " + userSnapshot.getKey() );
                                                     }
                                                 });
@@ -461,12 +470,16 @@ public class UpdateRecipeActivity extends AppCompatActivity {
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
                                         Toast.makeText(UpdateRecipeActivity.this, "Failed to update saved recipe", Toast.LENGTH_SHORT).show();
+                                        // Hide the progress bar
+                                        progressBar.setVisibility(View.GONE);
 
                                     }
                                 });
                                 startActivity(new Intent(UpdateRecipeActivity.this, NavigationBar.class));
                             } else {
                                 Toast.makeText(UpdateRecipeActivity.this, "Failed to update recipe", Toast.LENGTH_SHORT).show();
+                                // Hide the progress bar
+                                progressBar.setVisibility(View.GONE);
                             }
                         });
 

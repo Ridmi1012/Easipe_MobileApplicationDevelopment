@@ -10,6 +10,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -26,6 +27,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private Button resetPasswordBtn;
     private EditText editTextemail;
     private FirebaseAuth authProfile;
+    private ProgressBar progressBar;
     private static final String TAG = "ForgotPasswordActivity";
 
     @Override
@@ -33,6 +35,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_forgot_password);
+
+        progressBar = findViewById(R.id.progressBar);
 
         editTextemail = findViewById(R.id.editTextTextEmailAddress);
         resetPasswordBtn = findViewById(R.id.resetPasswordButton);
@@ -51,6 +55,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     editTextemail.setError("Valid email is required");
                     editTextemail.requestFocus();
                 } else {
+                    progressBar.setVisibility(View.VISIBLE);
                     resetPassword(email);
                 }
             }
@@ -66,6 +71,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     Toast.makeText(ForgotPasswordActivity.this, "Please check your inbox for password reset link",
                             Toast.LENGTH_SHORT).show();
 
+                    // Hide the progress bar
+                    progressBar.setVisibility(View.GONE);
+
                     //open add recipe page after successful reset password
                     Intent intent = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
                     //to prevent from returning back to forgot password activity on pressing the back button
@@ -78,9 +86,15 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         throw task.getException();
                     } catch (FirebaseAuthInvalidUserException e){
                         editTextemail.setError("User does not exist or is no longer valid. Please register again");
+
+                        // Hide the progress bar
+                        progressBar.setVisibility(View.GONE);
                     } catch (Exception e){
                         Log.e(TAG, e.getMessage());
                         Toast.makeText(ForgotPasswordActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        // Hide the progress bar
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
             }
