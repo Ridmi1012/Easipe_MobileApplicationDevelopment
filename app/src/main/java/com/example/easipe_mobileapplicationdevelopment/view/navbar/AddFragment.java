@@ -174,37 +174,50 @@ public class AddFragment extends Fragment {
     );
 
     private void publish() {
-        // Reset imageUrl and videoUrl before uploading
         imageUrl = null;
         videoUrl = null;
 
-        String title = editTextTitle.getText().toString();
-        String description = editTextDescription.getText().toString();
-        String servings = editTextServings.getText().toString();
-        String duration = editTextDuration.getText().toString();
+        String title = editTextTitle.getText().toString().trim();
+        String description = editTextDescription.getText().toString().trim();
+        String servings = editTextServings.getText().toString().trim();
+        String duration = editTextDuration.getText().toString().trim();
 
         // Validate required fields
-        if (title.isEmpty() || description.isEmpty() || duration.isEmpty() || servings.isEmpty()) {
-            Toast.makeText(getContext(), "Please fill in all required fields", Toast.LENGTH_SHORT).show();
+        if (title.isEmpty()) {
+            Toast.makeText(getContext(), "Title cannot be empty", Toast.LENGTH_SHORT).show();
             return;
         }
-
-
-        // Validate image selection
-        if (imageUri != null) {
-            uploadImage();
-        } else {
+        if (description.isEmpty()) {
+            Toast.makeText(getContext(), "Description cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (servings.isEmpty()) {
+            Toast.makeText(getContext(), "Servings cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (duration.isEmpty()) {
+            Toast.makeText(getContext(), "Duration cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (imageUri == null) {
             Toast.makeText(getContext(), "Please select an image", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // Check if a video is selected or not
-        if (videoUri != null) {
-            uploadVideo();
-        } else {
-            Toast.makeText(getContext(), "Please select an video", Toast.LENGTH_SHORT).show();
-            checkUploadsComplete();
+        if (videoUri == null) {
+            Toast.makeText(getContext(), "Please select a video", Toast.LENGTH_SHORT).show();
+            return;
         }
+        if (ingredientFields.isEmpty() && editTextIngredient.getText().toString().trim().isEmpty()) {
+            Toast.makeText(getContext(), "Please add at least one ingredient", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (methodFields.isEmpty() && editTextMethod.getText().toString().trim().isEmpty()) {
+            Toast.makeText(getContext(), "Please add at least one method step", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        uploadImage();
+        uploadVideo();
     }
 
     // Method to clear the fields after publishing
@@ -281,7 +294,7 @@ public class AddFragment extends Fragment {
         String additionalMethod = editTextAddition.getText().toString();
         boolean Status = false;
         float rating = 0.0f;
-        String recipeId = UUID.randomUUID().toString();  ;
+        String recipeId = UUID.randomUUID().toString();
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
