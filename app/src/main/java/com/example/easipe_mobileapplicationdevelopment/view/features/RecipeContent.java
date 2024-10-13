@@ -83,14 +83,15 @@ public class RecipeContent extends AppCompatActivity {
                     String recipeMethod = dataSnapshot.child("method").getValue(String.class);
                     String Notes = dataSnapshot.child("additionalmethod").getValue(String.class);
                     String imageUrl = dataSnapshot.child("recipeImageurl").getValue(String.class); // Fetch image URL
-                    String videoUrl = dataSnapshot.child("recipeVideourl").getValue(String.class); // Fetch video URL
+                    String videoUrl = dataSnapshot.child("recipeVideourl").getValue(String.class);
+                    String recipeURL = dataSnapshot.child("recipeVideourl").getValue(String.class);// Fetch video URL
 
                     // Set data to views
                     // Initialize ExoPlayer
                     player = new ExoPlayer.Builder(RecipeContent.this).build();
                     playerView.setPlayer(player);
 
-                    Uri videoUri = Uri.parse(videoUrl);
+                    Uri videoUri = Uri.parse(recipeURL);
                     MediaItem mediaItem = MediaItem.fromUri(videoUri);
 
                     player.setMediaItem(mediaItem);
