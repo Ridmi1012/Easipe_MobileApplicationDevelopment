@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -40,6 +41,8 @@ public class AddFragment extends Fragment {
     private DatabaseReference databaseReference;
     private StorageReference storageReference;
 
+    private ProgressBar progressBar;
+
     private ImageView recipeImg;
     private VideoView recipeVideoView;
     private Uri imageUri,videoUri;
@@ -61,6 +64,8 @@ public class AddFragment extends Fragment {
         // Initialize Firebase Storage
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+
+        progressBar = view.findViewById(R.id.progressBar);
 
         recipeImg = view.findViewById(R.id.recipeimg);
         recipeVideoView = view.findViewById(R.id.recipeVideoView);
@@ -256,9 +261,11 @@ public class AddFragment extends Fragment {
         videoRef.putFile(videoUri)
                 .addOnSuccessListener(taskSnapshot -> videoRef.getDownloadUrl().addOnSuccessListener(uri -> {
                     videoUrl = uri.toString();
+                    progressBar.setVisibility(View.VISIBLE);
                     checkUploadsComplete();  // Check if both image and video URLs are available
                 }))
                 .addOnFailureListener(e -> Toast.makeText(getContext(), "Video upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+
     }
 
     private void uploadImage() {
@@ -268,17 +275,23 @@ public class AddFragment extends Fragment {
         imageRef.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot -> imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                     imageUrl = uri.toString();
+                    progressBar.setVisibility(View.VISIBLE);
                     checkUploadsComplete();  // Check if both image and video URLs are available
                 }))
                 .addOnFailureListener(e -> Toast.makeText(getContext(), "Image upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+
     }
 
     private void checkUploadsComplete() {
         // Check if both imageUrl and videoUrl are not null
         if (imageUrl != null && (videoUri == null || videoUrl != null)) {
+
             addRecipe(imageUrl, videoUrl);
 
             clearFields();
+
+            // Hide the progress bar
+            progressBar.setVisibility(View.GONE);
 
         }
     }
@@ -327,5 +340,6 @@ public class AddFragment extends Fragment {
 
         databaseReference.push().setValue(recipe);
         Toast.makeText(getContext(), "Recipe added", Toast.LENGTH_SHORT).show();
+
     }
 }

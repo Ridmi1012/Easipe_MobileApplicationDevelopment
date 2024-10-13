@@ -173,5 +173,13 @@
                 android:onClick="redirectToRegister"/>
         </LinearLayout>
     </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_gravity="center"
+        android:elevation="10dp"
+        android:visibility="gone"/>
 </LinearLayout>
     <!--Finished - 2024-09-15  Author - Mishel Fernando StudentID - IM/2021/115-->
