@@ -45,9 +45,9 @@
             android:layout_height="30dp"
             android:layout_below="@+id/home_receipe_image"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="265dp"
+            android:layout_marginStart="270dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="15dp"
             android:layout_marginRight="20dp"
             android:src="@drawable/bookmark_svgrepo_com" />
 
@@ -70,9 +70,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/home_bookmark_icon"
             android:layout_alignParentEnd="true"
-            android:layout_marginLeft="263dp"
+            android:layout_marginLeft="270dp"
             android:layout_marginTop="2dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="15dp"
             android:text="30 min"
             android:textSize="15dp" />
 
